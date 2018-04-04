@@ -2,6 +2,7 @@
 {
     public enum EventTypes
     {
+        Normal,
         LengHeb,
         LengEng,
         CapsOn,
