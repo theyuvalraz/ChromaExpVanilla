@@ -14,7 +14,7 @@ namespace ChromaExpVanila
         public List<int> States()
         {
              
-            return new List<int> {5};
+            return new List<int> {5,7};
         }
         public void CheckCaps(KeyControl control)
         {
