@@ -1,17 +1,15 @@
 ﻿using System;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 using Microsoft.Win32;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
-
-    class Program
+    internal class Program
     {
-
-        static void Main()
+        private static void Main()
         {
-            Executer executer = new Executer();
-            executer.Execute();
+            var executor = new Executor();
+            executor.Execute();
         }
     }
 }

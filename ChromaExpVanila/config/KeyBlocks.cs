@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Corale.Colore.Razer.Keyboard;
 
-namespace ChromaExpVanila.config
+namespace ChromaExpVanilla.config
 {
     public class KeyBlocks
     {
-        public IEnumerable<Key> UsefullKeys = new List<Key>()
+        public IEnumerable<Key> UsefulKeys = new List<Key>()
         {
             Key.Home,
             Key.End,
@@ -22,7 +18,8 @@ namespace ChromaExpVanila.config
             Key.PageUp,
             Key.PageDown
         };
-        public IEnumerable<Key> numberKeys = new List<Key>()
+
+        public IEnumerable<Key> NumberKeys = new List<Key>()
         {
             Key.D1,
             Key.D2,
@@ -72,6 +69,7 @@ namespace ChromaExpVanila.config
             Key.OemPeriod,
             Key.Space
         };
+
         public IEnumerable<Key> HebKeys = new List<Key>()
         {
             Key.E,
@@ -103,6 +101,7 @@ namespace ChromaExpVanila.config
             Key.OemPeriod,
             Key.Space
         };
+
         public IEnumerable<Key> EngKeys = new List<Key>()
         {
             Key.Q,
@@ -133,7 +132,7 @@ namespace ChromaExpVanila.config
             Key.M,
             Key.Space
         };
-        public IEnumerable<Key> Caps_lk = new List<Key>()
+        public IEnumerable<Key> CapsLk = new List<Key>()
         {
             Key.CapsLock
         };
@@ -169,7 +168,6 @@ namespace ChromaExpVanila.config
             Key.Logo
         };
 
-
         public IEnumerable<Key> AnimationKeys = new List<Key>()
         {
             Key.F7,
@@ -201,12 +199,6 @@ namespace ChromaExpVanila.config
             Key.Macro4,
             Key.LeftControl,
             Key.R,
-            Key.R,
-            Key.R,
-            Key.R,
-            Key.R,
-            Key.R,
-
         };
     }
 }

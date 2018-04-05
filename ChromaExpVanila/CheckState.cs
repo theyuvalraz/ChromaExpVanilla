@@ -4,61 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
-    class CheckState
+    internal class CheckState
     {
         public List<EventTypes> States()
         {
-            List<EventTypes> states = new List<EventTypes>();
-
-
-
-
-
+            var states = new List<EventTypes>();
+            states.Clear();
+            states.Add(CheckCaps());
+            states.Add(CheckNumLock());
+            states.Add(Time());
+            states.Add(CheckLang());
             return states;
         }
-        public EventTypes CheckCaps(KeyControl control)
+
+        private EventTypes CheckCaps()
         {
-            if (Control.IsKeyLocked(Keys.CapsLock))
-            {
-                control.CapsLockOn();
-                return EventTypes.CapsOn;
-
-            }
-            else
-            {
-                control.CapsLockOff();
-                return EventTypes.CapsOff;
-
-            }
+            return Control.IsKeyLocked(Keys.CapsLock) ? EventTypes.CapsOn : EventTypes.CapsOff;
         }
 
-        public EventTypes CheckNumLock(KeyControl control)
+        private EventTypes CheckNumLock()
         {
-            if (Control.IsKeyLocked(Keys.NumLock))
-            {
-                control.NumLockOn();
-                return EventTypes.NumLkOn;
-
-            }
-            else
-            {
-                control.NumLockOff();
-                return EventTypes.NumLkOff;
-
-            }
+            return Control.IsKeyLocked(Keys.NumLock) ? EventTypes.NumLkOn : EventTypes.NumLkOff;
         }
 
-        public EventTypes time(KeyControl control)
+        private EventTypes Time()
         {
-            KeyBlocks keyBlocks = new KeyBlocks();
+            new KeyBlocks();
             if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
             {
-                control.Animation2(keyBlocks.numberKeys);
                 return EventTypes.TimeRound;
             }
             else
@@ -66,31 +44,26 @@ namespace ChromaExpVanila
                 return EventTypes.Normal;
             }
         }
-        GetLayout theLayout = new GetLayout();
-        string leng = String.Empty;
 
-        public EventTypes CheckLeng(KeyControl control)
+        readonly GetLayout _theLayout = new GetLayout();
+        private string _lang = string.Empty;
+
+        private EventTypes CheckLang()
         {
             System.Threading.Thread.Sleep(1000);
-            if (leng != theLayout.GetCurrentKeyboardLayout().ToString())
+            if (_lang == _theLayout.GetCurrentKeyboardLayout().ToString()) return EventTypes.Normal;
+            _lang = _theLayout.GetCurrentKeyboardLayout().ToString();
+            switch (_lang)
             {
-                control.PreSetLeng();
-                leng = theLayout.GetCurrentKeyboardLayout().ToString();
-                if (leng == "en-US")
-                {
-                    leng = theLayout.GetCurrentKeyboardLayout().ToString();
-                    control.SetEng();
-                    return EventTypes.LengEng;
-                }
-
-                if (leng == "he-IL")
-                {
-                    leng = theLayout.GetCurrentKeyboardLayout().ToString();
-                    control.SetHeb();
-                    return EventTypes.LengHeb;
-                }
+                case "en-US":
+                    _lang = _theLayout.GetCurrentKeyboardLayout().ToString();
+                    return EventTypes.LangEng;
+                case "he-IL":
+                    _lang = _theLayout.GetCurrentKeyboardLayout().ToString();
+                    return EventTypes.LangHeb;
+                default:
+                    return EventTypes.Normal;
             }
-            return EventTypes.Normal;
         }
     }
 }

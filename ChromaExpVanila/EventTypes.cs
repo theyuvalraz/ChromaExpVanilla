@@ -1,10 +1,10 @@
-﻿namespace ChromaExpVanila
+﻿namespace ChromaExpVanilla
 {
     public enum EventTypes
     {
         Normal,
-        LengHeb,
-        LengEng,
+        LangHeb,
+        LangEng,
         CapsOn,
         CapsOff,
         NumLkOn,
