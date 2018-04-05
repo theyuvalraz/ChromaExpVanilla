@@ -7,8 +7,10 @@ namespace ChromaExpVanilla.config
     {
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
+
         [DllImport("user32.dll")]
         private static extern uint GetWindowThreadProcessId(IntPtr hwnd, IntPtr proccess);
+
         [DllImport("user32.dll")]
         private static extern IntPtr GetKeyboardLayout(uint thread);
 

@@ -36,6 +36,7 @@ namespace ChromaExpVanilla.config
             Key.OemEquals,
             Key.OemMinus
         };
+
         public IEnumerable<Key> AllLetterKeys = new List<Key>()
         {
             Key.Q,
@@ -88,9 +89,9 @@ namespace ChromaExpVanilla.config
             Key.H,
             Key.J,
             Key.K,
-            Key.L,     
+            Key.L,
             Key.OemSemicolon,
-            Key.Z,     
+            Key.Z,
             Key.X,
             Key.C,
             Key.V,
@@ -132,6 +133,7 @@ namespace ChromaExpVanilla.config
             Key.M,
             Key.Space
         };
+
         public IEnumerable<Key> CapsLk = new List<Key>()
         {
             Key.CapsLock
@@ -147,6 +149,7 @@ namespace ChromaExpVanilla.config
             Key.Insert,
             Key.RightMenu,
         };
+
         public IEnumerable<Key> Numpad = new List<Key>()
         {
             Key.Num0,
