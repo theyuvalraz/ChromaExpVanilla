@@ -1,8 +1,4 @@
-﻿using System;
-using ChromaExpVanilla.config;
-using Microsoft.Win32;
-
-namespace ChromaExpVanilla
+﻿namespace ChromaExpVanilla
 {
     internal class Program
     {

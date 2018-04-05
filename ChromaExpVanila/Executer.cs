@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Win32;
 
 namespace ChromaExpVanilla
 {
@@ -12,6 +7,7 @@ namespace ChromaExpVanilla
         private readonly KeyControl _control = new KeyControl();
 
         public delegate void ChunkOfThingsToDo();
+
         public void Execute()
         {
             ChunkOfThingsToDo thingsToDo = null;
@@ -52,6 +48,7 @@ namespace ChromaExpVanilla
                             Console.WriteLine("Default case");
                             break;
                     }
+
                     thingsToDo?.Invoke();
                     thingsToDo -= thingsToDo;
                 }
@@ -62,26 +59,32 @@ namespace ChromaExpVanilla
         {
             _control.SetEng();
         }
+
         private void LangHeb()
         {
             _control.SetHeb();
         }
+
         private void CapsLockOn()
         {
             _control.CapsLockOn();
         }
+
         private void CapsLockOff()
         {
             _control.CapsLockOff();
         }
+
         private void NumLockOff()
         {
             _control.NumLockOff();
         }
+
         private void NumLockOn()
         {
             _control.NumLockOn();
         }
+
         private void TimeRound()
         {
             _control.TimeAnimation();

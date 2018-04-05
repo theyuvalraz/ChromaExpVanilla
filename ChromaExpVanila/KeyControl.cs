@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
-using Corale.Colore.Razer;
 
 namespace ChromaExpVanilla
 {
-
     public class KeyControl
     {
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
         private const uint BaseColor = 0x202020;
+
         public void ColorBase()
         {
             _inst.Clear();
@@ -49,6 +47,7 @@ namespace ChromaExpVanilla
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             _inst.SetKeys(_blocks.EngKeys, Color.Green);
         }
+
         public void SetHeb()
         {
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
@@ -69,18 +68,19 @@ namespace ChromaExpVanilla
         {
             _inst.SetKeys(_blocks.Numpad, Color.Green);
             TopNumChange(Color.FromRgb(BaseColor));
-
         }
+
         public void NumLockOff()
         {
             _inst.SetKeys(_blocks.Numpad, Color.FromRgb(BaseColor));
             TopNumChange(Color.Green);
-
         }
+
         public void CapsLockOn()
         {
             _inst.SetKeys(_blocks.CapsLk, Color.Yellow);
         }
+
         public void CapsLockOff()
         {
             _inst.SetKeys(_blocks.CapsLk, Color.FromRgb(BaseColor));
@@ -116,7 +116,7 @@ namespace ChromaExpVanilla
                 }
             }
         }
-        
+
         public void TimeAnimation()
         {
             var flow = _blocks.NumberKeys.ToList();
