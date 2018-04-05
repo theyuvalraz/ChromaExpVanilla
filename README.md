@@ -1,4 +1,4 @@
-# ChromaExpVanila
+# ChromaExpVanilla
 Razer Blackwidow Chroma V2 - Language indicator (eng/ heb)
 
 mostly written this for personal use so I will have an indicator of the language I am writing in.
