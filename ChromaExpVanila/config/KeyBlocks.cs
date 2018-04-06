@@ -1,10 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 
 namespace ChromaExpVanilla.config
 {
     public class KeyBlocks
     {
+
+        public List<Tuple<Key, Color>> MiscKeysToColor = new List<Tuple<Key, Color>>()
+        {
+            Tuple.Create(Key.Macro1, Color.Orange),
+            Tuple.Create(Key.Macro2, Color.Blue),
+            Tuple.Create(Key.Macro3, Color.Orange),
+            Tuple.Create(Key.Macro4, Color.Black),
+            Tuple.Create(Key.Macro5, Color.White),
+            Tuple.Create(Key.F3, Color.White),
+            Tuple.Create(Key.PrintScreen, Color.Blue),
+            Tuple.Create(Key.Scroll, Color.Red)
+        };
+
+
         public List<Key> UsefulKeys = new List<Key>
         {
             Key.Home,

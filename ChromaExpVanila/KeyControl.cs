@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
+using Corale.Colore.Razer.Keyboard.Effects;
 
 namespace ChromaExpVanilla
 {
@@ -12,38 +14,38 @@ namespace ChromaExpVanilla
     {
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
-        private const uint BaseColor = 0x303030;
+        private const uint BaseColor = 0x202020;
+        public Custom Custom = new Custom( Color.FromRgb( BaseColor ) );
 
-        public void ColorBase()
+        public void InitiateCustom()
         {
-            _inst.Clear();
-            //Animation(_blocks.AllLetterKeys);
-            //Animation(_blocks.AnimationKeys);
-            Animation(_blocks.AnimationConcept);
+            _inst.SetCustom(Custom);
+        }
 
-            _inst.SetAll(Color.FromRgb(BaseColor));
+        public void SetColorBase()
+        {
+            Console.WriteLine( "started setColorBase" );
 
-            List<Tuple<Key, Color>> keysToColor= new List<Tuple<Key, Color>>()
+            SetCustom( _blocks.MiscKeysToColor);
+            SetCustom( _blocks.UsefulKeys, Color.Pink);
+            SetCustom(_blocks.UselessKeys, Color.Black);
+            Console.WriteLine( "finished setColorBase" );
+
+        }
+
+        public void SetCustom( List<Tuple<Key, Color>> coloredKeyList)
+        {
+            foreach (var colorKey in coloredKeyList)
             {
-                Tuple.Create( Key.Macro1, Color.Orange),
-                Tuple.Create( Key.Macro2, Color.Blue),
-                Tuple.Create( Key.Macro3, Color.Orange),
-                Tuple.Create( Key.Macro4, Color.Black),
-                Tuple.Create( Key.Macro5, Color.White),
-                Tuple.Create( Key.F3, Color.White),
-                Tuple.Create( Key.PrintScreen, Color.Blue),
-                Tuple.Create( Key.Scroll, Color.Red)
-            };
-
-            foreach (var colorKey in keysToColor)
-            {
-                Thread.Sleep(100);
-                _inst.SetKey(colorKey.Item1, colorKey.Item2);
+                Custom[colorKey.Item1] = colorKey.Item2;
             }
-
-            _inst.SetKeys(_blocks.UsefulKeys, Color.Pink);
-            _inst.SetKeys(_blocks.UselessKeys, Color.Black);
-            Thread.Sleep(100);
+        }
+        public void SetCustom( List<Key> keyList, Color color )
+        {
+            foreach (var keySetting in keyList)
+            {
+                Custom[keySetting] = color;
+            }
         }
 
         public void SetEng()
@@ -56,11 +58,6 @@ namespace ChromaExpVanilla
         {
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             _inst.SetKeys(_blocks.HebKeys, Color.Red);
-        }
-
-        public void PreSetLang()
-        {
-            _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
         }
 
         public void TopNumChange(Color color)
@@ -96,35 +93,36 @@ namespace ChromaExpVanilla
             _inst.SetKeys(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
-        public void Animation(List<List<Key>> keyBlocks)
+        public Task Animation(List<List<Key>> keyBlocks)
         {
-                var flow = keyBlocks;
-                _inst.Clear();
-                for (var i = 0; i < flow.Count(); i++)
+            Console.WriteLine( "started animation" );
+            _inst.Clear();
+            for (var i = 0; i < keyBlocks.Count(); i++)
+            {
+                try
                 {
-                    try
-                    {
-                        Thread.Sleep(100);
-                        _inst.SetKeys(flow[i], Color.Yellow);
-                        Thread.Sleep(20);
-                        _inst.SetKeys(flow[i + 1], Color.Red);
-                        Thread.Sleep(20);
-                        _inst.SetKeys(flow[i + 2], Color.Blue);
-                        Thread.Sleep(20);
-                        _inst.SetKeys(flow[i + 1], Color.Red);
-                        Thread.Sleep(20);
-                        _inst.SetKeys(flow[i], Color.Yellow);
+                    Console.WriteLine( i );
 
-                    _inst.SetKeys(flow[i], Color.FromRgb(0x505050));
-                        _inst.SetKeys(flow[i + 1], Color.FromRgb(0x404040));
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
+                    Thread.Sleep(100);
+                    _inst.SetKeys(keyBlocks[i], Color.Red);
+                    Thread.Sleep(10);
+                    _inst?.SetKeys(keyBlocks[i - 1], Color.Orange);
+                    Thread.Sleep(10);
+                    _inst?.SetKeys(keyBlocks[i - 2], Color.Green);
+                    Thread.Sleep(10);
+                    _inst?.SetKeys(keyBlocks[i - 3], Color.Yellow);
+                    Thread.Sleep(10);
+                    _inst?.SetKeys(keyBlocks[i - 4], Color.FromRgb(BaseColor));
+                    Thread.Sleep(10);
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
-
+            Console.WriteLine( "finished animation" );
+            return Task.CompletedTask;
+        }
 
 
         public void Animation(List<Key> keyBlocks)
@@ -177,7 +175,6 @@ namespace ChromaExpVanilla
                 }
             }
             _inst.SetKeys(_blocks.NumberKeys, Color.FromRgb(BaseColor));
-
         }
     }
 }

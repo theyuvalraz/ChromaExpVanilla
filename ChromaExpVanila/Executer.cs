@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using ChromaExpVanilla.config;
 
 namespace ChromaExpVanilla
 {
     internal class Executor
     {
         private readonly KeyControl _control = new KeyControl();
-
+        private readonly KeyBlocks _blocks = new KeyBlocks();
         public delegate void ChunkOfThingsToDo();
 
-        public void Execute()
+        public async void Execute()
         {
-            _control.ColorBase();
+            await _control.Animation(_blocks.AnimationConcept);
+            _control.SetColorBase();
             var check = new CheckState();
+
             StateHandler(check.States).Invoke();
+            _control.InitiateCustom();
 
             while (true)
             {
