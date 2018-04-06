@@ -21,26 +21,26 @@ namespace ChromaExpVanilla
                 {
                     switch (state)
                     {
-                        case EventTypes.LangEng:
-                            thingsToDo += LangEng;
-                            break;
-                        case EventTypes.LangHeb:
-                            thingsToDo += LangHeb;
-                            break;
                         case EventTypes.CapsOn:
                             thingsToDo += CapsLockOn;
                             break;
                         case EventTypes.CapsOff:
                             thingsToDo += CapsLockOff;
                             break;
+                        case EventTypes.TimeRound:
+                            thingsToDo += TimeRound;
+                            break;
+                        case EventTypes.LangEng:
+                            thingsToDo += LangEng;
+                            break;
+                        case EventTypes.LangHeb:
+                            thingsToDo += LangHeb;
+                            break;
                         case EventTypes.NumLkOn:
                             thingsToDo += NumLockOn;
                             break;
                         case EventTypes.NumLkOff:
                             thingsToDo += NumLockOff;
-                            break;
-                        case EventTypes.TimeRound:
-                            thingsToDo += TimeRound;
                             break;
                         case EventTypes.Normal:
                             break;
@@ -50,7 +50,7 @@ namespace ChromaExpVanilla
                     }
 
                     thingsToDo?.Invoke();
-                    thingsToDo -= thingsToDo;
+                    thingsToDo = null;
                 }
             }
         }

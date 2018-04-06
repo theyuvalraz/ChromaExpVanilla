@@ -5,7 +5,7 @@ namespace ChromaExpVanilla.config
 {
     public class KeyBlocks
     {
-        public IEnumerable<Key> UsefulKeys = new List<Key>()
+        public List<Key> UsefulKeys = new List<Key>
         {
             Key.Home,
             Key.End,
@@ -19,7 +19,7 @@ namespace ChromaExpVanilla.config
             Key.PageDown
         };
 
-        public IEnumerable<Key> NumberKeys = new List<Key>()
+        public List<Key> NumberKeys = new List<Key>
         {
             Key.D1,
             Key.D2,
@@ -37,7 +37,7 @@ namespace ChromaExpVanilla.config
             Key.OemMinus
         };
 
-        public IEnumerable<Key> AllLetterKeys = new List<Key>()
+        public List<Key> AllLetterKeys = new List<Key>
         {
             Key.Q,
             Key.W,
@@ -71,7 +71,7 @@ namespace ChromaExpVanilla.config
             Key.Space
         };
 
-        public IEnumerable<Key> HebKeys = new List<Key>()
+        public List<Key> HebKeys = new List<Key>
         {
             Key.E,
             Key.R,
@@ -103,7 +103,7 @@ namespace ChromaExpVanilla.config
             Key.Space
         };
 
-        public IEnumerable<Key> EngKeys = new List<Key>()
+        public List<Key> EngKeys = new List<Key>
         {
             Key.Q,
             Key.W,
@@ -134,12 +134,12 @@ namespace ChromaExpVanilla.config
             Key.Space
         };
 
-        public IEnumerable<Key> CapsLk = new List<Key>()
+        public List<Key> CapsLk = new List<Key>
         {
             Key.CapsLock
         };
 
-        public IEnumerable<Key> UselessKeys = new List<Key>()
+        public List<Key> UselessKeys = new List<Key>
         {
             Key.F4,
             Key.F6,
@@ -147,10 +147,10 @@ namespace ChromaExpVanilla.config
             Key.F10,
             Key.Pause,
             Key.Insert,
-            Key.RightMenu,
+            Key.RightMenu
         };
 
-        public IEnumerable<Key> Numpad = new List<Key>()
+        public List<Key> Numpad = new List<Key>
         {
             Key.Num0,
             Key.Num1,
@@ -166,12 +166,36 @@ namespace ChromaExpVanilla.config
             Key.NumLock
         };
 
-        public IEnumerable<Key> Logo = new List<Key>()
+        public List<Key> AltNumPad1 = new List<Key>
+        {
+            Key.Num1,
+            Key.Num3,
+            Key.Num7,
+            Key.Num9,
+            Key.NumDecimal,
+            Key.NumLock,
+            Key.NumEnter
+        };
+
+        public List<Key> AltNumPad2 = new List<Key>
+        {
+            Key.Num2,
+            Key.Num4,
+            Key.Num6,
+            Key.Num8
+        };
+        public List<Key> AltNumPad3 = new List<Key>
+        {
+            Key.Num0,
+            Key.Num5
+        };
+
+        public List<Key> Logo = new List<Key>
         {
             Key.Logo
         };
 
-        public IEnumerable<Key> AnimationKeys = new List<Key>()
+        public List<Key> AnimationKeys = new List<Key>
         {
             Key.F7,
             Key.D9,
@@ -201,7 +225,7 @@ namespace ChromaExpVanilla.config
             Key.CapsLock,
             Key.Macro4,
             Key.LeftControl,
-            Key.R,
+            Key.R
         };
     }
 }

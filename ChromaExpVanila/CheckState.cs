@@ -1,12 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
-using ChromaExpVanilla.config;
+using static ChromaExpVanilla.config.GetLayout;
+using static System.Windows.Forms.Control;
 
 namespace ChromaExpVanilla
 {
     internal class CheckState
     {
+        
+        public bool NumStatus { get; set; }
+        public bool CapsStatus { get; set; }
+        public string LangStatus { get; set; }
+
+        public CheckState()
+        {
+            LangStatus = GetCurrentKeyboardLayout().ToString();
+            CapsStatus = IsKeyLocked(Keys.CapsLock);
+            NumStatus = IsKeyLocked(Keys.NumLock);
+            States();
+        }
+
+
         public List<EventTypes> States()
         {
             var states = new List<EventTypes>();
@@ -15,47 +32,62 @@ namespace ChromaExpVanilla
             states.Add(CheckNumLock());
             states.Add(Time());
             states.Add(CheckLang());
+            try
+            {
+                states = states.Where(x => x != EventTypes.Normal).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             return states;
         }
 
         private EventTypes CheckCaps()
         {
-            return Control.IsKeyLocked(Keys.CapsLock) ? EventTypes.CapsOn : EventTypes.CapsOff;
+            if (CapsStatus == IsKeyLocked(Keys.CapsLock)){return EventTypes.Normal;}
+            if (IsKeyLocked(Keys.CapsLock))
+            {
+                CapsStatus = IsKeyLocked(Keys.CapsLock);
+                return EventTypes.CapsOn;
+            }
+            CapsStatus = IsKeyLocked(Keys.CapsLock);
+            return EventTypes.CapsOff;
         }
 
         private EventTypes CheckNumLock()
         {
-            return Control.IsKeyLocked(Keys.NumLock) ? EventTypes.NumLkOn : EventTypes.NumLkOff;
+            if (NumStatus == IsKeyLocked(Keys.NumLock)) { return EventTypes.Normal; }
+            if (IsKeyLocked(Keys.NumLock))
+            {
+                NumStatus = IsKeyLocked(Keys.NumLock);
+                return EventTypes.NumLkOn;
+            }
+            NumStatus = IsKeyLocked(Keys.NumLock);
+            return EventTypes.NumLkOff;
         }
 
         private EventTypes Time()
         {
-            new KeyBlocks();
             if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
-            {
+            {       
                 return EventTypes.TimeRound;
             }
-            else
-            {
-                return EventTypes.Normal;
-            }
+            return EventTypes.Normal;
         }
-
-        readonly GetLayout _theLayout = new GetLayout();
-        private string _lang = string.Empty;
 
         private EventTypes CheckLang()
         {
-            System.Threading.Thread.Sleep(1000);
-            if (_lang == _theLayout.GetCurrentKeyboardLayout().ToString()) return EventTypes.Normal;
-            _lang = _theLayout.GetCurrentKeyboardLayout().ToString();
-            switch (_lang)
+            Thread.Sleep(250);
+            if (LangStatus == GetCurrentKeyboardLayout().ToString()) return EventTypes.Normal;
+            LangStatus = GetCurrentKeyboardLayout().ToString();
+            switch (LangStatus)
             {
                 case "en-US":
-                    _lang = _theLayout.GetCurrentKeyboardLayout().ToString();
+                    LangStatus = GetCurrentKeyboardLayout().ToString();
                     return EventTypes.LangEng;
                 case "he-IL":
-                    _lang = _theLayout.GetCurrentKeyboardLayout().ToString();
+                    LangStatus = GetCurrentKeyboardLayout().ToString();
                     return EventTypes.LangHeb;
                 default:
                     return EventTypes.Normal;

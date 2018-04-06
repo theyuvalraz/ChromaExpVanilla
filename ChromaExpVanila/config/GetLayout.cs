@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace ChromaExpVanilla.config
 {
-    public class GetLayout
+    public static class GetLayout
     {
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
@@ -14,7 +15,7 @@ namespace ChromaExpVanilla.config
         [DllImport("user32.dll")]
         private static extern IntPtr GetKeyboardLayout(uint thread);
 
-        public System.Globalization.CultureInfo GetCurrentKeyboardLayout()
+        public static CultureInfo GetCurrentKeyboardLayout()
         {
             try
             {
@@ -22,11 +23,11 @@ namespace ChromaExpVanilla.config
                 var foregroundProcess = GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
 
                 var keyboardLayout = GetKeyboardLayout(foregroundProcess).ToInt32() & 0xFFFF;
-                return new System.Globalization.CultureInfo(keyboardLayout);
+                return new CultureInfo(keyboardLayout);
             }
             catch (Exception)
             {
-                return new System.Globalization.CultureInfo(1033);
+                return new CultureInfo(1033);
             }
         }
     }

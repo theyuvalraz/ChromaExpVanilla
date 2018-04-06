@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
@@ -19,27 +20,27 @@ namespace ChromaExpVanilla
             Animation(_blocks.AllLetterKeys);
 
             _inst.SetAll(Color.FromRgb(BaseColor));
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.Macro1, Color.Orange);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.Macro2, Color.Blue);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.Macro3, Color.Orange);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.Macro4, Color.Black);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.Macro5, Color.White);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.F3, Color.White);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.PrintScreen, Color.Blue);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
             _inst.SetKey(Key.Scroll, Color.Red);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
 
             _inst.SetKeys(_blocks.UsefulKeys, Color.Pink);
             _inst.SetKeys(_blocks.UselessKeys, Color.Black);
-            System.Threading.Thread.Sleep(100);
+            Thread.Sleep(100);
         }
 
         public void SetEng()
@@ -72,7 +73,13 @@ namespace ChromaExpVanilla
 
         public void NumLockOff()
         {
-            _inst.SetKeys(_blocks.Numpad, Color.FromRgb(BaseColor));
+            Thread.Sleep(100);
+            _inst.SetKeys(_blocks.AltNumPad1, Color.Orange);
+            Thread.Sleep(100);
+            _inst.SetKeys(_blocks.AltNumPad2, Color.Purple);
+            Thread.Sleep(100);
+            _inst.SetKeys(_blocks.AltNumPad3, Color.Black);
+            Thread.Sleep(100);
             TopNumChange(Color.Green);
         }
 
@@ -86,27 +93,27 @@ namespace ChromaExpVanilla
             _inst.SetKeys(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
-        public void Animation(IEnumerable<Key> keyBlocks)
+        public void Animation(List<Key> keyBlocks)
         {
-            var flow = keyBlocks.ToList();
+            var flow = keyBlocks;
             _inst.Clear();
             for (var i = 0; i < flow.Count(); i++)
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(100);
+                    Thread.Sleep(100);
                     _inst.SetKey(flow[i + 1], Color.Red);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     _inst.SetKey(flow[i], Color.Yellow);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     _inst.SetKey(flow[i + 1], Color.Red);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     _inst.SetKey(flow[i + 2], Color.Blue);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     _inst.SetKey(flow[i + 3], Color.Green);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     _inst.SetKey(flow[i + 4], Color.Purple);
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
                     _inst.SetKey(flow[i], Color.FromRgb(0x505050));
                     _inst.SetKey(flow[i + 1], Color.FromRgb(0x404040));
                 }
@@ -119,24 +126,24 @@ namespace ChromaExpVanilla
 
         public void TimeAnimation()
         {
-            var flow = _blocks.NumberKeys.ToList();
+            var flow = _blocks.NumberKeys;
             for (var i = 0; i < _blocks.NumberKeys.Count(); i++)
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(100);
+                    Thread.Sleep(100);
                     _inst.SetKey(flow[i], Color.Yellow);
-                    System.Threading.Thread.Sleep(100);
-                    _inst.SetKey(flow[i + 1], Color.Yellow);
-                    System.Threading.Thread.Sleep(100);
-                    _inst.SetKeys(_blocks.NumberKeys, Color.FromRgb(0x505050));
-                    System.Threading.Thread.Sleep(100);
+                    Thread.Sleep(100);
+                    _inst.SetKey(flow[i + 1], Color.Red);
+                    Thread.Sleep(100);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
             }
+            _inst.SetKeys(_blocks.NumberKeys, Color.FromRgb(BaseColor));
+
         }
     }
 }
