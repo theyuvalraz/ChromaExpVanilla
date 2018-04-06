@@ -10,37 +10,30 @@ namespace ChromaExpVanilla
 {
     internal class CheckState
     {
-        
         public bool NumStatus { get; set; }
         public bool CapsStatus { get; set; }
         public string LangStatus { get; set; }
 
-        public CheckState()
+        public List<EventTypes> States
         {
-            LangStatus = GetCurrentKeyboardLayout().ToString();
-            CapsStatus = IsKeyLocked(Keys.CapsLock);
-            NumStatus = IsKeyLocked(Keys.NumLock);
-            States();
-        }
-
-
-        public List<EventTypes> States()
-        {
-            var states = new List<EventTypes>();
-            states.Clear();
-            states.Add(CheckCaps());
-            states.Add(CheckNumLock());
-            states.Add(Time());
-            states.Add(CheckLang());
-            try
+            get
             {
-                states = states.Where(x => x != EventTypes.Normal).ToList();
+                var states = new List<EventTypes>();
+                states.Clear();
+                states.Add(CheckCaps());
+                states.Add(CheckNumLock());
+                states.Add(Time());
+                states.Add(CheckLang());
+                try
+                {
+                    states = states.Where(x => x != EventTypes.Normal).ToList();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                return states;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            return states;
         }
 
         private EventTypes CheckCaps()

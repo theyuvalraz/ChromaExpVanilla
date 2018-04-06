@@ -12,31 +12,34 @@ namespace ChromaExpVanilla
     {
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
-        private const uint BaseColor = 0x202020;
+        private const uint BaseColor = 0x303030;
 
         public void ColorBase()
         {
             _inst.Clear();
-            Animation(_blocks.AllLetterKeys);
+            //Animation(_blocks.AllLetterKeys);
+            //Animation(_blocks.AnimationKeys);
+            Animation(_blocks.AnimationConcept);
 
             _inst.SetAll(Color.FromRgb(BaseColor));
-            Thread.Sleep(100);
-            _inst.SetKey(Key.Macro1, Color.Orange);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.Macro2, Color.Blue);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.Macro3, Color.Orange);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.Macro4, Color.Black);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.Macro5, Color.White);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.F3, Color.White);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.PrintScreen, Color.Blue);
-            Thread.Sleep(100);
-            _inst.SetKey(Key.Scroll, Color.Red);
-            Thread.Sleep(100);
+
+            List<Tuple<Key, Color>> keysToColor= new List<Tuple<Key, Color>>()
+            {
+                Tuple.Create( Key.Macro1, Color.Orange),
+                Tuple.Create( Key.Macro2, Color.Blue),
+                Tuple.Create( Key.Macro3, Color.Orange),
+                Tuple.Create( Key.Macro4, Color.Black),
+                Tuple.Create( Key.Macro5, Color.White),
+                Tuple.Create( Key.F3, Color.White),
+                Tuple.Create( Key.PrintScreen, Color.Blue),
+                Tuple.Create( Key.Scroll, Color.Red)
+            };
+
+            foreach (var colorKey in keysToColor)
+            {
+                Thread.Sleep(100);
+                _inst.SetKey(colorKey.Item1, colorKey.Item2);
+            }
 
             _inst.SetKeys(_blocks.UsefulKeys, Color.Pink);
             _inst.SetKeys(_blocks.UselessKeys, Color.Black);
@@ -93,6 +96,37 @@ namespace ChromaExpVanilla
             _inst.SetKeys(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
+        public void Animation(List<List<Key>> keyBlocks)
+        {
+                var flow = keyBlocks;
+                _inst.Clear();
+                for (var i = 0; i < flow.Count(); i++)
+                {
+                    try
+                    {
+                        Thread.Sleep(100);
+                        _inst.SetKeys(flow[i], Color.Yellow);
+                        Thread.Sleep(20);
+                        _inst.SetKeys(flow[i + 1], Color.Red);
+                        Thread.Sleep(20);
+                        _inst.SetKeys(flow[i + 2], Color.Blue);
+                        Thread.Sleep(20);
+                        _inst.SetKeys(flow[i + 1], Color.Red);
+                        Thread.Sleep(20);
+                        _inst.SetKeys(flow[i], Color.Yellow);
+
+                    _inst.SetKeys(flow[i], Color.FromRgb(0x505050));
+                        _inst.SetKeys(flow[i + 1], Color.FromRgb(0x404040));
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+
+
         public void Animation(List<Key> keyBlocks)
         {
             var flow = keyBlocks;
@@ -117,9 +151,9 @@ namespace ChromaExpVanilla
                     _inst.SetKey(flow[i], Color.FromRgb(0x505050));
                     _inst.SetKey(flow[i + 1], Color.FromRgb(0x404040));
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
+                    // ignored
                 }
             }
         }
@@ -137,9 +171,9 @@ namespace ChromaExpVanilla
                     _inst.SetKey(flow[i + 1], Color.Red);
                     Thread.Sleep(100);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
+                    // ignored
                 }
             }
             _inst.SetKeys(_blocks.NumberKeys, Color.FromRgb(BaseColor));

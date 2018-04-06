@@ -227,5 +227,62 @@ namespace ChromaExpVanilla.config
             Key.LeftControl,
             Key.R
         };
+        public List<List<Key>> AnimationConcept = new List<List<Key>>()
+        {
+            new List<Key>(){Key.Backspace,      Key.LeftControl},
+            new List<Key>(){Key.OemEquals,      Key.LeftWindows},
+            new List<Key>(){Key.OemMinus,       Key.LeftAlt},
+            new List<Key>(){Key.D0,             Key.LeftAlt},
+            new List<Key>(){Key.D9,             Key.Space},
+            new List<Key>(){Key.D8,             Key.Space},
+            new List<Key>(){Key.D7,             Key.Space},
+            new List<Key>(){Key.D6,             Key.Space},
+            new List<Key>(){Key.D5,             Key.Space},
+            new List<Key>(){Key.D4,             Key.RightAlt},
+            new List<Key>(){Key.D3,             Key.RightAlt},
+            new List<Key>(){Key.D2,             Key.Function},
+            new List<Key>(){Key.D1,             Key.RightMenu},
+            new List<Key>(){Key.OemTilde,       Key.RightControl},
+
+            new List<Key>(){Key.Tab,            Key.RightShift},
+            new List<Key>(){Key.Q,              Key.RightShift},
+            new List<Key>(){Key.W,              Key.OemSlash},
+            new List<Key>(){Key.E,              Key.OemPeriod},
+            new List<Key>(){Key.R,              Key.OemComma},
+            new List<Key>(){Key.T,              Key.M},
+            new List<Key>(){Key.Y,              Key.N},
+            new List<Key>(){Key.U,              Key.B},
+            new List<Key>(){Key.I,              Key.V},
+            new List<Key>(){Key.O,              Key.C},
+            new List<Key>(){Key.P,              Key.X},
+            new List<Key>(){Key.OemLeftBracket, Key.Z},
+            new List<Key>(){Key.OemRightBracket,Key.LeftShift},
+            new List<Key>(){Key.OemBackslash,   Key.LeftShift},
+
+            new List<Key>(){Key.Enter,          Key.CapsLock},
+            new List<Key>(){Key.OemApostrophe,  Key.A},
+            new List<Key>(){Key.OemSemicolon,   Key.S},
+            new List<Key>(){Key.L,              Key.D},
+            new List<Key>(){Key.K,              Key.F},
+            new List<Key>(){Key.J,              Key.G},
+            new List<Key>(){Key.H},
+            new List<Key>(){Key.H},
+            new List<Key>(){Key.H},
+            new List<Key>(){Key.H,Key.M,Key.T},
+            new List<Key>(){Key.F,Key.K},
+            new List<Key>(){Key.V,Key.I},
+            new List<Key>(){Key.Space,Key.D8},
+            new List<Key>(){Key.N,Key.F5},
+            new List<Key>(){Key.J,Key.D5},
+            new List<Key>(){Key.U,Key.R},
+
+            new List<Key>(){Key.D7,Key.F},
+            new List<Key>(){Key.T,Key.V},
+            new List<Key>(){Key.F,Key.G},
+            new List<Key>(){Key.G},
+            new List<Key>(){Key.G},
+            new List<Key>(){Key.G},
+        };
+
     }
 }
