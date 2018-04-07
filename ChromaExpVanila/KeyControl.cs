@@ -24,12 +24,10 @@ namespace ChromaExpVanilla
 
         public async Task SetColorBase()
         {
-            Console.WriteLine( "started setColorBase" );
+            //Console.WriteLine( "started setColorBase" );
             await Task.Run( action: Action);
-            //SetCustom( _blocks.MiscKeysToColor);
-            //SetCustom( _blocks.UsefulKeys, Color.Pink);
-            //SetCustom(_blocks.UselessKeys, Color.Black);
-            Console.WriteLine( "finished setColorBase" );
+
+            //Console.WriteLine( "finished setColorBase" );
         }
 
         private void Action()
@@ -41,7 +39,7 @@ namespace ChromaExpVanilla
 
         public void SetCustom( List<Tuple<Key, Color>> coloredKeyList)
         {
-            Console.WriteLine( "SetCustom_coloredKeyList" );
+            //Console.WriteLine( "SetCustom_coloredKeyList" );
 
             foreach (var colorKey in coloredKeyList)
             {
@@ -50,7 +48,7 @@ namespace ChromaExpVanilla
         }
         public void SetCustom( List<Key> keyList, Color color )
         {
-            Console.WriteLine( "SetCustom_keyList" );
+            //Console.WriteLine( "SetCustom_keyList" );
             foreach (var keySetting in keyList)
             {
                 CustomLayer[keySetting] = color;
@@ -59,7 +57,7 @@ namespace ChromaExpVanilla
 
         public void SetEng()
         {
-            Console.WriteLine( "SetEng" );
+            //Console.WriteLine( "SetEng" );
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             SetCustom( _blocks.AllLetterKeys, Color.FromRgb( BaseColor ) );
             _inst.SetKeys(_blocks.EngKeys, Color.Green);
@@ -69,7 +67,7 @@ namespace ChromaExpVanilla
 
         public void SetHeb()
         {
-            Console.WriteLine( "SetHeb" );
+            //Console.WriteLine( "SetHeb" );
 
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             SetCustom( _blocks.AllLetterKeys, Color.FromRgb( BaseColor ) );
@@ -85,14 +83,14 @@ namespace ChromaExpVanilla
 
         public void NumLockOn()
         {
-            Console.WriteLine( "NumLockOn" );
+            //Console.WriteLine( "NumLockOn" );
             _inst.SetKeys(_blocks.Numpad, Color.Green);
             TopNumChange(Color.FromRgb(BaseColor));
         }
 
         public void NumLockOff()
         {
-            Console.WriteLine( "NumLockOff" );
+            //Console.WriteLine( "NumLockOff" );
             Thread.Sleep(10);
             _inst.SetKeys(_blocks.AltNumPad1, Color.Orange);
             SetCustom( _blocks.AltNumPad1, Color.Orange );
@@ -108,7 +106,7 @@ namespace ChromaExpVanilla
 
         public void CapsLockOn()
         {
-            Console.WriteLine( "CapsLockOn" );
+            //Console.WriteLine( "CapsLockOn" );
 
             _inst.SetKeys(_blocks.CapsLk, Color.Red);
             SetCustom( _blocks.CapsLk, Color.Red);
@@ -116,21 +114,21 @@ namespace ChromaExpVanilla
 
         public void CapsLockOff()
         {
-            Console.WriteLine( "CapsLockOff" );
+            //Console.WriteLine( "CapsLockOff" );
             _inst.SetKeys(_blocks.CapsLk, Color.FromRgb(BaseColor));
             SetCustom( _blocks.CapsLk , Color.FromRgb( BaseColor ));
         }
 
         public Task Animation(List<List<Key>> keyBlocks)
         {
-            Console.WriteLine( "started animation" );
+            //Console.WriteLine( "started animation" );
             _inst.Clear();
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count(); i++)
                 {
                     try
                     {
-                        Console.WriteLine(i);
+                        //Console.WriteLine(i);
                         Thread.Sleep(100);
                         if (keyBlocks.Count > i) _inst.SetKeys(keyBlocks[i], Color.Red);
                         Thread.Sleep(10);
@@ -148,7 +146,7 @@ namespace ChromaExpVanilla
                         // ignored
                     }
                 }
-            Console.WriteLine( "finished animation" );
+            //Console.WriteLine( "finished animation" );
             return Task.CompletedTask;
         }
 
