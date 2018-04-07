@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -10,35 +11,47 @@ namespace ChromaExpVanilla
 {
     internal class CheckState
     {
-        public bool NumStatus { get; set; }
-        public bool CapsStatus { get; set; }
-        public string LangStatus { get; set; }
+        private bool NumStatus { get; set; }
+        private bool CapsStatus { get; set; }
+        private string LangStatus { get; set; }
+        private bool _firstRun = true;
 
         public List<EventTypes> States
         {
             get
             {
                 var states = new List<EventTypes>();
-                states.Clear();
-                states.Add(CheckCaps());
-                states.Add(CheckNumLock());
-                states.Add(Time());
-                states.Add(CheckLang());
-                try
+                if (_firstRun)
                 {
-                    states = states.Where(x => x != EventTypes.Normal).ToList();
+                    states.Add(CheckCaps());
+                    states.Add(CheckNumLock());
+                    states.Add(CheckLang());
+                    states.Add( Time() );
+
+                    _firstRun = false;
                 }
-                catch (Exception e)
+                else
                 {
-                    Console.WriteLine(e);
+                    var tempState = new List<EventTypes>()
+                    {
+                        IsCapsChange(),
+                        IsNumChange(),
+                        IsLangChange(),
+                        Time()
+                    };
+
+                    states = tempState.Where(x => x != EventTypes.Normal).ToList();
                 }
                 return states;
             }
         }
 
+        private EventTypes IsCapsChange() => CapsStatus == IsKeyLocked( Keys.CapsLock ) ? EventTypes.Normal : CheckCaps();
+        private EventTypes IsNumChange() => NumStatus == IsKeyLocked( Keys.NumLock ) ? EventTypes.Normal : CheckNumLock();
+        private EventTypes IsLangChange() => LangStatus == GetCurrentKeyboardLayout().ToString() ? EventTypes.Normal : CheckLang();
+
         private EventTypes CheckCaps()
         {
-            if (CapsStatus == IsKeyLocked(Keys.CapsLock)){return EventTypes.Normal;}
             if (IsKeyLocked(Keys.CapsLock))
             {
                 CapsStatus = IsKeyLocked(Keys.CapsLock);
@@ -50,7 +63,6 @@ namespace ChromaExpVanilla
 
         private EventTypes CheckNumLock()
         {
-            if (NumStatus == IsKeyLocked(Keys.NumLock)) { return EventTypes.Normal; }
             if (IsKeyLocked(Keys.NumLock))
             {
                 NumStatus = IsKeyLocked(Keys.NumLock);
@@ -62,8 +74,9 @@ namespace ChromaExpVanilla
 
         private EventTypes Time()
         {
+            Thread.Sleep( 100 );
             if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
-            {       
+            {
                 return EventTypes.TimeRound;
             }
             return EventTypes.Normal;
@@ -72,15 +85,13 @@ namespace ChromaExpVanilla
         private EventTypes CheckLang()
         {
             Thread.Sleep(250);
-            if (LangStatus == GetCurrentKeyboardLayout().ToString()) return EventTypes.Normal;
-            LangStatus = GetCurrentKeyboardLayout().ToString();
+            var currentLayout = GetCurrentKeyboardLayout().ToString();
+            LangStatus = currentLayout;
             switch (LangStatus)
             {
                 case "en-US":
-                    LangStatus = GetCurrentKeyboardLayout().ToString();
                     return EventTypes.LangEng;
                 case "he-IL":
-                    LangStatus = GetCurrentKeyboardLayout().ToString();
                     return EventTypes.LangHeb;
                 default:
                     return EventTypes.Normal;

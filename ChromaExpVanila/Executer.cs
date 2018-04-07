@@ -13,12 +13,12 @@ namespace ChromaExpVanilla
 
         public async void Execute()
         {
+            var setColorsTask = _control.SetColorBase();
             await _control.Animation(_blocks.AnimationConcept);
-            _control.SetColorBase();
             var check = new CheckState();
-
-            StateHandler(check.States).Invoke();
+            setColorsTask.Wait();
             _control.InitiateCustom();
+            StateHandler( check.States ).Invoke();
 
             while (true)
             {
@@ -26,20 +26,6 @@ namespace ChromaExpVanilla
                 thingsToDo?.Invoke();
             }
         }
-
-        private void LangEng() => _control.SetEng();
-
-        private void LangHeb() => _control.SetHeb();
-
-        private void CapsLockOn() => _control.CapsLockOn();
-
-        private void CapsLockOff() => _control.CapsLockOff();
-
-        private void NumLockOff() => _control.NumLockOff();
-
-        private void NumLockOn() => _control.NumLockOn();
-
-        private void TimeRound() => _control.TimeAnimation();
 
         public ChunkOfThingsToDo StateHandler(List<EventTypes> states)
         {
@@ -49,25 +35,25 @@ namespace ChromaExpVanilla
                 switch (state)
                 {
                     case EventTypes.CapsOn:
-                        thingsToDo += CapsLockOn;
+                        thingsToDo += _control.CapsLockOn;
                         break;
                     case EventTypes.CapsOff:
-                        thingsToDo += CapsLockOff;
+                        thingsToDo += _control.CapsLockOff;
                         break;
                     case EventTypes.TimeRound:
-                        thingsToDo += TimeRound;
+                        thingsToDo += _control.TimeAnimation;
                         break;
                     case EventTypes.LangEng:
-                        thingsToDo += LangEng;
+                        thingsToDo += _control.SetEng;
                         break;
                     case EventTypes.LangHeb:
-                        thingsToDo += LangHeb;
+                        thingsToDo += _control.SetHeb;
                         break;
                     case EventTypes.NumLkOn:
-                        thingsToDo += NumLockOn;
+                        thingsToDo += _control.NumLockOn;
                         break;
                     case EventTypes.NumLkOff:
-                        thingsToDo += NumLockOff;
+                        thingsToDo += _control.NumLockOff;
                         break;
                     case EventTypes.Normal:
                         break;
