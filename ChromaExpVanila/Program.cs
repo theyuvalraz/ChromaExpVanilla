@@ -1,4 +1,6 @@
-﻿using Topshelf;
+﻿using System;
+using Topshelf;
+using Topshelf.HostConfigurators;
 
 namespace ChromaExpVanilla
 {
@@ -6,7 +8,7 @@ namespace ChromaExpVanilla
     {
         private static void Main()
         {
-            HostFactory.Run(x =>
+            var rc = HostFactory.Run(x =>
             {
                 x.Service<Executor>(s =>
                 {
@@ -14,8 +16,12 @@ namespace ChromaExpVanilla
                     s.WhenStarted(tc => tc.Execute());
                     s.WhenStopped( tc => tc.Execute());
                 } );
-                x.RunAsLocalSystem();
+                x.StartAutomatically();
+                x.SetInstanceName("RazKey");
+                x.RunAsLocalService();
             } );
+            var exitCode = (int)Convert.ChangeType(rc, rc.GetTypeCode());
+            Environment.ExitCode = exitCode;
         }
     }
 }

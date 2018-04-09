@@ -17,16 +17,21 @@ namespace ChromaExpVanilla.config
             Tuple.Create(Key.Macro5, Color.White),
             Tuple.Create(Key.F3, Color.White),
             Tuple.Create(Key.PrintScreen, Color.Blue),
-            Tuple.Create(Key.Scroll, Color.Red)
-        };
+            Tuple.Create(Key.Scroll, Color.Red),
+            Tuple.Create(Key.NumEnter, Color.Orange),
+            Tuple.Create(Key.Backspace, Color.Orange),
+            Tuple.Create(Key.OemTilde, Color.Orange),
+            Tuple.Create(Key.Delete, Color.Orange),
+            Tuple.Create(Key.Pause, Color.Yellow),
+            Tuple.Create(Key.Insert, Color.Red),
 
+        };
 
         public List<Key> UsefulKeys = new List<Key>
         {
+            Key.Enter,
             Key.Home,
             Key.End,
-            Key.Delete,
-            Key.Backspace,
             Key.F12,
             Key.F7,
             Key.F2,
@@ -47,8 +52,6 @@ namespace ChromaExpVanilla.config
             Key.D8,
             Key.D9,
             Key.D0,
-            Key.OemTilde,
-            Key.Backspace,
             Key.OemEquals,
             Key.OemMinus
         };
@@ -84,7 +87,15 @@ namespace ChromaExpVanilla.config
             Key.M,
             Key.OemComma,
             Key.OemPeriod,
-            Key.Space
+            Key.Space,
+            Key.OemLeftBracket,
+            Key.OemRightBracket,
+            Key.OemSemicolon,
+            Key.OemApostrophe,
+            Key.OemComma,
+            Key.OemPeriod,
+            Key.OemSlash,
+            Key.OemBackslash
         };
 
         public List<Key> HebKeys = new List<Key>
@@ -150,6 +161,26 @@ namespace ChromaExpVanilla.config
             Key.Space
         };
 
+        public List<Key> EngKeysOther = new List<Key>
+        {
+            Key.OemLeftBracket,
+            Key.OemRightBracket,
+            Key.OemSemicolon,
+            Key.OemApostrophe,
+            Key.OemComma,
+            Key.OemPeriod,
+            Key.OemSlash,
+            Key.OemBackslash
+        };
+        public List<Key> HebKeysOther = new List<Key>
+        {
+            Key.Q,
+            Key.W,
+            Key.OemApostrophe,
+            Key.OemSlash,
+        };
+
+
         public List<Key> CapsLk = new List<Key>
         {
             Key.CapsLock
@@ -161,8 +192,6 @@ namespace ChromaExpVanilla.config
             Key.F6,
             Key.F8,
             Key.F10,
-            Key.Pause,
-            Key.Insert,
             Key.RightMenu
         };
 

@@ -14,7 +14,7 @@ namespace ChromaExpVanilla
     {
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
-        private const uint BaseColor = 0x202020;
+        private const uint BaseColor = 0x404040;
         public Custom CustomLayer = new Custom( Color.FromRgb( BaseColor ) );
 
         public void InitiateCustom()
@@ -24,10 +24,8 @@ namespace ChromaExpVanilla
 
         public async Task SetColorBase()
         {
-            //Console.WriteLine( "started setColorBase" );
             await Task.Run( action: Action);
 
-            //Console.WriteLine( "finished setColorBase" );
         }
 
         private void Action()
@@ -39,7 +37,6 @@ namespace ChromaExpVanilla
 
         public void SetCustom( List<Tuple<Key, Color>> coloredKeyList)
         {
-            //Console.WriteLine( "SetCustom_coloredKeyList" );
 
             foreach (var colorKey in coloredKeyList)
             {
@@ -48,7 +45,6 @@ namespace ChromaExpVanilla
         }
         public void SetCustom( List<Key> keyList, Color color )
         {
-            //Console.WriteLine( "SetCustom_keyList" );
             foreach (var keySetting in keyList)
             {
                 CustomLayer[keySetting] = color;
@@ -57,11 +53,12 @@ namespace ChromaExpVanilla
 
         public void SetEng()
         {
-            //Console.WriteLine( "SetEng" );
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             SetCustom( _blocks.AllLetterKeys, Color.FromRgb( BaseColor ) );
             _inst.SetKeys(_blocks.EngKeys, Color.Green);
             SetCustom( _blocks.EngKeys, Color.Green );
+            _inst.SetKeys(_blocks.EngKeysOther, Color.Orange);
+            SetCustom(_blocks.EngKeysOther, Color.Orange);
 
         }
 
@@ -73,6 +70,8 @@ namespace ChromaExpVanilla
             SetCustom( _blocks.AllLetterKeys, Color.FromRgb( BaseColor ) );
             _inst.SetKeys(_blocks.HebKeys, Color.Red);
             SetCustom( _blocks.HebKeys, Color.Red);
+            _inst.SetKeys(_blocks.HebKeysOther, Color.Orange);
+            SetCustom(_blocks.HebKeysOther, Color.Orange);
         }
 
         public void TopNumChange(Color color)
@@ -83,14 +82,12 @@ namespace ChromaExpVanilla
 
         public void NumLockOn()
         {
-            //Console.WriteLine( "NumLockOn" );
             _inst.SetKeys(_blocks.Numpad, Color.Green);
-            TopNumChange(Color.FromRgb(BaseColor));
+            TopNumChange(Color.FromRgb(0x00008B));
         }
 
         public void NumLockOff()
         {
-            //Console.WriteLine( "NumLockOff" );
             Thread.Sleep(10);
             _inst.SetKeys(_blocks.AltNumPad1, Color.Orange);
             SetCustom( _blocks.AltNumPad1, Color.Orange );
@@ -106,29 +103,24 @@ namespace ChromaExpVanilla
 
         public void CapsLockOn()
         {
-            //Console.WriteLine( "CapsLockOn" );
-
             _inst.SetKeys(_blocks.CapsLk, Color.Red);
             SetCustom( _blocks.CapsLk, Color.Red);
         }
 
         public void CapsLockOff()
         {
-            //Console.WriteLine( "CapsLockOff" );
             _inst.SetKeys(_blocks.CapsLk, Color.FromRgb(BaseColor));
             SetCustom( _blocks.CapsLk , Color.FromRgb( BaseColor ));
         }
 
         public Task Animation(List<List<Key>> keyBlocks)
         {
-            //Console.WriteLine( "started animation" );
             _inst.Clear();
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count(); i++)
                 {
                     try
                     {
-                        //Console.WriteLine(i);
                         Thread.Sleep(100);
                         if (keyBlocks.Count > i) _inst.SetKeys(keyBlocks[i], Color.Red);
                         Thread.Sleep(10);
@@ -146,7 +138,6 @@ namespace ChromaExpVanilla
                         // ignored
                     }
                 }
-            //Console.WriteLine( "finished animation" );
             return Task.CompletedTask;
         }
 
@@ -193,11 +184,11 @@ namespace ChromaExpVanilla
                     Thread.Sleep(50);
                     if (_inst != null)
                     {
-                        _inst.SetKey(flow[i], Color.Yellow);
+                        _inst.SetKey(flow[i], Color.Red);
                         Thread.Sleep(50);
-                        if (flow.Count > i + 1) _inst.SetKey(flow[i + 1], Color.Red);
+                        if (flow.Count > i + 1) _inst.SetKey(flow[i + 1], Color.Yellow);
+                        if (flow.Count > i + 2) _inst.SetKey(flow[i + 1], Color.Red);
                     }
-                    Thread.Sleep(50);
                 }
                 catch (Exception)
                 {
