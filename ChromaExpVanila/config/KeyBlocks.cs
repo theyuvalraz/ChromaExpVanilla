@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 
-namespace ChromaExpVanilla.config
+namespace ChromaExpVanila.config
 {
     public class KeyBlocks
     {

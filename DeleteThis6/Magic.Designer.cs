@@ -1,4 +1,4 @@
-﻿namespace DeleteThis6
+﻿namespace TrayApp
 {
     partial class Magic : System.Windows.Forms.Form
     {

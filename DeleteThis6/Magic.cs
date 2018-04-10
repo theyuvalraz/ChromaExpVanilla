@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChromaExpVanilla;
-using ChromaExpVanilla.config;
-using CheckState = ChromaExpVanilla.CheckState;
+using ChromaExpVanila;
+using ChromaExpVanila.config;
+using CheckState = ChromaExpVanila.CheckState;
 
-namespace DeleteThis6
+namespace TrayApp
 {
     public partial class Magic : Form
     {
         private NotifyIcon sysTrayIcon;
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
-        private CheckState _checkState = new CheckState();
         private Executor _executor = new Executor();
         private string tooltip = String.Empty;
         public Magic()
@@ -37,6 +30,7 @@ namespace DeleteThis6
         protected override async void OnLoad(EventArgs e)
 
         {
+            CheckState checkState = new CheckState();
 
             Visible = false;
             ShowInTaskbar = false;
@@ -45,8 +39,8 @@ namespace DeleteThis6
             await _control.SetColorBase();
             _control.Animation(_blocks.AnimationConcept);
             _control.InitiateCustom();
-            _executor.StateHandler(_checkState.States).Invoke();
-            _executor.GetEventsLoop(_checkState);
+            _executor.StateHandler(checkState.States, _control).Invoke();
+            _executor.GetEventsLoop(checkState);
 
         }
 

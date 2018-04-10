@@ -1,4 +1,4 @@
-﻿namespace ChromaExpVanilla
+﻿namespace ChromaExpVanila
 {
     internal class Program
     {

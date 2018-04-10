@@ -1,4 +1,4 @@
-﻿namespace ChromaExpVanilla
+﻿namespace ChromaExpVanila
 {
     public enum EventTypes
     {

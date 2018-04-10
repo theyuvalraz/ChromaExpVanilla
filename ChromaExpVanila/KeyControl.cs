@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ChromaExpVanilla.config;
+using ChromaExpVanila.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 
-namespace ChromaExpVanilla
+namespace ChromaExpVanila
 {
     public class KeyControl
     {
