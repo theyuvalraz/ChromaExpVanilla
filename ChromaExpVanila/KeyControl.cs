@@ -196,7 +196,7 @@ namespace ChromaExpVanila
                 }
             }
             CustomLayer = tempCustom;
-            InitiateCustom();
+            //InitiateCustom();
         }
     }
 }
