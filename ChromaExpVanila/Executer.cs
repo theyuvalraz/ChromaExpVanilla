@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ChromaExpVanilla.config;
 
 namespace ChromaExpVanilla
 {
-    internal class Executor
+    public class Executor
     {
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
@@ -19,11 +20,17 @@ namespace ChromaExpVanilla
             _control.InitiateCustom();
             StateHandler( check.States ).Invoke();
 
+            GetEventsLoop(check);
+        }
+
+        public void GetEventsLoop(CheckState check)
+        {
             while (true)
             {
                 var thingsToDo = StateHandler(check.States);
                 thingsToDo?.Invoke();
             }
+
         }
 
         public ChunkOfThingsToDo StateHandler(List<EventTypes> states)

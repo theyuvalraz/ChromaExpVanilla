@@ -7,7 +7,7 @@ using ChromaExpVanilla.config;
 
 namespace ChromaExpVanilla
 {
-    internal class CheckState
+    public class CheckState
     {
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
