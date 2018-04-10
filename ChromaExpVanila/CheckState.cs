@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using ChromaExpVanilla.config;
+using ChromaExpVanila.config;
 
-namespace ChromaExpVanilla
+namespace ChromaExpVanila
 {
-    internal class CheckState
+    public class CheckState
     {
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }

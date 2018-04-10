@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace ChromaExpVanilla.config
+namespace ChromaExpVanila.config
 {
     public static class GetLayout
     {

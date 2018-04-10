@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChromaExpVanilla.config;
+using ChromaExpVanila.config;
 
-namespace ChromaExpVanilla
+namespace ChromaExpVanila
 {
-    internal class Executor
+    public class Executor
     {
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
@@ -17,16 +17,22 @@ namespace ChromaExpVanilla
             var check = new CheckState();
             setColorsTask.Wait();
             _control.InitiateCustom();
-            StateHandler( check.States ).Invoke();
+            StateHandler( check.States, _control ).Invoke();
 
-            while (true)
-            {
-                var thingsToDo = StateHandler(check.States);
-                thingsToDo?.Invoke();
-            }
+            GetEventsLoop(check);
         }
 
-        public ChunkOfThingsToDo StateHandler(List<EventTypes> states)
+        public void GetEventsLoop(CheckState check)
+        {
+            while (true)
+            {
+                var thingsToDo = StateHandler(check.States, _control);
+                thingsToDo?.Invoke();
+            }
+
+        }
+
+        public ChunkOfThingsToDo StateHandler(List<EventTypes> states, KeyControl control)
         {
             ChunkOfThingsToDo thingsToDo = null;
             foreach (var state in states)
@@ -34,25 +40,25 @@ namespace ChromaExpVanilla
                 switch (state)
                 {
                     case EventTypes.CapsOn:
-                        thingsToDo += _control.CapsLockOn;
+                        thingsToDo += control.CapsLockOn;
                         break;
                     case EventTypes.CapsOff:
-                        thingsToDo += _control.CapsLockOff;
+                        thingsToDo += control.CapsLockOff;
                         break;
                     case EventTypes.TimeRound:
-                        thingsToDo += _control.TimeAnimation;
+                        thingsToDo += control.TimeAnimation;
                         break;
                     case EventTypes.LangEng:
-                        thingsToDo += _control.SetEng;
+                        thingsToDo += control.SetEng;
                         break;
                     case EventTypes.LangHeb:
-                        thingsToDo += _control.SetHeb;
+                        thingsToDo += control.SetHeb;
                         break;
                     case EventTypes.NumLkOn:
-                        thingsToDo += _control.NumLockOn;
+                        thingsToDo += control.NumLockOn;
                         break;
                     case EventTypes.NumLkOff:
-                        thingsToDo += _control.NumLockOff;
+                        thingsToDo += control.NumLockOff;
                         break;
                     case EventTypes.Normal:
                         break;
