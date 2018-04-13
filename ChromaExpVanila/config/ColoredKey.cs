@@ -9,17 +9,15 @@ namespace ChromaExpVanila.config
         public Color Color { get; set; }
         public int Group { get; set; }
 
-        public ColoredKey() { }
+        public ColoredKey()
+        {
+        }
 
-        public ColoredKey( Key key, Color color = default(Color), int group = 0 )
+        public ColoredKey(Key key, Color color = default(Color), int group = 0)
         {
             Key = key;
             Color = color;
             Group = group;
         }
-
-
-
-
     }
 }

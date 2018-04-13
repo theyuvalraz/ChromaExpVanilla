@@ -65,6 +65,7 @@ namespace TrayApp
             eventsType.Add((EventTypes) Enum.ToObject(typeof(EventTypes), e.ProgressPercentage));
             try
             {
+
                 _executor.StateHandler(eventsType, _control).Invoke();
             }
             catch (Exception)

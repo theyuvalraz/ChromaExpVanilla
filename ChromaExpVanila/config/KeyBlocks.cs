@@ -8,7 +8,6 @@ namespace ChromaExpVanila.config
 {
     public class KeyBlocks
     {
-
         public List<ColoredKey> MiscColoredKeys = new List<ColoredKey>()
         {
             new ColoredKey(Key.Macro1, Color.Orange),
@@ -312,16 +311,46 @@ namespace ChromaExpVanila.config
             new List<ColoredKey>() {new ColoredKey(Key.F), new ColoredKey(Key.K)},
             new List<ColoredKey>() {new ColoredKey(Key.V), new ColoredKey(Key.I)},
             new List<ColoredKey>() {new ColoredKey(Key.Space), new ColoredKey(Key.D8)},
-            new List<ColoredKey>() {new ColoredKey(Key.N), new ColoredKey(Key.F5 )},
-            new List<ColoredKey>(){ new ColoredKey(Key.J), new ColoredKey( Key.D5)},
-            new List<ColoredKey>(){ new ColoredKey(Key.U), new ColoredKey( Key.R)},
-            new List<ColoredKey>(){new ColoredKey( Key.D7), new ColoredKey( Key.F)},
-            new List<ColoredKey>(){new ColoredKey( Key.T), new ColoredKey( Key.V)},
-            new List<ColoredKey>(){new ColoredKey( Key.F), new ColoredKey( Key.G)},
-            new List<ColoredKey>(){ new ColoredKey( Key.G)},
-            new List<ColoredKey>(){ new ColoredKey( Key.G)},
-            new List<ColoredKey>(){ new ColoredKey( Key.G)},
+            new List<ColoredKey>() {new ColoredKey(Key.N), new ColoredKey(Key.F5)},
+            new List<ColoredKey>() {new ColoredKey(Key.J), new ColoredKey(Key.D5)},
+            new List<ColoredKey>() {new ColoredKey(Key.U), new ColoredKey(Key.R)},
+            new List<ColoredKey>() {new ColoredKey(Key.D7), new ColoredKey(Key.F)},
+            new List<ColoredKey>() {new ColoredKey(Key.T), new ColoredKey(Key.V)},
+            new List<ColoredKey>() {new ColoredKey(Key.F), new ColoredKey(Key.G)},
+            new List<ColoredKey>() {new ColoredKey(Key.G)},
+            new List<ColoredKey>() {new ColoredKey(Key.G)},
+            new List<ColoredKey>() {new ColoredKey(Key.G)},
         };
-        }
 
+        public List<List<ColoredKey>> AnimationConceptStage2 = new List<List<ColoredKey>>()
+        {
+            new List<ColoredKey>()
+            {
+                new ColoredKey(Key.Delete, Color.Black),
+                new ColoredKey(Key.LeftControl, Color.Black),
+                new ColoredKey(Key.RightControl, Color.Black),
+                new ColoredKey(Key.OemTilde, Color.Black),
+            },
+            new List<ColoredKey>()
+            {
+                new ColoredKey(Key.Delete, Color.Black),
+                new ColoredKey(Key.LeftControl, Color.Black),
+                new ColoredKey(Key.RightControl, Color.Black),
+                new ColoredKey(Key.OemTilde, Color.Black),
+                new ColoredKey(Key.OemEquals, Color.Black),
+                new ColoredKey(Key.OemBackslash, Color.Black),
+                new ColoredKey(Key.LeftWindows, Color.Black),
+                new ColoredKey(Key.LeftAlt, Color.Black),
+                new ColoredKey(Key.LeftShift, Color.Black),
+                new ColoredKey(Key.RightShift, Color.Black),
+                new ColoredKey(Key.RightMenu, Color.Black),
+                new ColoredKey(Key.Function, Color.Black),
+                new ColoredKey(Key.D1, Color.Black),
+                new ColoredKey(Key.Tab, Color.Black),
+                new ColoredKey(Key.F, Color.Black),
+                new ColoredKey(Key.M, Color.Black),
+                new ColoredKey(Key.T, Color.Black)
+            },
+        };
     }
+}

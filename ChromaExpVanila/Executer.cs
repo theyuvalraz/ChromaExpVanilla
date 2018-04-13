@@ -18,9 +18,9 @@ namespace ChromaExpVanila
             await _control.Animation(_blocks.AnimationConcept);
             setColorsTask.Wait();
             _control.InitiateCustom();
-            StateHandler( checkState.States, _control ).Invoke();
+            StateHandler(checkState.States, _control).Invoke();
 
-            GetEventsLoop( checkState );
+            GetEventsLoop(checkState);
         }
 
         public void GetEventsLoop(CheckState check)
@@ -30,7 +30,6 @@ namespace ChromaExpVanila
                 var thingsToDo = StateHandler(check.States, _control);
                 thingsToDo?.Invoke();
             }
-
         }
 
         public ChunkOfThingsToDo StateHandler(List<EventTypes> states, KeyControl control)
