@@ -51,6 +51,11 @@ namespace ChromaExpVanila
             }
         }
 
+        public void CurrentStateNeeded()
+        {
+            SetColorBase().RunSynchronously();
+        }
+
         public void SetEng()
         {
             _inst.SetKeys(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
@@ -189,14 +194,15 @@ namespace ChromaExpVanila
                         if (flow.Count > i + 1) _inst.SetKey(flow[i + 1], Color.Yellow);
                         if (flow.Count > i + 2) _inst.SetKey(flow[i + 1], Color.Red);
                     }
+                    CustomLayer = tempCustom;
+
                 }
                 catch (Exception)
                 {
                     // ignored
                 }
             }
-            CustomLayer = tempCustom;
-            //InitiateCustom();
+            InitiateCustom();
         }
     }
 }

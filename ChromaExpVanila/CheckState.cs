@@ -12,21 +12,21 @@ namespace ChromaExpVanila
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
-        private bool _firstRun = true;
+        public bool CurrentStateNeeded = true;
 
         public List<EventTypes> States
         {
             get
             {
                 var states = new List<EventTypes>();
-                if (_firstRun)
+                if (CurrentStateNeeded)
                 {
                     states.Add(CheckCaps());
                     states.Add(CheckNumLock());
                     states.Add(CheckLang());
                     states.Add( Time() );
 
-                    _firstRun = false;
+                    CurrentStateNeeded = false;
                 }
                 else
                 {
@@ -73,11 +73,17 @@ namespace ChromaExpVanila
         private EventTypes Time()
         {
             Thread.Sleep( 100 );
-            if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
+            if ( DateTime.Now.Second < 5)
             {
                 return EventTypes.TimeRound;
             }
             return EventTypes.Normal;
+            //Thread.Sleep( 100 );
+            //if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
+            //{
+            //    return EventTypes.TimeRound;
+            //}
+            //return EventTypes.Normal;
         }
 
         private EventTypes CheckLang()
@@ -95,5 +101,14 @@ namespace ChromaExpVanila
                     return EventTypes.Normal;
             }
         }
+        //private EventTypes StateNeeded()
+        //{
+        //    if (CurrentStateNeeded)
+        //    {
+        //        CurrentStateNeeded = false;
+        //        return EventTypes.CurrentStateNeeded;
+        //    }
+        //    return EventTypes.Normal;
+        //}
     }
 }
