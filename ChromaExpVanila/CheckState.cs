@@ -73,17 +73,11 @@ namespace ChromaExpVanila
         private EventTypes Time()
         {
             Thread.Sleep( 100 );
-            if ( DateTime.Now.Second < 5)
+            if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 1)
             {
                 return EventTypes.TimeRound;
             }
             return EventTypes.Normal;
-            //Thread.Sleep( 100 );
-            //if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
-            //{
-            //    return EventTypes.TimeRound;
-            //}
-            //return EventTypes.Normal;
         }
 
         private EventTypes CheckLang()

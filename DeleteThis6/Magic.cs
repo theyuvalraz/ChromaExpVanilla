@@ -22,23 +22,9 @@ namespace TrayApp
         {
             InitializeComponent();
 
-            var sysTrayMenu = new ContextMenu();
-            sysTrayMenu.MenuItems.Add( "Exit", OnExit );
-            sysTrayIcon = new NotifyIcon();
-            tooltip = "Chroma Indicator";
-            sysTrayIcon.Text = tooltip;
-            sysTrayIcon.Icon = new Icon( SystemIcons.Shield, 40, 40 );
-            sysTrayIcon.ContextMenu = sysTrayMenu;
-            sysTrayIcon.Visible = true;
 
-            BackgroundWorker backgroundWorker = new BackgroundWorker
-            {
-                WorkerReportsProgress = true,
-                WorkerSupportsCancellation = true
-            };
 
-            backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
-            backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
+
         }
 
 
@@ -48,23 +34,43 @@ namespace TrayApp
         {
             Visible = false;
             ShowInTaskbar = false;
+            var sysTrayMenu = new ContextMenu();
+            sysTrayMenu.MenuItems.Add( "Exit", OnExit );
+            sysTrayIcon = new NotifyIcon();
+            tooltip = "Chroma Indicator";
+            sysTrayIcon.Text = tooltip;
+            sysTrayIcon.Icon = new Icon( SystemIcons.Shield, 40, 40 );
+            sysTrayIcon.ContextMenu = sysTrayMenu;
+            sysTrayIcon.Visible = true;
+
             await _control.SetColorBase();
             await _control.Animation( _blocks.AnimationConcept );
             _control.InitiateCustom();
 
+            BackgroundWorker backgroundWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
 
-
-
-            
+            backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
+            backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
+            backgroundWorker.RunWorkerAsync();
             base.OnLoad( e );
         }
 
-        private void BackgroundWorkerOnProgressChanged( object sender, ProgressChangedEventArgs e )
+        private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            List<EventTypes> eventsType =  new List<EventTypes>();
+            List<EventTypes> eventsType = new List<EventTypes>();
             eventsType.Add((EventTypes) Enum.ToObject(typeof(EventTypes), e.ProgressPercentage));
-            _executor.StateHandler(eventsType, _control).Invoke();
-            
+            try
+            {
+                _executor.StateHandler(eventsType, _control).Invoke();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private void BackgroundWorkerOnDoWork( object sender, DoWorkEventArgs e )
