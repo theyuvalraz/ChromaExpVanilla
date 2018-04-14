@@ -8,18 +8,19 @@ namespace ChromaExpVanila
     {
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
+        public CheckState checkState = new CheckState();
+
         public delegate void ChunkOfThingsToDo();
 
         public async void Execute()
         {
             var setColorsTask = _control.SetColorBase();
             await _control.Animation(_blocks.AnimationConcept);
-            var check = new CheckState();
             setColorsTask.Wait();
             _control.InitiateCustom();
-            StateHandler( check.States, _control ).Invoke();
+            StateHandler(checkState.States, _control).Invoke();
 
-            GetEventsLoop(check);
+            GetEventsLoop(checkState);
         }
 
         public void GetEventsLoop(CheckState check)
@@ -29,7 +30,6 @@ namespace ChromaExpVanila
                 var thingsToDo = StateHandler(check.States, _control);
                 thingsToDo?.Invoke();
             }
-
         }
 
         public ChunkOfThingsToDo StateHandler(List<EventTypes> states, KeyControl control)
@@ -47,6 +47,7 @@ namespace ChromaExpVanila
                         break;
                     case EventTypes.TimeRound:
                         thingsToDo += control.TimeAnimation;
+                        checkState.CurrentStateNeeded = true;
                         break;
                     case EventTypes.LangEng:
                         thingsToDo += control.SetEng;
@@ -59,6 +60,9 @@ namespace ChromaExpVanila
                         break;
                     case EventTypes.NumLkOff:
                         thingsToDo += control.NumLockOff;
+                        break;
+                    case EventTypes.CurrentStateNeeded:
+                        thingsToDo += control.CurrentStateNeeded;
                         break;
                     case EventTypes.Normal:
                         break;

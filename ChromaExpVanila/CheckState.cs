@@ -12,21 +12,21 @@ namespace ChromaExpVanila
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
-        private bool _firstRun = true;
+        public bool CurrentStateNeeded = true;
 
         public List<EventTypes> States
         {
             get
             {
                 var states = new List<EventTypes>();
-                if (_firstRun)
+                if (CurrentStateNeeded)
                 {
                     states.Add(CheckCaps());
                     states.Add(CheckNumLock());
                     states.Add(CheckLang());
-                    states.Add( Time() );
+                    states.Add(Time());
 
-                    _firstRun = false;
+                    CurrentStateNeeded = false;
                 }
                 else
                 {
@@ -44,9 +44,15 @@ namespace ChromaExpVanila
             }
         }
 
-        private EventTypes IsCapsChange() => CapsStatus == Control.IsKeyLocked( Keys.CapsLock ) ? EventTypes.Normal : CheckCaps();
-        private EventTypes IsNumChange() => NumStatus == Control.IsKeyLocked( Keys.NumLock ) ? EventTypes.Normal : CheckNumLock();
-        private EventTypes IsLangChange() => LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString() ? EventTypes.Normal : CheckLang();
+        private EventTypes IsCapsChange() =>
+            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? EventTypes.Normal : CheckCaps();
+
+        private EventTypes IsNumChange() =>
+            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? EventTypes.Normal : CheckNumLock();
+
+        private EventTypes IsLangChange() => LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString()
+            ? EventTypes.Normal
+            : CheckLang();
 
         private EventTypes CheckCaps()
         {
@@ -72,8 +78,8 @@ namespace ChromaExpVanila
 
         private EventTypes Time()
         {
-            Thread.Sleep( 100 );
-            if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 5)
+            Thread.Sleep(100);
+            if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 1)
             {
                 return EventTypes.TimeRound;
             }
@@ -94,6 +100,16 @@ namespace ChromaExpVanila
                 default:
                     return EventTypes.Normal;
             }
+        }
+
+        private EventTypes StateNeeded()
+        {
+            if (CurrentStateNeeded)
+            {
+                CurrentStateNeeded = false;
+                return EventTypes.CurrentStateNeeded;
+            }
+            return EventTypes.Normal;
         }
     }
 }

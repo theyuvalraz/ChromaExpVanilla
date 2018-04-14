@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckState.cs" />
+    <Compile Include="config\ColoredKey.cs" />
     <Compile Include="config\GetLayout.cs" />
     <Compile Include="config\KeyBlocks.cs" />
     <Compile Include="EventTypes.cs" />

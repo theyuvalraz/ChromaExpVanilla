@@ -9,6 +9,7 @@
         CapsOff,
         NumLkOn,
         NumLkOff,
-        TimeRound
+        TimeRound,
+        CurrentStateNeeded
     }
 }
