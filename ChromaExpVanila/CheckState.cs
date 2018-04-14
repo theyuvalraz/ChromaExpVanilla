@@ -102,14 +102,14 @@ namespace ChromaExpVanila
             }
         }
 
-        //private EventTypes StateNeeded()
-        //{
-        //    if (CurrentStateNeeded)
-        //    {
-        //        CurrentStateNeeded = false;
-        //        return EventTypes.CurrentStateNeeded;
-        //    }
-        //    return EventTypes.Normal;
-        //}
+        private EventTypes StateNeeded()
+        {
+            if (CurrentStateNeeded)
+            {
+                CurrentStateNeeded = false;
+                return EventTypes.CurrentStateNeeded;
+            }
+            return EventTypes.Normal;
+        }
     }
 }

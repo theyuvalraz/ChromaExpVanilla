@@ -21,10 +21,6 @@ namespace TrayApp
         public Magic()
         {
             InitializeComponent();
-
-
-
-
         }
 
 
@@ -43,8 +39,11 @@ namespace TrayApp
             sysTrayIcon.ContextMenu = sysTrayMenu;
             sysTrayIcon.Visible = true;
 
-            await _control.SetColorBase();
             await _control.Animation( _blocks.AnimationConcept );
+            await _control.FrameAnimation(_blocks.AnimationConceptStage2);
+            _control.CustomLayer.Clear();
+            await _control.SetColorBase();
+
             _control.InitiateCustom();
 
             BackgroundWorker backgroundWorker = new BackgroundWorker
