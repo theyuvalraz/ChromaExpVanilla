@@ -302,7 +302,6 @@ namespace ChromaExpVanila.config
             new List<ColoredKey>() {new ColoredKey(Key.K), new ColoredKey(Key.F)},
             new List<ColoredKey>() {new ColoredKey(Key.J), new ColoredKey(Key.G)},
             new List<ColoredKey>() {new ColoredKey(Key.H)},
-
         };
 
         public List<List<ColoredKey>> AnimationConceptStage2 = new List<List<ColoredKey>>()
@@ -376,12 +375,10 @@ namespace ChromaExpVanila.config
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Orange)
-
             },
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Yellow)
-
             },
             new List<ColoredKey>()
             {
@@ -681,27 +678,22 @@ namespace ChromaExpVanila.config
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Yellow)
-
             },
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Yellow)
-
             },
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Orange)
-
             },
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Orange)
-
             },
             new List<ColoredKey>()
             {
                 new ColoredKey(Key.H, Color.Red)
-
             },
             new List<ColoredKey>()
             {
@@ -812,7 +804,6 @@ namespace ChromaExpVanila.config
                 new ColoredKey(Key.OemPeriod, Color.White),
                 new ColoredKey(Key.RightAlt, Color.White),
                 new ColoredKey(Key.LeftAlt, Color.White),
-
             },
             new List<ColoredKey>()
             {
@@ -865,7 +856,6 @@ namespace ChromaExpVanila.config
                 new ColoredKey(Key.W, Color.White),
                 new ColoredKey(Key.D3, Color.White),
                 new ColoredKey(Key.OemSlash, Color.White),
-
             },
             new List<ColoredKey>()
             {
@@ -929,9 +919,6 @@ namespace ChromaExpVanila.config
                 new ColoredKey(Key.OemRightBracket, Color.White),
                 new ColoredKey(Key.CapsLock, Color.White),
                 new ColoredKey(Key.Enter, Color.White),
-
-
-
             },
             new List<ColoredKey>()
             {
@@ -1302,7 +1289,6 @@ namespace ChromaExpVanila.config
                 new ColoredKey(Key.P, Color.Red),
                 new ColoredKey(Key.OemSemicolon, Color.Red),
                 new ColoredKey(Key.OemPeriod, Color.Red)
-                
             },
             new List<ColoredKey>()
             {

@@ -23,6 +23,12 @@ namespace ChromaExpVanila
             GetEventsLoop(checkState);
         }
 
+        public void GetEventsOnce(CheckState check)
+        {
+            var thingsToDo = StateHandler(check.States, _control);
+            thingsToDo?.Invoke();
+        }
+
         public void GetEventsLoop(CheckState check)
         {
             while (true)

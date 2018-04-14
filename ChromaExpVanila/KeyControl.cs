@@ -29,7 +29,7 @@ namespace ChromaExpVanila
 
         private void Action()
         {
-            _inst.SetAll( BaseColor );
+            _inst.SetAll(BaseColor);
             SetCustom(_blocks.UsefulKeys);
             SetCustom(_blocks.MiscColoredKeys);
             SetCustom(_blocks.UsefulKeys, Color.Pink);
@@ -65,7 +65,7 @@ namespace ChromaExpVanila
 
         public void SetEng()
         {
-            LangFrameAnimation( _blocks.EngAnimation );
+            LangFrameAnimation(_blocks.EngAnimation);
             //_inst.SetKeys(new List<Key>(_blocks.AllLetterKeys.Select(x => x.Key).ToList()), Color.FromRgb(BaseColor));
             //SetCustom(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             //_inst.SetKeys(new List<Key>(_blocks.EngKeys.Select(x => x.Key).ToList()), Color.Green);
@@ -76,7 +76,7 @@ namespace ChromaExpVanila
 
         public void SetHeb()
         {
-            LangFrameAnimation( _blocks.HebAnimation);
+            LangFrameAnimation(_blocks.HebAnimation);
             //_inst.SetKeys(new List<Key>(_blocks.AllLetterKeys.Select(x => x.Key).ToList()), Color.FromRgb(BaseColor));
             //SetCustom(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
             //_inst.SetKeys(new List<Key>(_blocks.HebKeys.Select(x => x.Key).ToList()), Color.Red);
@@ -129,19 +129,19 @@ namespace ChromaExpVanila
                 {
                     try
                     {
-                        Thread.Sleep( 40 - i );
+                        Thread.Sleep(40 - i);
                         if (keyBlocks.Count > i)
                             _inst.SetKeys(new List<Key>(keyBlocks[i].Select(x => x.Key).ToList()), Color.Red);
                         Thread.Sleep(8);
                         if (keyBlocks.Count > i - 1)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 1].Select(x => x.Key).ToList()), Color.Orange);
-                        Thread.Sleep( 8 );
+                        Thread.Sleep(8);
                         if (keyBlocks.Count > i - 2)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 2].Select(x => x.Key).ToList()), Color.Green);
-                        Thread.Sleep( 8 );
+                        Thread.Sleep(8);
                         if (keyBlocks.Count > i - 3)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 3].Select(x => x.Key).ToList()), Color.Yellow);
-                        Thread.Sleep( 8 );
+                        Thread.Sleep(8);
                         if (keyBlocks.Count > i - 4)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()),
                                 Color.White);
@@ -156,7 +156,6 @@ namespace ChromaExpVanila
 
         public Task FrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
-
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count(); i++)
                 {
@@ -174,21 +173,20 @@ namespace ChromaExpVanila
                     }
                 }
             return Task.CompletedTask;
-
         }
 
-        public Task LangFrameAnimation( List<List<ColoredKey>> keyBlocks )
+        public Task LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count(); i++)
                 {
                     try
                     {
-                        Thread.Sleep( 20 );
+                        Thread.Sleep(20);
                         if (keyBlocks.Count > i)
-                            SetCustom( keyBlocks[i] );
+                            SetCustom(keyBlocks[i]);
                         InitiateCustom();
-                        Thread.Sleep( 10 );
+                        Thread.Sleep(10);
                     }
                     catch
                     {
@@ -196,7 +194,6 @@ namespace ChromaExpVanila
                     }
                 }
             return Task.CompletedTask;
-
         }
 
         public void TimeAnimation()
