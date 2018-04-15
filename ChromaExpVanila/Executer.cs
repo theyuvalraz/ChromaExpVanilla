@@ -77,6 +77,7 @@ namespace ChromaExpVanilla
                         break;
                 }
             }
+
             return thingsToDo;
         }
     }

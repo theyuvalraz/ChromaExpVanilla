@@ -104,6 +104,7 @@ namespace ChromaExpVanilla
             {
                 _inst.SetKey(coloredKey.Key, coloredKey.Color);
             }
+
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
             TopNumChange(Color.Green);
@@ -151,6 +152,7 @@ namespace ChromaExpVanilla
                         // ignored
                     }
                 }
+
             return Task.CompletedTask;
         }
 
@@ -172,6 +174,7 @@ namespace ChromaExpVanilla
                         // ignored
                     }
                 }
+
             return Task.CompletedTask;
         }
 
@@ -193,6 +196,7 @@ namespace ChromaExpVanilla
                         // ignored
                     }
                 }
+
             return Task.CompletedTask;
         }
 
@@ -212,6 +216,7 @@ namespace ChromaExpVanilla
                         if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, Color.Yellow);
                         if (flow.Count > i + 2) _inst.SetKey(flow[i + 1].Key, Color.Red);
                     }
+
                     CustomLayer = tempCustom;
                 }
                 catch (Exception)
@@ -219,6 +224,7 @@ namespace ChromaExpVanilla
                     // ignored
                 }
             }
+
             InitiateCustom();
         }
     }

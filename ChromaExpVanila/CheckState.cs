@@ -13,6 +13,7 @@ namespace ChromaExpVanilla
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
         public bool CurrentStateNeeded = true;
+        string userName { get; set; } 
 
         public List<EventTypes> States
         {
@@ -35,11 +36,13 @@ namespace ChromaExpVanilla
                         IsCapsChange(),
                         IsNumChange(),
                         IsLangChange(),
-                        Time()
+                        Time(),
+                        IsUserNameChange()
                     };
 
                     states = tempState.Where(x => x != EventTypes.Normal).ToList();
                 }
+
                 return states;
             }
         }
@@ -54,6 +57,17 @@ namespace ChromaExpVanilla
             ? EventTypes.Normal
             : CheckLang();
 
+        private EventTypes IsUserNameChange() => userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            ? EventTypes.Normal
+            : UserName();
+
+        // need to change this
+        private EventTypes UserName()
+        {
+            userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            return EventTypes.TimeRound;
+        }
+
         private EventTypes CheckCaps()
         {
             if (Control.IsKeyLocked(Keys.CapsLock))
@@ -61,6 +75,7 @@ namespace ChromaExpVanilla
                 CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
                 return EventTypes.CapsOn;
             }
+
             CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
             return EventTypes.CapsOff;
         }
@@ -72,6 +87,7 @@ namespace ChromaExpVanilla
                 NumStatus = Control.IsKeyLocked(Keys.NumLock);
                 return EventTypes.NumLkOn;
             }
+
             NumStatus = Control.IsKeyLocked(Keys.NumLock);
             return EventTypes.NumLkOff;
         }
@@ -83,6 +99,7 @@ namespace ChromaExpVanilla
             {
                 return EventTypes.TimeRound;
             }
+
             return EventTypes.Normal;
         }
 
@@ -109,6 +126,7 @@ namespace ChromaExpVanilla
                 CurrentStateNeeded = false;
                 return EventTypes.CurrentStateNeeded;
             }
+
             return EventTypes.Normal;
         }
     }

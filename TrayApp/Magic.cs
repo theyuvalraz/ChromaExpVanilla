@@ -17,6 +17,7 @@ namespace TrayApp
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly Executor _executor = new Executor();
         private string tooltip = String.Empty;
+
         BackgroundWorker backgroundWorker = new BackgroundWorker
         {
             WorkerReportsProgress = true,
@@ -33,8 +34,8 @@ namespace TrayApp
             Visible = false;
             ShowInTaskbar = false;
             var sysTrayMenu = new ContextMenu();
+            sysTrayMenu.MenuItems.Add("Restart Indicator", OnRestart);
             sysTrayMenu.MenuItems.Add("Exit", OnExit);
-            sysTrayMenu.MenuItems.Add("Restart", OnRestart);
 
             sysTrayIcon = new NotifyIcon();
             tooltip = "Chroma Indicator";
@@ -106,7 +107,6 @@ namespace TrayApp
             await _control.SetColorBase();
             _control.InitiateCustom();
             backgroundWorker.RunWorkerAsync();
-
         }
 
         private bool OnDisabled()
