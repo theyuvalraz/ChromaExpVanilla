@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
     public class Executor
     {

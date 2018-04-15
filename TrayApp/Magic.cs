@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChromaExpVanila;
-using ChromaExpVanila.config;
-using CheckState = ChromaExpVanila.CheckState;
+using ChromaExpVanilla;
+using ChromaExpVanilla.config;
+using CheckState = ChromaExpVanilla.CheckState;
 
 namespace TrayApp
 {
@@ -17,6 +17,11 @@ namespace TrayApp
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly Executor _executor = new Executor();
         private string tooltip = String.Empty;
+        BackgroundWorker backgroundWorker = new BackgroundWorker
+        {
+            WorkerReportsProgress = true,
+            WorkerSupportsCancellation = true
+        };
 
         public Magic()
         {
@@ -29,12 +34,12 @@ namespace TrayApp
             ShowInTaskbar = false;
             var sysTrayMenu = new ContextMenu();
             sysTrayMenu.MenuItems.Add("Exit", OnExit);
-            sysTrayMenu.MenuItems.Add("Restart Keyboard Animation", OnRestartAnimation);
+            sysTrayMenu.MenuItems.Add("Restart", OnRestart);
 
             sysTrayIcon = new NotifyIcon();
             tooltip = "Chroma Indicator";
             sysTrayIcon.Text = tooltip;
-            sysTrayIcon.Icon = new Icon(SystemIcons.Shield, 40, 40);
+            sysTrayIcon.Icon = new Icon(Properties.Resources.Y, 40, 40);
             sysTrayIcon.ContextMenu = sysTrayMenu;
             sysTrayIcon.Visible = true;
 
@@ -45,11 +50,11 @@ namespace TrayApp
 
             _control.InitiateCustom();
 
-            BackgroundWorker backgroundWorker = new BackgroundWorker
-            {
-                WorkerReportsProgress = true,
-                WorkerSupportsCancellation = true
-            };
+            //BackgroundWorker backgroundWorker = new BackgroundWorker
+            //{
+            //    WorkerReportsProgress = true,
+            //    WorkerSupportsCancellation = true
+            //};
 
             backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
             backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
@@ -91,14 +96,23 @@ namespace TrayApp
             Application.Exit();
         }
 
-        private async void OnRestartAnimation(object sender, EventArgs e)
+        private async void OnRestart(object sender, EventArgs e)
         {
+            OnDisabled();
             _executor.GetEventsOnce(_executor.checkState);
             await _control.Animation(_blocks.AnimationConcept);
             await _control.FrameAnimation(_blocks.AnimationConceptStage2);
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
             _control.InitiateCustom();
+            backgroundWorker.RunWorkerAsync();
+
+        }
+
+        private bool OnDisabled()
+        {
+            backgroundWorker.CancelAsync();
+            return true;
         }
 
         private void OnEnabled(object sender, EventArgs e)
@@ -108,6 +122,7 @@ namespace TrayApp
 
         private void OnDisabled(object sender, EventArgs e)
         {
+            backgroundWorker.CancelAsync();
         }
 
 

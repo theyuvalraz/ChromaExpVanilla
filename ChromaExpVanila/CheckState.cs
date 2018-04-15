@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
     public class CheckState
     {
