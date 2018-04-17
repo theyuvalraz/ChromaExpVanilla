@@ -93,7 +93,7 @@ namespace ChromaExpVanilla
 
         public void NumLockOn()
         {
-            _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.Green);
+            _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
             TopNumChange(Color.FromRgb(0x00008B));
         }
 
@@ -202,6 +202,11 @@ namespace ChromaExpVanilla
 
         public void TimeAnimation()
         {
+            NotificationAnimation(Color.Yellow);
+        }
+
+        public void NotificationAnimation(Color color)
+        {
             var tempCustom = CustomLayer.Clone();
             var flow = _blocks.NumberKeys;
             for (var i = 0; i < _blocks.NumberKeys.Count(); i++)
@@ -212,9 +217,10 @@ namespace ChromaExpVanilla
                     if (_inst != null)
                     {
                         _inst.SetKey(flow[i].Key, Color.Red);
-                        Thread.Sleep(50);
-                        if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, Color.Yellow);
-                        if (flow.Count > i + 2) _inst.SetKey(flow[i + 1].Key, Color.Red);
+                        Thread.Sleep(100);
+                        if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, color);
+                        if (flow.Count > i + 3) _inst.SetKey(flow[i + 2].Key, color);
+                        if (flow.Count > i + 3) _inst.SetKey(flow[i + 3].Key, color);
                     }
 
                     CustomLayer = tempCustom;
@@ -224,7 +230,6 @@ namespace ChromaExpVanilla
                     // ignored
                 }
             }
-
             InitiateCustom();
         }
     }

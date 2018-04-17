@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla;
@@ -50,12 +51,6 @@ namespace TrayApp
             await _control.SetColorBase();
 
             _control.InitiateCustom();
-
-            //BackgroundWorker backgroundWorker = new BackgroundWorker
-            //{
-            //    WorkerReportsProgress = true,
-            //    WorkerSupportsCancellation = true
-            //};
 
             backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
             backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
@@ -106,7 +101,10 @@ namespace TrayApp
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
             _control.InitiateCustom();
-            backgroundWorker.RunWorkerAsync();
+            if (!backgroundWorker.IsBusy)
+                backgroundWorker.RunWorkerAsync();
+
+            //MessageBox.Show("Can't run the worker twice!");
         }
 
         private bool OnDisabled()
