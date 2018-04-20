@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,29 +61,25 @@ namespace TrayApp
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            List<EventTypes> eventsType = new List<EventTypes>();
-            eventsType.Add((EventTypes) Enum.ToObject(typeof(EventTypes), e.ProgressPercentage));
+            var eventsType = (List<EventTypes>) e.UserState;
+
             try
             {
-                _executor.StateHandler(eventsType, _control).Invoke();
+                _executor.StateHandler( eventsType, _control ).Invoke();
             }
             catch (Exception)
             {
-                // ignored
             }
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker worker = (BackgroundWorker) sender;
-            CheckState checkState = new CheckState();
+            var worker = (BackgroundWorker) sender;
+            var checkState = new CheckState();
 
             while (!worker.CancellationPending)
             {
-                foreach (var state in checkState.States)
-                {
-                    worker.ReportProgress(state.GetHashCode());
-                }
+                    worker.ReportProgress( checkState.States );
             }
         }
 
@@ -126,6 +123,16 @@ namespace TrayApp
 
         private void OnShowed(object sender, EventArgs e)
         {
+        }
+
+    }
+
+    public static class BackgroundWorkerExt
+    {
+        public static void ReportProgress( this BackgroundWorker self, List<EventTypes> state )
+        {
+            const int DUMMY_PROGRESS = 0;
+            self.ReportProgress( DUMMY_PROGRESS, state );
         }
     }
 }

@@ -24,10 +24,10 @@ namespace ChromaExpVanilla
 
         public async Task SetColorBase()
         {
-            await Task.Run(action: Action);
+            await Task.Run(action: SetBase);
         }
 
-        private void Action()
+        private void SetBase()
         {
             _inst.SetAll(BaseColor);
             SetCustom(_blocks.UsefulKeys);

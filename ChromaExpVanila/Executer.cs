@@ -10,8 +10,6 @@ namespace ChromaExpVanilla
         private readonly KeyBlocks _blocks = new KeyBlocks();
         public CheckState checkState = new CheckState();
 
-        public delegate void ChunkOfThingsToDo();
-
         public async void Execute()
         {
             var setColorsTask = _control.SetColorBase();
@@ -25,7 +23,7 @@ namespace ChromaExpVanilla
 
         public void GetEventsOnce(CheckState check)
         {
-            var thingsToDo = StateHandler(check.States, _control);
+            var thingsToDo = StateHandler( check.States, _control );
             thingsToDo?.Invoke();
         }
 
@@ -38,9 +36,9 @@ namespace ChromaExpVanilla
             }
         }
 
-        public ChunkOfThingsToDo StateHandler(List<EventTypes> states, KeyControl control)
+        public Action StateHandler(List<EventTypes> states, KeyControl control)
         {
-            ChunkOfThingsToDo thingsToDo = null;
+            Action thingsToDo = null;
             foreach (var state in states)
             {
                 switch (state)
