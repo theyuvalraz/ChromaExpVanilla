@@ -1,22 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChromaExpVanila;
-using ChromaExpVanila.config;
-using CheckState = ChromaExpVanila.CheckState;
+using ChromaExpVanilla;
+using ChromaExpVanilla.config;
+using CheckState = ChromaExpVanilla.CheckState;
 
 namespace TrayApp
 {
+
+
     public partial class Magic
     {
+        const int CHECK_INTERVAL = 30;
+        static System.Windows.Forms.Timer t;
+
         private NotifyIcon sysTrayIcon;
+
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly Executor _executor = new Executor();
+
         private string tooltip = String.Empty;
+
+        private TimeControl timeControl = new TimeControl();
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker
+        {
+            WorkerReportsProgress = true,
+            WorkerSupportsCancellation = true
+        };
 
         public Magic()
         {
@@ -28,13 +45,13 @@ namespace TrayApp
             Visible = false;
             ShowInTaskbar = false;
             var sysTrayMenu = new ContextMenu();
+            sysTrayMenu.MenuItems.Add("Restart Indicator", OnRestart);
             sysTrayMenu.MenuItems.Add("Exit", OnExit);
-            sysTrayMenu.MenuItems.Add("Restart Keyboard Animation", OnRestartAnimation);
 
             sysTrayIcon = new NotifyIcon();
             tooltip = "Chroma Indicator";
             sysTrayIcon.Text = tooltip;
-            sysTrayIcon.Icon = new Icon(SystemIcons.Shield, 40, 40);
+            sysTrayIcon.Icon = new Icon(Properties.Resources.Y, 40, 40);
             sysTrayIcon.ContextMenu = sysTrayMenu;
             sysTrayIcon.Visible = true;
 
@@ -45,43 +62,42 @@ namespace TrayApp
 
             _control.InitiateCustom();
 
-            BackgroundWorker backgroundWorker = new BackgroundWorker
-            {
-                WorkerReportsProgress = true,
-                WorkerSupportsCancellation = true
-            };
-
             backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
             backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
             backgroundWorker.RunWorkerAsync();
+
+            t = new System.Windows.Forms.Timer
+            {
+                Interval = timeControl.CalculateTimerInterval( CHECK_INTERVAL )
+            };
+            t.Tick += ActivateTimed_Tick;
+            t.Start();
+
             base.OnLoad(e);
         }
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            List<EventTypes> eventsType = new List<EventTypes>();
-            eventsType.Add((EventTypes) Enum.ToObject(typeof(EventTypes), e.ProgressPercentage));
+            var eventsType = (List<EventTypes>) e.UserState;
+
             try
             {
-                _executor.StateHandler(eventsType, _control).Invoke();
+                _executor.StateHandler( eventsType, _control ).Invoke();
             }
             catch (Exception)
             {
-                // ignored
             }
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker worker = (BackgroundWorker) sender;
-            CheckState checkState = new CheckState();
+            var worker = (BackgroundWorker) sender;
+            var checkState = new CheckState();
 
             while (!worker.CancellationPending)
             {
-                foreach (var state in checkState.States)
-                {
-                    worker.ReportProgress(state.GetHashCode());
-                }
+                Thread.Sleep(50);
+                worker.ReportProgress( checkState.States );
             }
         }
 
@@ -91,28 +107,48 @@ namespace TrayApp
             Application.Exit();
         }
 
-        private async void OnRestartAnimation(object sender, EventArgs e)
+        private async void OnRestart(object sender, EventArgs e)
         {
-            _executor.GetEventsOnce(_executor.checkState);
+            OnDisabled();
             await _control.Animation(_blocks.AnimationConcept);
             await _control.FrameAnimation(_blocks.AnimationConceptStage2);
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
             _control.InitiateCustom();
+            if (!backgroundWorker.IsBusy)
+                backgroundWorker.RunWorkerAsync();
+            t.Start();
         }
 
+        private bool OnDisabled()
+        {
+            backgroundWorker.CancelAsync();
+            return true;
+        }
         private void OnEnabled(object sender, EventArgs e)
         {
         }
-
-
         private void OnDisabled(object sender, EventArgs e)
+        {
+            backgroundWorker.CancelAsync();
+        }
+        private void OnShowed(object sender, EventArgs e)
         {
         }
 
-
-        private void OnShowed(object sender, EventArgs e)
+        private void ActivateTimed_Tick( object sender, EventArgs e )
         {
+            _control.TimeAnimation();
+            t.Interval = timeControl.CalculateTimerInterval(CHECK_INTERVAL);
+        }
+    }
+
+    public static class BackgroundWorkerExt
+    {
+        public static void ReportProgress( this BackgroundWorker self, List<EventTypes> state )
+        {
+            const int DUMMY_PROGRESS = 0;
+            self.ReportProgress( DUMMY_PROGRESS, state );
         }
     }
 }

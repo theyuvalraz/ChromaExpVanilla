@@ -1,4 +1,4 @@
-﻿namespace ChromaExpVanila
+﻿namespace ChromaExpVanilla
 {
     public enum EventTypes
     {
@@ -10,6 +10,7 @@
         NumLkOn,
         NumLkOff,
         TimeRound,
+        UserChange,
         CurrentStateNeeded
     }
 }

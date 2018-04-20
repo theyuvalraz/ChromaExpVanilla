@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
     public class CheckState
     {
@@ -13,35 +13,45 @@ namespace ChromaExpVanila
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
         public bool CurrentStateNeeded = true;
+        string userName { get; set; } 
 
-        public List<EventTypes> States
+
+ 
+
+    public List<EventTypes> States
         {
             get
             {
                 var states = new List<EventTypes>();
                 if (CurrentStateNeeded)
                 {
-                    states.Add(CheckCaps());
-                    states.Add(CheckNumLock());
-                    states.Add(CheckLang());
-                    states.Add(Time());
+                    states = GetStates().ToList();
 
                     CurrentStateNeeded = false;
                 }
                 else
                 {
-                    var tempState = new List<EventTypes>()
-                    {
-                        IsCapsChange(),
-                        IsNumChange(),
-                        IsLangChange(),
-                        Time()
-                    };
-
+                    var tempState = GetIsChangeStates().ToList();
                     states = tempState.Where(x => x != EventTypes.Normal).ToList();
                 }
                 return states;
             }
+        }
+
+
+        private IEnumerable<EventTypes> GetStates()
+        {
+            yield return CheckCaps();
+            yield return CheckNumLock();
+            yield return CheckLang();
+        }
+
+        private IEnumerable<EventTypes> GetIsChangeStates()
+        {
+            yield return IsCapsChange();
+            yield return IsNumChange();
+            yield return IsLangChange();
+            //yield return IsUserNameChange();
         }
 
         private EventTypes IsCapsChange() =>
@@ -54,6 +64,16 @@ namespace ChromaExpVanila
             ? EventTypes.Normal
             : CheckLang();
 
+        private EventTypes IsUserNameChange() => userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            ? EventTypes.Normal
+            : UserName();
+
+        private EventTypes UserName()
+        {
+            userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            return EventTypes.UserChange;
+        }
+
         private EventTypes CheckCaps()
         {
             if (Control.IsKeyLocked(Keys.CapsLock))
@@ -61,6 +81,7 @@ namespace ChromaExpVanila
                 CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
                 return EventTypes.CapsOn;
             }
+
             CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
             return EventTypes.CapsOff;
         }
@@ -72,18 +93,9 @@ namespace ChromaExpVanila
                 NumStatus = Control.IsKeyLocked(Keys.NumLock);
                 return EventTypes.NumLkOn;
             }
+
             NumStatus = Control.IsKeyLocked(Keys.NumLock);
             return EventTypes.NumLkOff;
-        }
-
-        private EventTypes Time()
-        {
-            Thread.Sleep(100);
-            if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 1)
-            {
-                return EventTypes.TimeRound;
-            }
-            return EventTypes.Normal;
         }
 
         private EventTypes CheckLang()
@@ -109,6 +121,7 @@ namespace ChromaExpVanila
                 CurrentStateNeeded = false;
                 return EventTypes.CurrentStateNeeded;
             }
+
             return EventTypes.Normal;
         }
     }

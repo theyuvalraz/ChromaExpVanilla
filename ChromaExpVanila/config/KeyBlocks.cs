@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 
-namespace ChromaExpVanila.config
+namespace ChromaExpVanilla.config
 {
     public class KeyBlocks
     {

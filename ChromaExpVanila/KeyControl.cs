@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
     public class KeyControl
     {
@@ -24,10 +24,10 @@ namespace ChromaExpVanila
 
         public async Task SetColorBase()
         {
-            await Task.Run(action: Action);
+            await Task.Run(action: SetBase);
         }
 
-        private void Action()
+        private void SetBase()
         {
             _inst.SetAll(BaseColor);
             SetCustom(_blocks.UsefulKeys);
@@ -93,7 +93,7 @@ namespace ChromaExpVanila
 
         public void NumLockOn()
         {
-            _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.Green);
+            _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
             TopNumChange(Color.FromRgb(0x00008B));
         }
 
@@ -104,6 +104,7 @@ namespace ChromaExpVanila
             {
                 _inst.SetKey(coloredKey.Key, coloredKey.Color);
             }
+
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
             TopNumChange(Color.Green);
@@ -151,6 +152,7 @@ namespace ChromaExpVanila
                         // ignored
                     }
                 }
+
             return Task.CompletedTask;
         }
 
@@ -172,6 +174,7 @@ namespace ChromaExpVanila
                         // ignored
                     }
                 }
+
             return Task.CompletedTask;
         }
 
@@ -193,25 +196,40 @@ namespace ChromaExpVanila
                         // ignored
                     }
                 }
+
             return Task.CompletedTask;
         }
 
         public void TimeAnimation()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                NotificationAnimation( Color.Yellow );
+            }
+        }
+        public void UserChangeAnimation()
+        {
+            NotificationAnimation( Color.Pink );
+        }
+
+        public void NotificationAnimation(Color color)
+        {
             var tempCustom = CustomLayer.Clone();
-            var flow = _blocks.NumberKeys;
-            for (var i = 0; i < _blocks.NumberKeys.Count(); i++)
+            var flow = _blocks.AllLetterKeys;
+            for (var i = 0; i < flow.Count(); i++)
             {
                 try
                 {
                     Thread.Sleep(50);
                     if (_inst != null)
                     {
-                        _inst.SetKey(flow[i].Key, Color.Red);
-                        Thread.Sleep(50);
-                        if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, Color.Yellow);
-                        if (flow.Count > i + 2) _inst.SetKey(flow[i + 1].Key, Color.Red);
+                        _inst.SetKey(flow[i].Key, color);
+                        Thread.Sleep(20);
+                        if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, color);
+                        if (flow.Count > i + 2) _inst.SetKey(flow[i + 2].Key, color);
+                        if (flow.Count > i + 3) _inst.SetKey(flow[i + 3].Key, color);
                     }
+
                     CustomLayer = tempCustom;
                 }
                 catch (Exception)

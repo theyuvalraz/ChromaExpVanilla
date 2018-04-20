@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChromaExpVanila.config;
+using ChromaExpVanilla.config;
 
-namespace ChromaExpVanila
+namespace ChromaExpVanilla
 {
     public class Executor
     {
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
         public CheckState checkState = new CheckState();
-
-        public delegate void ChunkOfThingsToDo();
 
         public async void Execute()
         {
@@ -23,9 +21,15 @@ namespace ChromaExpVanila
             GetEventsLoop(checkState);
         }
 
+        public Action GetEvents( CheckState check )
+        {
+            var thingsToDo = StateHandler( check.States, _control );
+            return thingsToDo;
+        }
+
         public void GetEventsOnce(CheckState check)
         {
-            var thingsToDo = StateHandler(check.States, _control);
+            var thingsToDo = StateHandler( check.States, _control );
             thingsToDo?.Invoke();
         }
 
@@ -38,9 +42,9 @@ namespace ChromaExpVanila
             }
         }
 
-        public ChunkOfThingsToDo StateHandler(List<EventTypes> states, KeyControl control)
+        public Action StateHandler(List<EventTypes> states, KeyControl control)
         {
-            ChunkOfThingsToDo thingsToDo = null;
+            Action thingsToDo = null;
             foreach (var state in states)
             {
                 switch (state)
@@ -66,6 +70,10 @@ namespace ChromaExpVanila
                         break;
                     case EventTypes.NumLkOff:
                         thingsToDo += control.NumLockOff;
+                        break;
+                    case EventTypes.UserChange:
+                        thingsToDo += control.UserChangeAnimation;
+                        checkState.CurrentStateNeeded = true;
                         break;
                     case EventTypes.CurrentStateNeeded:
                         thingsToDo += control.CurrentStateNeeded;
