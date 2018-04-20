@@ -204,6 +204,10 @@ namespace ChromaExpVanilla
         {
             NotificationAnimation(Color.Yellow);
         }
+        public void UserChangeAnimation()
+        {
+            NotificationAnimation( Color.Pink );
+        }
 
         public void NotificationAnimation(Color color)
         {
@@ -216,10 +220,10 @@ namespace ChromaExpVanilla
                     Thread.Sleep(50);
                     if (_inst != null)
                     {
-                        _inst.SetKey(flow[i].Key, Color.Red);
+                        _inst.SetKey(flow[i].Key, color);
                         Thread.Sleep(100);
                         if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, color);
-                        if (flow.Count > i + 3) _inst.SetKey(flow[i + 2].Key, color);
+                        if (flow.Count > i + 2) _inst.SetKey(flow[i + 2].Key, color);
                         if (flow.Count > i + 3) _inst.SetKey(flow[i + 3].Key, color);
                     }
 

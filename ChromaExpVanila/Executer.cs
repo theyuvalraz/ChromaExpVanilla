@@ -21,6 +21,12 @@ namespace ChromaExpVanilla
             GetEventsLoop(checkState);
         }
 
+        public Action GetEvents( CheckState check )
+        {
+            var thingsToDo = StateHandler( check.States, _control );
+            return thingsToDo;
+        }
+
         public void GetEventsOnce(CheckState check)
         {
             var thingsToDo = StateHandler( check.States, _control );
@@ -65,6 +71,10 @@ namespace ChromaExpVanilla
                     case EventTypes.NumLkOff:
                         thingsToDo += control.NumLockOff;
                         break;
+                    case EventTypes.UserChange:
+                        thingsToDo += control.UserChangeAnimation;
+                        checkState.CurrentStateNeeded = true;
+                        break;
                     case EventTypes.CurrentStateNeeded:
                         thingsToDo += control.CurrentStateNeeded;
                         break;
@@ -75,7 +85,6 @@ namespace ChromaExpVanilla
                         break;
                 }
             }
-
             return thingsToDo;
         }
     }

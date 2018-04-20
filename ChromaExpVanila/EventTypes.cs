@@ -10,6 +10,7 @@
         NumLkOn,
         NumLkOff,
         TimeRound,
+        UserChange,
         CurrentStateNeeded
     }
 }

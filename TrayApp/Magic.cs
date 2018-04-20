@@ -79,7 +79,8 @@ namespace TrayApp
 
             while (!worker.CancellationPending)
             {
-                    worker.ReportProgress( checkState.States );
+                Thread.Sleep(50);
+                worker.ReportProgress( checkState.States );
             }
         }
 
@@ -92,7 +93,6 @@ namespace TrayApp
         private async void OnRestart(object sender, EventArgs e)
         {
             OnDisabled();
-            _executor.GetEventsOnce(_executor.checkState);
             await _control.Animation(_blocks.AnimationConcept);
             await _control.FrameAnimation(_blocks.AnimationConceptStage2);
             _control.CustomLayer.Clear();
@@ -100,8 +100,6 @@ namespace TrayApp
             _control.InitiateCustom();
             if (!backgroundWorker.IsBusy)
                 backgroundWorker.RunWorkerAsync();
-
-            //MessageBox.Show("Can't run the worker twice!");
         }
 
         private bool OnDisabled()
@@ -109,22 +107,16 @@ namespace TrayApp
             backgroundWorker.CancelAsync();
             return true;
         }
-
         private void OnEnabled(object sender, EventArgs e)
         {
         }
-
-
         private void OnDisabled(object sender, EventArgs e)
         {
             backgroundWorker.CancelAsync();
         }
-
-
         private void OnShowed(object sender, EventArgs e)
         {
         }
-
     }
 
     public static class BackgroundWorkerExt

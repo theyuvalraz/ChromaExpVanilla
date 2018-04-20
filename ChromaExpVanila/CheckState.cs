@@ -65,7 +65,7 @@ namespace ChromaExpVanilla
         private EventTypes UserName()
         {
             userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            return EventTypes.TimeRound;
+            return EventTypes.UserChange;
         }
 
         private EventTypes CheckCaps()
