@@ -28,13 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.ActivateTimed = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // ActivateTimed
+            // 
+            this.ActivateTimed.Tick += new System.EventHandler(this.ActivateTimed_Tick);
             // 
             // Magic
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(178, 47);
+            this.ClientSize = new System.Drawing.Size(237, 58);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Magic";
             this.Text = "Magic";
             this.ResumeLayout(false);
@@ -42,6 +49,8 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer ActivateTimed;
     }
 }
 

@@ -15,36 +15,43 @@ namespace ChromaExpVanilla
         public bool CurrentStateNeeded = true;
         string userName { get; set; } 
 
-        public List<EventTypes> States
+
+ 
+
+    public List<EventTypes> States
         {
             get
             {
                 var states = new List<EventTypes>();
                 if (CurrentStateNeeded)
                 {
-                    states.Add(CheckCaps());
-                    states.Add(CheckNumLock());
-                    states.Add(CheckLang());
-                    states.Add(Time());
+                    states = GetStates().ToList();
 
                     CurrentStateNeeded = false;
                 }
                 else
                 {
-                    var tempState = new List<EventTypes>()
-                    {
-                        IsCapsChange(),
-                        IsNumChange(),
-                        IsLangChange(),
-                        Time(),
-                        IsUserNameChange()
-                    };
-
+                    var tempState = GetIsChangeStates().ToList();
                     states = tempState.Where(x => x != EventTypes.Normal).ToList();
                 }
-
                 return states;
             }
+        }
+
+
+        private IEnumerable<EventTypes> GetStates()
+        {
+            yield return CheckCaps();
+            yield return CheckNumLock();
+            yield return CheckLang();
+        }
+
+        private IEnumerable<EventTypes> GetIsChangeStates()
+        {
+            yield return IsCapsChange();
+            yield return IsNumChange();
+            yield return IsLangChange();
+            //yield return IsUserNameChange();
         }
 
         private EventTypes IsCapsChange() =>
@@ -61,7 +68,6 @@ namespace ChromaExpVanilla
             ? EventTypes.Normal
             : UserName();
 
-        // need to change this
         private EventTypes UserName()
         {
             userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
@@ -90,17 +96,6 @@ namespace ChromaExpVanilla
 
             NumStatus = Control.IsKeyLocked(Keys.NumLock);
             return EventTypes.NumLkOff;
-        }
-
-        private EventTypes Time()
-        {
-            Thread.Sleep(100);
-            if ((DateTime.Now.Minute == 00 || DateTime.Now.Minute == 30) && DateTime.Now.Second < 1)
-            {
-                return EventTypes.TimeRound;
-            }
-
-            return EventTypes.Normal;
         }
 
         private EventTypes CheckLang()

@@ -202,7 +202,10 @@ namespace ChromaExpVanilla
 
         public void TimeAnimation()
         {
-            NotificationAnimation(Color.Yellow);
+            for (int i = 0; i < 3; i++)
+            {
+                NotificationAnimation( Color.Yellow );
+            }
         }
         public void UserChangeAnimation()
         {
@@ -212,8 +215,8 @@ namespace ChromaExpVanilla
         public void NotificationAnimation(Color color)
         {
             var tempCustom = CustomLayer.Clone();
-            var flow = _blocks.NumberKeys;
-            for (var i = 0; i < _blocks.NumberKeys.Count(); i++)
+            var flow = _blocks.AllLetterKeys;
+            for (var i = 0; i < flow.Count(); i++)
             {
                 try
                 {
@@ -221,7 +224,7 @@ namespace ChromaExpVanilla
                     if (_inst != null)
                     {
                         _inst.SetKey(flow[i].Key, color);
-                        Thread.Sleep(100);
+                        Thread.Sleep(20);
                         if (flow.Count > i + 1) _inst.SetKey(flow[i + 1].Key, color);
                         if (flow.Count > i + 2) _inst.SetKey(flow[i + 2].Key, color);
                         if (flow.Count > i + 3) _inst.SetKey(flow[i + 3].Key, color);

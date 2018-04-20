@@ -12,13 +12,22 @@ using CheckState = ChromaExpVanilla.CheckState;
 
 namespace TrayApp
 {
+
+
     public partial class Magic
     {
+        const int CHECK_INTERVAL = 30;
+        static System.Windows.Forms.Timer t;
+
         private NotifyIcon sysTrayIcon;
+
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly Executor _executor = new Executor();
+
         private string tooltip = String.Empty;
+
+        private TimeControl timeControl = new TimeControl();
 
         BackgroundWorker backgroundWorker = new BackgroundWorker
         {
@@ -56,6 +65,14 @@ namespace TrayApp
             backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
             backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
             backgroundWorker.RunWorkerAsync();
+
+            t = new System.Windows.Forms.Timer
+            {
+                Interval = timeControl.CalculateTimerInterval( CHECK_INTERVAL )
+            };
+            t.Tick += ActivateTimed_Tick;
+            t.Start();
+
             base.OnLoad(e);
         }
 
@@ -100,6 +117,7 @@ namespace TrayApp
             _control.InitiateCustom();
             if (!backgroundWorker.IsBusy)
                 backgroundWorker.RunWorkerAsync();
+            t.Start();
         }
 
         private bool OnDisabled()
@@ -116,6 +134,12 @@ namespace TrayApp
         }
         private void OnShowed(object sender, EventArgs e)
         {
+        }
+
+        private void ActivateTimed_Tick( object sender, EventArgs e )
+        {
+            _control.TimeAnimation();
+            t.Interval = timeControl.CalculateTimerInterval(CHECK_INTERVAL);
         }
     }
 
