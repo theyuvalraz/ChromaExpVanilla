@@ -104,6 +104,7 @@ namespace TrayApp
 
         private void OnExit(object sender, EventArgs e)
         {
+            sysTrayIcon.Visible = false;
             Application.Exit();
         }
 
@@ -127,10 +128,6 @@ namespace TrayApp
         }
         private void OnEnabled(object sender, EventArgs e)
         {
-        }
-        private void OnDisabled(object sender, EventArgs e)
-        {
-            backgroundWorker.CancelAsync();
         }
         private void OnShowed(object sender, EventArgs e)
         {

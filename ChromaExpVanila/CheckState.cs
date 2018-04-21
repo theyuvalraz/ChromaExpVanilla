@@ -13,7 +13,7 @@ namespace ChromaExpVanilla
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
         public bool CurrentStateNeeded = true;
-        string userName { get; set; } 
+        //string userName { get; set; } 
 
 
  
@@ -64,15 +64,15 @@ namespace ChromaExpVanilla
             ? EventTypes.Normal
             : CheckLang();
 
-        private EventTypes IsUserNameChange() => userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name
-            ? EventTypes.Normal
-            : UserName();
+        //private EventTypes IsUserNameChange() => userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name
+        //    ? EventTypes.Normal
+        //    : UserName();
 
-        private EventTypes UserName()
-        {
-            userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            return EventTypes.UserChange;
-        }
+        //private EventTypes UserName()
+        //{
+        //    userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+        //    return EventTypes.UserChange;
+        //}
 
         private EventTypes CheckCaps()
         {
