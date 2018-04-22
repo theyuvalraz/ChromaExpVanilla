@@ -12,8 +12,6 @@ using CheckState = ChromaExpVanilla.CheckState;
 
 namespace TrayApp
 {
-
-
     public partial class Magic
     {
         const int CHECK_INTERVAL = 30;
@@ -68,7 +66,7 @@ namespace TrayApp
 
             t = new System.Windows.Forms.Timer
             {
-                Interval = timeControl.CalculateTimerInterval( CHECK_INTERVAL )
+                Interval = timeControl.CalculateTimerInterval(CHECK_INTERVAL)
             };
             t.Tick += ActivateTimed_Tick;
             t.Start();
@@ -82,7 +80,7 @@ namespace TrayApp
 
             try
             {
-                _executor.StateHandler( eventsType, _control ).Invoke();
+                _executor.StateHandler(eventsType, _control).Invoke();
             }
             catch (Exception)
             {
@@ -97,7 +95,7 @@ namespace TrayApp
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(50);
-                worker.ReportProgress( checkState.States );
+                worker.ReportProgress(checkState.States);
             }
         }
 
@@ -126,14 +124,16 @@ namespace TrayApp
             backgroundWorker.CancelAsync();
             return true;
         }
+
         private void OnEnabled(object sender, EventArgs e)
         {
         }
+
         private void OnShowed(object sender, EventArgs e)
         {
         }
 
-        private void ActivateTimed_Tick( object sender, EventArgs e )
+        private void ActivateTimed_Tick(object sender, EventArgs e)
         {
             _control.TimeAnimation();
             t.Interval = timeControl.CalculateTimerInterval(CHECK_INTERVAL);
@@ -142,10 +142,10 @@ namespace TrayApp
 
     public static class BackgroundWorkerExt
     {
-        public static void ReportProgress( this BackgroundWorker self, List<EventTypes> state )
+        public static void ReportProgress(this BackgroundWorker self, List<EventTypes> state)
         {
             const int DUMMY_PROGRESS = 0;
-            self.ReportProgress( DUMMY_PROGRESS, state );
+            self.ReportProgress(DUMMY_PROGRESS, state);
         }
     }
 }

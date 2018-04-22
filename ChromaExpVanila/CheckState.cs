@@ -12,13 +12,12 @@ namespace ChromaExpVanilla
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
+
         public bool CurrentStateNeeded = true;
         //string userName { get; set; } 
 
 
- 
-
-    public List<EventTypes> States
+        public List<EventTypes> States
         {
             get
             {
@@ -34,6 +33,7 @@ namespace ChromaExpVanilla
                     var tempState = GetIsChangeStates().ToList();
                     states = tempState.Where(x => x != EventTypes.Normal).ToList();
                 }
+
                 return states;
             }
         }

@@ -204,12 +204,13 @@ namespace ChromaExpVanilla
         {
             for (int i = 0; i < 3; i++)
             {
-                NotificationAnimation( Color.Yellow );
+                NotificationAnimation(Color.Yellow);
             }
         }
+
         public void UserChangeAnimation()
         {
-            NotificationAnimation( Color.Pink );
+            NotificationAnimation(Color.Pink);
         }
 
         public void NotificationAnimation(Color color)
@@ -237,6 +238,7 @@ namespace ChromaExpVanilla
                     // ignored
                 }
             }
+
             InitiateCustom();
         }
     }
