@@ -32,6 +32,8 @@ namespace ChromaExpVanilla
             _inst.SetAll(BaseColor);
             SetCustom(_blocks.UsefulKeys);
             SetCustom(_blocks.MiscColoredKeys);
+            SetCustom(_blocks.NumberKeys, Color.FromRgb(0x00008B));
+
             SetCustom(_blocks.UsefulKeys, Color.Pink);
             SetCustom(_blocks.UselessKeys, Color.Black);
         }
@@ -94,7 +96,7 @@ namespace ChromaExpVanilla
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
-            TopNumChange(Color.FromRgb(0x00008B));
+            //TopNumChange(Color.FromRgb(0x00008B));
         }
 
         public void NumLockOff()
@@ -107,7 +109,7 @@ namespace ChromaExpVanilla
 
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
-            TopNumChange(Color.Green);
+            //TopNumChange(Color.Green);
         }
 
         public void CapsLockOn()
@@ -204,7 +206,7 @@ namespace ChromaExpVanilla
         {
             for (int i = 0; i < 3; i++)
             {
-                NotificationAnimation(Color.Yellow);
+                NotificationAnimation(Color.Pink);
             }
         }
 

@@ -1348,62 +1348,62 @@ namespace ChromaExpVanilla.config
         {
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.A, Color.Green),
-                new ColoredKey(Key.Q, Color.Green),
-                new ColoredKey(Key.Z, Color.Green),
+                new ColoredKey(Key.A, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.Q, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.Z, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.W, Color.Green),
-                new ColoredKey(Key.S, Color.Green),
-                new ColoredKey(Key.X, Color.Green),
+                new ColoredKey(Key.W, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.S, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.X, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.E, Color.Green),
-                new ColoredKey(Key.D, Color.Green),
-                new ColoredKey(Key.C, Color.Green),
+                new ColoredKey(Key.E, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.D, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.C, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.R, Color.Green),
-                new ColoredKey(Key.F, Color.Green),
-                new ColoredKey(Key.V, Color.Green),
+                new ColoredKey(Key.R, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.F, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.V, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.T, Color.Green),
-                new ColoredKey(Key.G, Color.Green),
-                new ColoredKey(Key.B, Color.Green),
-                new ColoredKey(Key.Space, Color.Green),
+                new ColoredKey(Key.T, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.G, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.B, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.Space, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.Y, Color.Green),
-                new ColoredKey(Key.H, Color.Green),
-                new ColoredKey(Key.N, Color.Green),
+                new ColoredKey(Key.Y, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.H, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.N, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.U, Color.Green),
-                new ColoredKey(Key.J, Color.Green),
-                new ColoredKey(Key.M, Color.Green),
+                new ColoredKey(Key.U, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.J, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.M, Color.FromRgb(0x47E10C)),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.I, Color.Green),
-                new ColoredKey(Key.K, Color.Green),
+                new ColoredKey(Key.I, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.K, Color.FromRgb(0x47E10C)),
                 new ColoredKey(Key.OemComma, Color.Orange),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.O, Color.Green),
-                new ColoredKey(Key.L, Color.Green),
+                new ColoredKey(Key.O, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.L, Color.FromRgb(0x47E10C)),
                 new ColoredKey(Key.OemPeriod, Color.Orange)
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.P, Color.Green),
+                new ColoredKey(Key.P, Color.FromRgb(0x47E10C)),
                 new ColoredKey(Key.OemSemicolon, Color.Orange),
                 new ColoredKey(Key.OemSlash, Color.Orange)
             },
