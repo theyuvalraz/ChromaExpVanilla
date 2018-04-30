@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
@@ -8,7 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla;
 using ChromaExpVanilla.config;
+using Corale.Colore.Razer.Keyboard;
+using TrayApp.Properties;
 using CheckState = ChromaExpVanilla.CheckState;
+using Color = Corale.Colore.Core.Color;
 
 namespace TrayApp
 {
@@ -80,6 +84,7 @@ namespace TrayApp
 
             try
             {
+                _control.SetCustomKey(Key.F6, Color.Red);
                 _executor.StateHandler(eventsType, _control).Invoke();
             }
             catch (Exception)

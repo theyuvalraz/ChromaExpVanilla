@@ -14,7 +14,6 @@ namespace ChromaExpVanilla
         private string LangStatus { get; set; }
 
         public bool CurrentStateNeeded = true;
-        //string userName { get; set; } 
 
 
         public List<EventTypes> States
@@ -51,7 +50,6 @@ namespace ChromaExpVanilla
             yield return IsCapsChange();
             yield return IsNumChange();
             yield return IsLangChange();
-            //yield return IsUserNameChange();
         }
 
         private EventTypes IsCapsChange() =>
@@ -63,16 +61,6 @@ namespace ChromaExpVanilla
         private EventTypes IsLangChange() => LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString()
             ? EventTypes.Normal
             : CheckLang();
-
-        //private EventTypes IsUserNameChange() => userName == System.Security.Principal.WindowsIdentity.GetCurrent().Name
-        //    ? EventTypes.Normal
-        //    : UserName();
-
-        //private EventTypes UserName()
-        //{
-        //    userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-        //    return EventTypes.UserChange;
-        //}
 
         private EventTypes CheckCaps()
         {

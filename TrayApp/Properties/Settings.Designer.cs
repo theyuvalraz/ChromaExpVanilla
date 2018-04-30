@@ -22,5 +22,14 @@ namespace TrayApp.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F10")]
+        public global::Corale.Colore.Razer.Keyboard.Key Setting {
+            get {
+                return ((global::Corale.Colore.Razer.Keyboard.Key)(this["Setting"]));
+            }
+        }
     }
 }

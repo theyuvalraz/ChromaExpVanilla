@@ -13,21 +13,12 @@ namespace ChromaExpVanilla
     public class KeyControl
     {
         private readonly KeyBlocks _blocks = new KeyBlocks();
-        private readonly IChroma chroma = Chroma.Instance;
-        private readonly IKeyboard _inst = Chroma.Instance.Keyboard;//Keyboard.Instance;
+        private readonly IKeyboard _inst = Keyboard.Instance;
         private const uint BaseColor = 0x404040;
         public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
         public void InitiateCustom()
         {
             _inst.SetCustom(CustomLayer);
-        }
-        public void UninitializeChroma()
-        {
-            chroma.Uninitialize();
-        }
-        public void InitializeChroma()
-        {
-            chroma.Initialize();
         }
 
         public void InitiateCustom(Custom customLayer)
@@ -81,23 +72,11 @@ namespace ChromaExpVanilla
         public void SetEng()
         {
             LangFrameAnimation(_blocks.EngAnimation);
-            //_inst.SetKeys(new List<Key>(_blocks.AllLetterKeys.Select(x => x.Key).ToList()), Color.FromRgb(BaseColor));
-            //SetCustom(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
-            //_inst.SetKeys(new List<Key>(_blocks.EngKeys.Select(x => x.Key).ToList()), Color.Green);
-            //SetCustom(_blocks.HebKeys, Color.Green);
-            //_inst.SetKeys(new List<Key>(_blocks.EngKeysOther.Select(x => x.Key).ToList()), Color.Orange);
-            //SetCustom(_blocks.HebKeysOther, Color.Orange);
         }
 
         public void SetHeb()
         {
             LangFrameAnimation(_blocks.HebAnimation);
-            //_inst.SetKeys(new List<Key>(_blocks.AllLetterKeys.Select(x => x.Key).ToList()), Color.FromRgb(BaseColor));
-            //SetCustom(_blocks.AllLetterKeys, Color.FromRgb(BaseColor));
-            //_inst.SetKeys(new List<Key>(_blocks.HebKeys.Select(x => x.Key).ToList()), Color.Red);
-            //SetCustom(_blocks.HebKeys, Color.Red);
-            //_inst.SetKeys(new List<Key>(_blocks.HebKeysOther.Select(x => x.Key).ToList()), Color.Orange);
-            //SetCustom(_blocks.HebKeysOther, Color.Orange);
         }
 
         public void TopNumChange(Color color)
@@ -289,7 +268,6 @@ namespace ChromaExpVanilla
             }
             SetBase();
             InitiateCustom(tempCustom);
-            //InitiateCustom();
         }
     }
 }
