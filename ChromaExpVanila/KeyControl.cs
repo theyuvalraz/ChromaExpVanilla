@@ -13,13 +13,26 @@ namespace ChromaExpVanilla
     public class KeyControl
     {
         private readonly KeyBlocks _blocks = new KeyBlocks();
-        private readonly IKeyboard _inst = Keyboard.Instance;
+        private readonly IChroma chroma = Chroma.Instance;
+        private readonly IKeyboard _inst = Chroma.Instance.Keyboard;//Keyboard.Instance;
         private const uint BaseColor = 0x404040;
         public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
-
         public void InitiateCustom()
         {
             _inst.SetCustom(CustomLayer);
+        }
+        public void UninitializeChroma()
+        {
+            chroma.Uninitialize();
+        }
+        public void InitializeChroma()
+        {
+            chroma.Initialize();
+        }
+
+        public void InitiateCustom(Custom customLayer)
+        {
+            _inst.SetCustom(customLayer);
         }
 
         public async Task SetColorBase()
@@ -242,6 +255,41 @@ namespace ChromaExpVanilla
             }
 
             InitiateCustom();
+        }
+
+        public void ConstantAnimation()
+        {
+            var tempCustom = CustomLayer.Clone();
+            for (int j = 0; j < Constants.MaxColumns; j++)
+            {
+                for (int i = 0; i < Constants.MaxRows; i++)
+                {
+                    try
+                    {
+                        Thread.Sleep(10);
+                        _inst[ i,j] = Color.Green;
+                        InitiateCustom();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                for (int i = 0; i < Constants.MaxRows; i++)
+                {
+                    try
+                    {
+                        Thread.Sleep(50);
+                        _inst[i, j] = Color.Black;
+                        InitiateCustom();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+            SetBase();
+            InitiateCustom(tempCustom);
+            //InitiateCustom();
         }
     }
 }

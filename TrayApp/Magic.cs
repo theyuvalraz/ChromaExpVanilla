@@ -108,20 +108,36 @@ namespace TrayApp
 
         private async void OnRestart(object sender, EventArgs e)
         {
-            OnDisabled();
+            backgroundWorker.CancelAsync();
+            backgroundWorker.Dispose();
             await _control.Animation(_blocks.AnimationConcept);
-            await _control.FrameAnimation(_blocks.AnimationConceptStage2);
+
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
-            _control.InitiateCustom();
+
             if (!backgroundWorker.IsBusy)
+            {
+                _control.InitiateCustom();
                 backgroundWorker.RunWorkerAsync();
+            }
+            t.Start();
+            this.OnRestart2(this, EventArgs.Empty);
+        }
+        private async void OnRestart2(object sender, EventArgs e)
+        {
+
+            if (!backgroundWorker.IsBusy)
+            {
+                _control.InitiateCustom();
+                backgroundWorker.RunWorkerAsync();
+            }
             t.Start();
         }
 
         private bool OnDisabled()
         {
             backgroundWorker.CancelAsync();
+            
             return true;
         }
 
