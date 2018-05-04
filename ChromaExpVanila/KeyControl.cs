@@ -16,6 +16,7 @@ namespace ChromaExpVanilla
         private readonly IKeyboard _inst = Keyboard.Instance;
         private const uint BaseColor = 0x404040;
         public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
+
         public void InitiateCustom()
         {
             _inst.SetCustom(CustomLayer);
@@ -94,7 +95,7 @@ namespace ChromaExpVanilla
         public void NumLockOff()
         {
             Thread.Sleep(10);
-            foreach (ColoredKey coloredKey in _blocks.AltNumPad)
+            foreach (var coloredKey in _blocks.AltNumPad)
             {
                 _inst.SetKey(coloredKey.Key, coloredKey.Color);
             }
@@ -120,7 +121,7 @@ namespace ChromaExpVanilla
         {
             _inst.Clear();
             if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count(); i++)
+                for (var i = 0; i < keyBlocks.Count; i++)
                 {
                     try
                     {
@@ -153,7 +154,7 @@ namespace ChromaExpVanilla
         public Task FrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count(); i++)
+                for (var i = 0; i < keyBlocks.Count; i++)
                 {
                     try
                     {
@@ -174,29 +175,29 @@ namespace ChromaExpVanilla
 
         public Task LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
-            if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count(); i++)
+            if (keyBlocks == null) return Task.CompletedTask;
+            for (var i = 0; i < keyBlocks.Count; i++)
+            {
+                try
                 {
-                    try
-                    {
-                        Thread.Sleep(20);
-                        if (keyBlocks.Count > i)
-                            SetCustom(keyBlocks[i]);
-                        InitiateCustom();
-                        Thread.Sleep(10);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    Thread.Sleep(20);
+                    if (keyBlocks.Count > i)
+                        SetCustom(keyBlocks[i]);
+                    InitiateCustom();
+                    Thread.Sleep(10);
                 }
+                catch
+                {
+                    // ignored
+                }
+            }
 
             return Task.CompletedTask;
         }
 
         public void TimeAnimation()
         {
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 NotificationAnimation(Color.Pink);
             }
@@ -211,7 +212,7 @@ namespace ChromaExpVanilla
         {
             var tempCustom = CustomLayer.Clone();
             var flow = _blocks.AllLetterKeys;
-            for (var i = 0; i < flow.Count(); i++)
+            for (var i = 0; i < flow.Count; i++)
             {
                 try
                 {
@@ -239,21 +240,22 @@ namespace ChromaExpVanilla
         public void ConstantAnimation()
         {
             var tempCustom = CustomLayer.Clone();
-            for (int j = 0; j < Constants.MaxColumns; j++)
+            for (var j = 0; j < Constants.MaxColumns; j++)
             {
-                for (int i = 0; i < Constants.MaxRows; i++)
+                for (var i = 0; i < Constants.MaxRows; i++)
                 {
                     try
                     {
                         Thread.Sleep(10);
-                        _inst[ i,j] = Color.Green;
+                        _inst[i, j] = Color.Green;
                         InitiateCustom();
                     }
                     catch (Exception)
                     {
+                        // ignored
                     }
                 }
-                for (int i = 0; i < Constants.MaxRows; i++)
+                for (var i = 0; i < Constants.MaxRows; i++)
                 {
                     try
                     {
@@ -263,6 +265,7 @@ namespace ChromaExpVanilla
                     }
                     catch (Exception)
                     {
+                        // ignored
                     }
                 }
             }

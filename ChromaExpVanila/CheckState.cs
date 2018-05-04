@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using ChromaExpVanilla.config;
@@ -15,78 +13,76 @@ namespace ChromaExpVanilla
 
         public bool CurrentStateNeeded = true;
 
-
-        public List<EventTypes> States
+        public Action States(KeyControl control)
         {
-            get
+            Action thingsToDo;
+            if (CurrentStateNeeded)
             {
-                var states = new List<EventTypes>();
-                if (CurrentStateNeeded)
-                {
-                    states = GetStates().ToList();
-
-                    CurrentStateNeeded = false;
-                }
-                else
-                {
-                    var tempState = GetIsChangeStates().ToList();
-                    states = tempState.Where(x => x != EventTypes.Normal).ToList();
-                }
-
-                return states;
+                thingsToDo = GetStates(control);
+                CurrentStateNeeded = false;
             }
+            else
+            {
+                thingsToDo = GetIsChangeStates(control);
+                //thingsToDo = thingsToDo.GetInvocationList().Where(x = x.GetMethodInfo().IsPrivate;)
+            }
+            return thingsToDo;
         }
 
-
-        private IEnumerable<EventTypes> GetStates()
+        private Action GetStates(KeyControl control)
         {
-            yield return CheckCaps();
-            yield return CheckNumLock();
-            yield return CheckLang();
+            Action thingsToDo = null;
+            thingsToDo += CheckCaps(control);
+            thingsToDo += CheckNumLock(control);
+            thingsToDo += CheckLang(control);
+            return thingsToDo;
         }
 
-        private IEnumerable<EventTypes> GetIsChangeStates()
+        private Action GetIsChangeStates(KeyControl control)
         {
-            yield return IsCapsChange();
-            yield return IsNumChange();
-            yield return IsLangChange();
+            Action thingsToDo = null;
+
+            thingsToDo += IsCapsChange(control);
+            thingsToDo += IsNumChange(control);
+            thingsToDo += IsLangChange(control);
+            return thingsToDo;
         }
 
-        private EventTypes IsCapsChange() =>
-            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? EventTypes.Normal : CheckCaps();
+        private Action IsCapsChange(KeyControl control) =>
+            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? Nothing : CheckCaps(control);
 
-        private EventTypes IsNumChange() =>
-            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? EventTypes.Normal : CheckNumLock();
+        private Action IsNumChange(KeyControl control) =>
+            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? Nothing : CheckNumLock(control);
 
-        private EventTypes IsLangChange() => LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString()
-            ? EventTypes.Normal
-            : CheckLang();
+        private Action IsLangChange(KeyControl control) => LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString()
+            ? Nothing
+            : CheckLang(control);
 
-        private EventTypes CheckCaps()
+        private Action CheckCaps(KeyControl control)
         {
             if (Control.IsKeyLocked(Keys.CapsLock))
             {
                 CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
-                return EventTypes.CapsOn;
+                return control.CapsLockOn;
             }
 
             CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
-            return EventTypes.CapsOff;
+            return control.CapsLockOff;
         }
 
-        private EventTypes CheckNumLock()
+        private Action CheckNumLock(KeyControl control)
         {
             if (Control.IsKeyLocked(Keys.NumLock))
             {
                 NumStatus = Control.IsKeyLocked(Keys.NumLock);
-                return EventTypes.NumLkOn;
+                return control.NumLockOn;
             }
 
             NumStatus = Control.IsKeyLocked(Keys.NumLock);
-            return EventTypes.NumLkOff;
+            return control.NumLockOff;
         }
 
-        private EventTypes CheckLang()
+        private Action CheckLang(KeyControl control)
         {
             Thread.Sleep(250);
             var currentLayout = GetLayout.GetCurrentKeyboardLayout().ToString();
@@ -94,23 +90,23 @@ namespace ChromaExpVanilla
             switch (LangStatus)
             {
                 case "en-US":
-                    return EventTypes.LangEng;
+                    return control.SetEng;
                 case "he-IL":
-                    return EventTypes.LangHeb;
+                    return control.SetHeb;
                 default:
-                    return EventTypes.Normal;
+                    return Nothing;
             }
         }
 
-        private EventTypes StateNeeded()
-        {
-            if (CurrentStateNeeded)
-            {
-                CurrentStateNeeded = false;
-                return EventTypes.CurrentStateNeeded;
-            }
+        //private EventTypes StateNeeded()
+        //{
+        //    if (!CurrentStateNeeded) return EventTypes.Normal;
+        //    CurrentStateNeeded = false;
+        //    return EventTypes.CurrentStateNeeded;
+        //}
 
-            return EventTypes.Normal;
+        public void Nothing()
+        {
         }
     }
 }
