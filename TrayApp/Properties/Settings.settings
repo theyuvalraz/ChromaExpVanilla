@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TrayApp.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Setting" Type="Corale.Colore.Razer.Keyboard.Key" Scope="Application">
+    <Setting Name="F10" Type="Corale.Colore.Razer.Keyboard.Key" Scope="User">
       <Value Profile="(Default)">F10</Value>
     </Setting>
   </Settings>

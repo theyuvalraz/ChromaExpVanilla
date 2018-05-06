@@ -81,10 +81,10 @@ namespace TrayApp
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var eventsType = (List<EventTypes>) e.UserState;
-
             try
             {
-                _control.SetCustomKey(Key.F6, Color.Red);
+                //UserSettings settings = new UserSettings();
+                //_control.SetCustomKey(settings.TKey, Color.Red);
                 _executor.StateHandler(eventsType, _control).Invoke();
             }
             catch (Exception)
@@ -137,6 +137,7 @@ namespace TrayApp
                 backgroundWorker.RunWorkerAsync();
             }
             t.Start();
+            //new UserSettings().changeTo8();
         }
 
         private bool OnDisabled()
