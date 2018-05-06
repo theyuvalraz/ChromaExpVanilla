@@ -24,7 +24,6 @@ namespace ChromaExpVanilla
             else
             {
                 thingsToDo = GetIsChangeStates(control);
-                //thingsToDo = thingsToDo.GetInvocationList().Where(x = x.GetMethodInfo().IsPrivate;)
             }
             return thingsToDo;
         }
@@ -49,13 +48,13 @@ namespace ChromaExpVanilla
         }
 
         private Action IsCapsChange(KeyControl control) =>
-            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? Nothing : CheckCaps(control);
+            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? null : CheckCaps(control);
 
         private Action IsNumChange(KeyControl control) =>
-            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? Nothing : CheckNumLock(control);
+            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? null : CheckNumLock(control);
 
         private Action IsLangChange(KeyControl control) => LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString()
-            ? Nothing
+            ? null
             : CheckLang(control);
 
         private Action CheckCaps(KeyControl control)
@@ -94,7 +93,7 @@ namespace ChromaExpVanilla
                 case "he-IL":
                     return control.SetHeb;
                 default:
-                    return Nothing;
+                    return null;
             }
         }
 
@@ -105,8 +104,5 @@ namespace ChromaExpVanilla
         //    return EventTypes.CurrentStateNeeded;
         //}
 
-        public void Nothing()
-        {
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
@@ -25,11 +26,22 @@ namespace TrayApp
 
         private readonly TimeControl _timeControl = new TimeControl();
 
-        readonly BackgroundWorker _backgroundWorker = new BackgroundWorker
+        private readonly Stack<BackgroundWorker> _backgroundWorkerStack = new Stack<BackgroundWorker>();
+
+
+        private void AddbackgroundWorker()
         {
-            WorkerReportsProgress = true,
-            WorkerSupportsCancellation = true
-        };
+            _backgroundWorkerStack.Push(new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                }
+            );
+        }
+        private void RemovebackgroundWorkers()
+        {
+            _backgroundWorkerStack.Clear();
+        }
 
         public Magic()
         {
@@ -57,10 +69,10 @@ namespace TrayApp
             await _control.SetColorBase();
 
             _control.InitiateCustom();
-
-            _backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
-            _backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
-            _backgroundWorker.RunWorkerAsync();
+            AddbackgroundWorker();
+            _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
+            _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
+            _backgroundWorkerStack.Peek().RunWorkerAsync();
 
             _t = new System.Windows.Forms.Timer
             {
@@ -73,17 +85,17 @@ namespace TrayApp
         }
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
+        {   
             var eventsType = (Action) e.UserState;
+            eventsType?.Invoke();
 
-            try
-            {
-                _control.SetCustomKey(Key.F6, Color.Red);
-                eventsType.Invoke();
-            }
-            catch (Exception)
-            {
-            }
+            //try
+            //{
+            //    _control.SetCustomKey(Key.F6, Color.Red);
+            //}
+            //catch (Exception)
+            //{
+            //}
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -107,46 +119,34 @@ namespace TrayApp
 
         private async void OnRestart(object sender, EventArgs e)
         {
-            _backgroundWorker.CancelAsync();
-            _backgroundWorker.Dispose();
+            foreach (var backgroundWorker in _backgroundWorkerStack)
+            {
+                backgroundWorker.CancelAsync();
+                backgroundWorker.Dispose();
+            }
+
+            RemovebackgroundWorkers();
             await _control.Animation(_blocks.AnimationConcept);
 
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
 
-            if (!_backgroundWorker.IsBusy)
-            {
-                _control.InitiateCustom();
-                _backgroundWorker.RunWorkerAsync();
-            }
-            _t.Start();
-            this.OnRestart2(this, EventArgs.Empty);
-        }
-        private void OnRestart2(object sender, EventArgs e)
-        {
 
-            if (!_backgroundWorker.IsBusy)
-            {
-                _control.InitiateCustom();
-                _backgroundWorker.RunWorkerAsync();
-            }
+            AddbackgroundWorker();
+            _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
+            _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
+            _backgroundWorkerStack.Peek().RunWorkerAsync();
             _t.Start();
         }
+
 
         private bool OnDisabled()
         {
-            _backgroundWorker.CancelAsync();
+            _backgroundWorkerStack.Peek().CancelAsync();
             
             return true;
         }
 
-        private void OnEnabled(object sender, EventArgs e)
-        {
-        }
-
-        private void OnShowed(object sender, EventArgs e)
-        {
-        }
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
