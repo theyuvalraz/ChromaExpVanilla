@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrayApp
 {
@@ -12,12 +8,12 @@ namespace TrayApp
         {
             if (minute <= 0)
                 minute = 60;
-            DateTime now = DateTime.Now;
+            var now = DateTime.Now;
 
-            DateTime future = now.AddMinutes((minute - (now.Minute % minute))).AddSeconds(now.Second * -1)
+            var future = now.AddMinutes((minute - (now.Minute % minute))).AddSeconds(now.Second * -1)
                 .AddMilliseconds(now.Millisecond * -1);
 
-            TimeSpan interval = future - now;
+            var interval = future - now;
 
             return (int) interval.TotalMilliseconds;
         }

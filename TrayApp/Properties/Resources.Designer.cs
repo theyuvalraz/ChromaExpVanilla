@@ -39,7 +39,7 @@ namespace TrayApp.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TrayApp.Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("TrayApp.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -74,7 +74,7 @@ namespace TrayApp.Properties {
         /// </summary>
         internal static System.Drawing.Icon Y {
             get {
-                object obj = ResourceManager.GetObject("Y", resourceCulture);
+                var obj = ResourceManager.GetObject("Y", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

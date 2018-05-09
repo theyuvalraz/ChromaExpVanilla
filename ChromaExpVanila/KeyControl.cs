@@ -16,6 +16,7 @@ namespace ChromaExpVanilla
         private readonly IKeyboard _inst = Keyboard.Instance;
         private const uint BaseColor = 0x404040;
         public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
+
         public void InitiateCustom()
         {
             _inst.SetCustom(CustomLayer);
@@ -94,7 +95,7 @@ namespace ChromaExpVanilla
         public void NumLockOff()
         {
             Thread.Sleep(10);
-            foreach (ColoredKey coloredKey in _blocks.AltNumPad)
+            foreach (var coloredKey in _blocks.AltNumPad)
             {
                 _inst.SetKey(coloredKey.Key, coloredKey.Color);
             }
@@ -120,31 +121,24 @@ namespace ChromaExpVanilla
         {
             _inst.Clear();
             if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count(); i++)
+                for (var i = 0; i < keyBlocks.Count; i++)
                 {
-                    try
-                    {
+
                         Thread.Sleep(40 - i);
                         if (keyBlocks.Count > i)
                             _inst.SetKeys(new List<Key>(keyBlocks[i].Select(x => x.Key).ToList()), Color.Red);
                         Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 1)
+                        if (keyBlocks.Count > i - 1 && i-1 >= 0)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 1].Select(x => x.Key).ToList()), Color.Orange);
                         Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 2)
+                        if (keyBlocks.Count > i - 2 && i - 2 >= 0)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 2].Select(x => x.Key).ToList()), Color.Green);
                         Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 3)
+                        if (keyBlocks.Count > i - 3 && i - 3 >= 0)
                             _inst?.SetKeys(new List<Key>(keyBlocks[i - 3].Select(x => x.Key).ToList()), Color.Yellow);
                         Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 4)
-                            _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()),
-                                Color.White);
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
+                        if (keyBlocks.Count > i -4 && i - 4 >= 0)
+                            _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
                 }
 
             return Task.CompletedTask;
@@ -153,20 +147,16 @@ namespace ChromaExpVanilla
         public Task FrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count(); i++)
+                for (var i = 0; i < keyBlocks.Count; i++)
                 {
-                    try
-                    {
+
                         Thread.Sleep(100);
                         if (keyBlocks.Count > i)
                             SetCustom(keyBlocks[i]);
                         InitiateCustom();
                         Thread.Sleep(10);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+
+
                 }
 
             return Task.CompletedTask;
@@ -174,29 +164,24 @@ namespace ChromaExpVanilla
 
         public Task LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
-            if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count(); i++)
-                {
-                    try
-                    {
-                        Thread.Sleep(20);
-                        if (keyBlocks.Count > i)
-                            SetCustom(keyBlocks[i]);
-                        InitiateCustom();
-                        Thread.Sleep(10);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
+            if (keyBlocks == null) return Task.CompletedTask;
+            for (var i = 0; i < keyBlocks.Count; i++)
+            {
+
+                    Thread.Sleep(20);
+                    if (keyBlocks.Count > i)
+                        SetCustom(keyBlocks[i]);
+                    InitiateCustom();
+                    Thread.Sleep(10);
+
+            }
 
             return Task.CompletedTask;
         }
 
         public void TimeAnimation()
         {
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 NotificationAnimation(Color.Pink);
             }
@@ -211,7 +196,7 @@ namespace ChromaExpVanilla
         {
             var tempCustom = CustomLayer.Clone();
             var flow = _blocks.AllLetterKeys;
-            for (var i = 0; i < flow.Count(); i++)
+            for (var i = 0; i < flow.Count; i++)
             {
                 try
                 {
@@ -239,21 +224,22 @@ namespace ChromaExpVanilla
         public void ConstantAnimation()
         {
             var tempCustom = CustomLayer.Clone();
-            for (int j = 0; j < Constants.MaxColumns; j++)
+            for (var j = 0; j < Constants.MaxColumns; j++)
             {
-                for (int i = 0; i < Constants.MaxRows; i++)
+                for (var i = 0; i < Constants.MaxRows; i++)
                 {
                     try
                     {
                         Thread.Sleep(10);
-                        _inst[ i,j] = Color.Green;
+                        _inst[i, j] = Color.Green;
                         InitiateCustom();
                     }
                     catch (Exception)
                     {
+                        // ignored
                     }
                 }
-                for (int i = 0; i < Constants.MaxRows; i++)
+                for (var i = 0; i < Constants.MaxRows; i++)
                 {
                     try
                     {
@@ -263,6 +249,7 @@ namespace ChromaExpVanilla
                     }
                     catch (Exception)
                     {
+                        // ignored
                     }
                 }
             }

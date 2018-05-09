@@ -62,15 +62,14 @@
     <Compile Include="config\ColoredKey.cs" />
     <Compile Include="config\GetLayout.cs" />
     <Compile Include="config\KeyBlocks.cs" />
-    <Compile Include="EventTypes.cs" />
-    <Compile Include="Executer.cs" />
     <Compile Include="KeyControl.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

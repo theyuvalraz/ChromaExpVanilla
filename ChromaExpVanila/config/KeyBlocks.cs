@@ -1343,7 +1343,6 @@ namespace ChromaExpVanilla.config
                 new ColoredKey(Key.A, Color.Red),
                 new ColoredKey(Key.Q, Color.Orange),
                 new ColoredKey(Key.Logo, Color.Red),
-
             },
         };
 
@@ -1423,7 +1422,6 @@ namespace ChromaExpVanilla.config
             {
                 new ColoredKey(Key.OemBackslash, Color.Orange),
                 new ColoredKey(Key.Logo, Color.FromRgb(0x47E10C)),
-
             },
         };
     }

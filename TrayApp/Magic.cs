@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla;
 using ChromaExpVanilla.config;
 using Corale.Colore.Razer.Keyboard;
-using TrayApp.Properties;
 using CheckState = ChromaExpVanilla.CheckState;
 using Color = Corale.Colore.Core.Color;
 
@@ -18,24 +14,34 @@ namespace TrayApp
 {
     public partial class Magic
     {
-        const int CHECK_INTERVAL = 30;
-        static System.Windows.Forms.Timer t;
+        private const int CheckInterval = 30;
+        static System.Windows.Forms.Timer _t;
 
-        private NotifyIcon sysTrayIcon;
+        private NotifyIcon _sysTrayIcon;
 
         private readonly KeyControl _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
-        private readonly Executor _executor = new Executor();
 
-        private string tooltip = String.Empty;
+        private string _tooltip = string.Empty;
 
-        private TimeControl timeControl = new TimeControl();
+        private readonly TimeControl _timeControl = new TimeControl();
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker
+        private readonly Stack<BackgroundWorker> _backgroundWorkerStack = new Stack<BackgroundWorker>();
+
+
+        private void AddbackgroundWorker()
         {
-            WorkerReportsProgress = true,
-            WorkerSupportsCancellation = true
-        };
+            _backgroundWorkerStack.Push(new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                }
+            );
+        }
+        private void RemovebackgroundWorkers()
+        {
+            _backgroundWorkerStack.Clear();
+        }
 
         public Magic()
         {
@@ -50,12 +56,12 @@ namespace TrayApp
             sysTrayMenu.MenuItems.Add("Restart Indicator", OnRestart);
             sysTrayMenu.MenuItems.Add("Exit", OnExit);
 
-            sysTrayIcon = new NotifyIcon();
-            tooltip = "Chroma Indicator";
-            sysTrayIcon.Text = tooltip;
-            sysTrayIcon.Icon = new Icon(Properties.Resources.Y, 40, 40);
-            sysTrayIcon.ContextMenu = sysTrayMenu;
-            sysTrayIcon.Visible = true;
+            _sysTrayIcon = new NotifyIcon();
+            _tooltip = "Chroma Indicator";
+            _sysTrayIcon.Text = _tooltip;
+            _sysTrayIcon.Icon = new Icon(Properties.Resources.Y, 40, 40);
+            _sysTrayIcon.ContextMenu = sysTrayMenu;
+            _sysTrayIcon.Visible = true;
 
             await _control.Animation(_blocks.AnimationConcept);
             await _control.FrameAnimation(_blocks.AnimationConceptStage2);
@@ -63,33 +69,25 @@ namespace TrayApp
             await _control.SetColorBase();
 
             _control.InitiateCustom();
+            AddbackgroundWorker();
+            _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
+            _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
+            _backgroundWorkerStack.Peek().RunWorkerAsync();
 
-            backgroundWorker.DoWork += BackgroundWorkerOnDoWork;
-            backgroundWorker.ProgressChanged += BackgroundWorkerOnProgressChanged;
-            backgroundWorker.RunWorkerAsync();
-
-            t = new System.Windows.Forms.Timer
+            _t = new System.Windows.Forms.Timer
             {
-                Interval = timeControl.CalculateTimerInterval(CHECK_INTERVAL)
+                Interval = _timeControl.CalculateTimerInterval(CheckInterval)
             };
-            t.Tick += ActivateTimed_Tick;
-            t.Start();
+            _t.Tick += ActivateTimed_Tick;
+            _t.Start();
 
             base.OnLoad(e);
         }
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            var eventsType = (List<EventTypes>) e.UserState;
-            try
-            {
-                //UserSettings settings = new UserSettings();
-                //_control.SetCustomKey(settings.TKey, Color.Red);
-                _executor.StateHandler(eventsType, _control).Invoke();
-            }
-            catch (Exception)
-            {
-            }
+        {   
+            var eventsType = (Action) e.UserState;
+            eventsType?.Invoke();
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -100,74 +98,59 @@ namespace TrayApp
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(50);
-                worker.ReportProgress(checkState.States);
+                worker.ReportProgress(checkState.States( _control));
             }
         }
 
 
         private void OnExit(object sender, EventArgs e)
         {
-            sysTrayIcon.Visible = false;
+            _sysTrayIcon.Visible = false;
             Application.Exit();
         }
 
         private async void OnRestart(object sender, EventArgs e)
         {
-            backgroundWorker.CancelAsync();
-            backgroundWorker.Dispose();
+            foreach (var backgroundWorker in _backgroundWorkerStack)
+            {
+                backgroundWorker.CancelAsync();
+                backgroundWorker.Dispose();
+            }
+
+            RemovebackgroundWorkers();
             await _control.Animation(_blocks.AnimationConcept);
 
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
 
-            if (!backgroundWorker.IsBusy)
-            {
-                _control.InitiateCustom();
-                backgroundWorker.RunWorkerAsync();
-            }
-            t.Start();
-            this.OnRestart2(this, EventArgs.Empty);
+            AddbackgroundWorker();
+            _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
+            _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
+            _backgroundWorkerStack.Peek().RunWorkerAsync();
+            _t.Start();
         }
-        private async void OnRestart2(object sender, EventArgs e)
-        {
 
-            if (!backgroundWorker.IsBusy)
-            {
-                _control.InitiateCustom();
-                backgroundWorker.RunWorkerAsync();
-            }
-            t.Start();
-            //new UserSettings().changeTo8();
-        }
 
         private bool OnDisabled()
         {
-            backgroundWorker.CancelAsync();
-            
+            _backgroundWorkerStack.Peek().CancelAsync();
             return true;
         }
 
-        private void OnEnabled(object sender, EventArgs e)
-        {
-        }
-
-        private void OnShowed(object sender, EventArgs e)
-        {
-        }
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
             _control.TimeAnimation();
-            t.Interval = timeControl.CalculateTimerInterval(CHECK_INTERVAL);
+            _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
     }
 
     public static class BackgroundWorkerExt
     {
-        public static void ReportProgress(this BackgroundWorker self, List<EventTypes> state)
+        public static void ReportProgress(this BackgroundWorker self, Action state)
         {
-            const int DUMMY_PROGRESS = 0;
-            self.ReportProgress(DUMMY_PROGRESS, state);
+            const int dummyProgress = 0;
+            self.ReportProgress(dummyProgress, state);
         }
     }
 }
