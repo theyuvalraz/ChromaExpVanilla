@@ -88,14 +88,6 @@ namespace TrayApp
         {   
             var eventsType = (Action) e.UserState;
             eventsType?.Invoke();
-
-            //try
-            //{
-            //    _control.SetCustomKey(Key.F6, Color.Red);
-            //}
-            //catch (Exception)
-            //{
-            //}
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -131,7 +123,6 @@ namespace TrayApp
             _control.CustomLayer.Clear();
             await _control.SetColorBase();
 
-
             AddbackgroundWorker();
             _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
             _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
@@ -143,7 +134,6 @@ namespace TrayApp
         private bool OnDisabled()
         {
             _backgroundWorkerStack.Peek().CancelAsync();
-            
             return true;
         }
 
