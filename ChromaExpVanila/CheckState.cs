@@ -25,6 +25,7 @@ namespace ChromaExpVanilla
             {
                 thingsToDo = GetIsChangeStates(control);
             }
+
             return thingsToDo;
         }
 
@@ -103,6 +104,5 @@ namespace ChromaExpVanilla
         //    CurrentStateNeeded = false;
         //    return EventTypes.CurrentStateNeeded;
         //}
-
     }
 }

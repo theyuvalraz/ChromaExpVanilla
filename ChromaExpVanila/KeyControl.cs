@@ -123,22 +123,21 @@ namespace ChromaExpVanilla
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
                 {
-
-                        Thread.Sleep(40 - i);
-                        if (keyBlocks.Count > i)
-                            _inst.SetKeys(new List<Key>(keyBlocks[i].Select(x => x.Key).ToList()), Color.Red);
-                        Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 1 && i-1 >= 0)
-                            _inst?.SetKeys(new List<Key>(keyBlocks[i - 1].Select(x => x.Key).ToList()), Color.Orange);
-                        Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 2 && i - 2 >= 0)
-                            _inst?.SetKeys(new List<Key>(keyBlocks[i - 2].Select(x => x.Key).ToList()), Color.Green);
-                        Thread.Sleep(8);
-                        if (keyBlocks.Count > i - 3 && i - 3 >= 0)
-                            _inst?.SetKeys(new List<Key>(keyBlocks[i - 3].Select(x => x.Key).ToList()), Color.Yellow);
-                        Thread.Sleep(8);
-                        if (keyBlocks.Count > i -4 && i - 4 >= 0)
-                            _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
+                    Thread.Sleep(40 - i);
+                    if (keyBlocks.Count > i)
+                        _inst.SetKeys(new List<Key>(keyBlocks[i].Select(x => x.Key).ToList()), Color.Red);
+                    Thread.Sleep(8);
+                    if (keyBlocks.Count > i - 1 && i - 1 >= 0)
+                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 1].Select(x => x.Key).ToList()), Color.Orange);
+                    Thread.Sleep(8);
+                    if (keyBlocks.Count > i - 2 && i - 2 >= 0)
+                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 2].Select(x => x.Key).ToList()), Color.Green);
+                    Thread.Sleep(8);
+                    if (keyBlocks.Count > i - 3 && i - 3 >= 0)
+                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 3].Select(x => x.Key).ToList()), Color.Yellow);
+                    Thread.Sleep(8);
+                    if (keyBlocks.Count > i - 4 && i - 4 >= 0)
+                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
                 }
 
             return Task.CompletedTask;
@@ -149,14 +148,11 @@ namespace ChromaExpVanilla
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
                 {
-
-                        Thread.Sleep(100);
-                        if (keyBlocks.Count > i)
-                            SetCustom(keyBlocks[i]);
-                        InitiateCustom();
-                        Thread.Sleep(10);
-
-
+                    Thread.Sleep(100);
+                    if (keyBlocks.Count > i)
+                        SetCustom(keyBlocks[i]);
+                    InitiateCustom();
+                    Thread.Sleep(10);
                 }
 
             return Task.CompletedTask;
@@ -167,13 +163,11 @@ namespace ChromaExpVanilla
             if (keyBlocks == null) return Task.CompletedTask;
             for (var i = 0; i < keyBlocks.Count; i++)
             {
-
-                    Thread.Sleep(20);
-                    if (keyBlocks.Count > i)
-                        SetCustom(keyBlocks[i]);
-                    InitiateCustom();
-                    Thread.Sleep(10);
-
+                Thread.Sleep(20);
+                if (keyBlocks.Count > i)
+                    SetCustom(keyBlocks[i]);
+                InitiateCustom();
+                Thread.Sleep(10);
             }
 
             return Task.CompletedTask;
@@ -239,6 +233,7 @@ namespace ChromaExpVanilla
                         // ignored
                     }
                 }
+
                 for (var i = 0; i < Constants.MaxRows; i++)
                 {
                     try
@@ -253,6 +248,7 @@ namespace ChromaExpVanilla
                     }
                 }
             }
+
             SetBase();
             InitiateCustom(tempCustom);
         }

@@ -6,9 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using ChromaExpVanilla;
 using ChromaExpVanilla.config;
-using Corale.Colore.Razer.Keyboard;
 using CheckState = ChromaExpVanilla.CheckState;
-using Color = Corale.Colore.Core.Color;
 
 namespace TrayApp
 {
@@ -38,6 +36,7 @@ namespace TrayApp
                 }
             );
         }
+
         private void RemovebackgroundWorkers()
         {
             _backgroundWorkerStack.Clear();
@@ -85,7 +84,7 @@ namespace TrayApp
         }
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
-        {   
+        {
             var eventsType = (Action) e.UserState;
             eventsType?.Invoke();
         }
@@ -98,7 +97,7 @@ namespace TrayApp
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(50);
-                worker.ReportProgress(checkState.States( _control));
+                worker.ReportProgress(checkState.States(_control));
             }
         }
 
