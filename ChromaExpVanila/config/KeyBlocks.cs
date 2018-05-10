@@ -1,56 +1,71 @@
 ﻿using System.Collections.Generic;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
-
+using System.Configuration;
 namespace ChromaExpVanilla.config
 {
-    public class KeyBlocks
+    
+    public class KeyBlocks : ApplicationSettingsBase
     {
+        private static readonly Color HebrewColor = Color.FromRgb(0xff1900);
+        private static readonly Color HebrewAltColor = Color.FromRgb(0x00ffff);
+        private static readonly Color EnglishAltColor = Color.FromRgb(0x9000ff);
+        private static readonly Color EnglishColor = Color.FromRgb(0x24a504);
+        private static readonly Color UselessKeysColor = Color.Black;
+        private static readonly Color UsefulKeysColor = Color.FromRgb(0xa100ff);
+        private static readonly Color TopNumberNormalColor = Color.FromRgb(0x00008B);
+        private static readonly Color NumpadNormalColor = Color.FromRgb(0x24a504);
+
+        private static readonly Color MiscSet1 = Color.Orange;
+        private static readonly Color MiscSet2 = Color.Blue;
+        private static readonly Color MiscSet3 = Color.White;
+        private static readonly Color MiscSet4 = Color.Red;
+        private static readonly Color MiscSet5 = Color.Yellow;
+
         public List<ColoredKey> MiscColoredKeys = new List<ColoredKey>()
         {
-            new ColoredKey(Key.Macro1, Color.Orange),
-            new ColoredKey(Key.Macro2, Color.Blue),
-            new ColoredKey(Key.Macro3, Color.Orange),
-            new ColoredKey(Key.Macro4, Color.Black),
-            new ColoredKey(Key.Macro5, Color.White),
-            new ColoredKey(Key.F3, Color.White),
-            new ColoredKey(Key.PrintScreen, Color.Blue),
-            new ColoredKey(Key.Scroll, Color.Red),
-            new ColoredKey(Key.NumEnter, Color.Orange),
-            new ColoredKey(Key.Backspace, Color.Orange),
-            new ColoredKey(Key.OemTilde, Color.Orange),
-            new ColoredKey(Key.Delete, Color.Orange),
-            new ColoredKey(Key.Pause, Color.Yellow),
-            new ColoredKey(Key.Insert, Color.Red),
+            new ColoredKey(Key.Macro1, MiscSet1),
+            new ColoredKey(Key.Macro2, MiscSet2),
+            new ColoredKey(Key.Macro3, MiscSet1),
+            new ColoredKey(Key.Macro5, MiscSet3),
+            new ColoredKey(Key.F3, MiscSet3),
+            new ColoredKey(Key.PrintScreen, MiscSet2),
+            new ColoredKey(Key.Scroll, MiscSet4),
+            new ColoredKey(Key.NumEnter, MiscSet1),
+            new ColoredKey(Key.Backspace, MiscSet1),
+            new ColoredKey(Key.OemTilde, MiscSet1),
+            new ColoredKey(Key.Delete, MiscSet1),
+            new ColoredKey(Key.Pause, MiscSet5),
+            new ColoredKey(Key.Insert, MiscSet4),
         };
 
         public List<ColoredKey> UsefulKeys = new List<ColoredKey>
         {
-            new ColoredKey(Key.Enter),
-            new ColoredKey(Key.Home),
-            new ColoredKey(Key.End),
-            new ColoredKey(Key.F12),
-            new ColoredKey(Key.F7),
-            new ColoredKey(Key.F2),
-            new ColoredKey(Key.F5),
-            new ColoredKey(Key.PageUp),
-            new ColoredKey(Key.PageDown)
+            new ColoredKey(Key.Enter, UsefulKeysColor),
+            new ColoredKey(Key.Home, UsefulKeysColor),
+            new ColoredKey(Key.End, UsefulKeysColor),
+            new ColoredKey(Key.F12, UsefulKeysColor),
+            new ColoredKey(Key.F7, UsefulKeysColor),
+            new ColoredKey(Key.F2, UsefulKeysColor),
+            new ColoredKey(Key.F5, UsefulKeysColor),
+            new ColoredKey(Key.PageUp, UsefulKeysColor),
+            new ColoredKey(Key.PageDown, UsefulKeysColor)
         };
 
         public List<ColoredKey> NumberKeys = new List<ColoredKey>
         {
-            new ColoredKey(Key.D1),
-            new ColoredKey(Key.D2),
-            new ColoredKey(Key.D3),
-            new ColoredKey(Key.D4),
-            new ColoredKey(Key.D5),
-            new ColoredKey(Key.D6),
-            new ColoredKey(Key.D7),
-            new ColoredKey(Key.D8),
-            new ColoredKey(Key.D9),
-            new ColoredKey(Key.D0),
-            new ColoredKey(Key.OemMinus),
-            new ColoredKey(Key.OemEquals),
+            new ColoredKey(Key.D1,TopNumberNormalColor),
+            new ColoredKey(Key.D2,TopNumberNormalColor),
+            new ColoredKey(Key.D3,TopNumberNormalColor),
+            new ColoredKey(Key.D4,TopNumberNormalColor),
+            new ColoredKey(Key.D5,TopNumberNormalColor),
+            new ColoredKey(Key.D6,TopNumberNormalColor),
+            new ColoredKey(Key.D7,TopNumberNormalColor),
+            new ColoredKey(Key.D8,TopNumberNormalColor),
+            new ColoredKey(Key.D9,TopNumberNormalColor),
+            new ColoredKey(Key.D0,TopNumberNormalColor),
+            new ColoredKey(Key.OemMinus,TopNumberNormalColor),
+            new ColoredKey(Key.OemEquals,TopNumberNormalColor),
         };
 
         public List<ColoredKey> AllLetterKeys = new List<ColoredKey>
@@ -98,85 +113,85 @@ namespace ChromaExpVanilla.config
 
         public List<ColoredKey> EngKeys = new List<ColoredKey>
         {
-            new ColoredKey(Key.Q),
-            new ColoredKey(Key.W),
-            new ColoredKey(Key.E),
-            new ColoredKey(Key.R),
-            new ColoredKey(Key.T),
-            new ColoredKey(Key.Y),
-            new ColoredKey(Key.U),
-            new ColoredKey(Key.I),
-            new ColoredKey(Key.O),
-            new ColoredKey(Key.P),
-            new ColoredKey(Key.A),
-            new ColoredKey(Key.S),
-            new ColoredKey(Key.D),
-            new ColoredKey(Key.F),
-            new ColoredKey(Key.G),
-            new ColoredKey(Key.H),
-            new ColoredKey(Key.J),
-            new ColoredKey(Key.K),
-            new ColoredKey(Key.L),
-            new ColoredKey(Key.Z),
-            new ColoredKey(Key.X),
-            new ColoredKey(Key.C),
-            new ColoredKey(Key.V),
-            new ColoredKey(Key.B),
-            new ColoredKey(Key.N),
-            new ColoredKey(Key.M),
-            new ColoredKey(Key.Space)
+            new ColoredKey(Key.Q,EnglishColor),
+            new ColoredKey(Key.W,EnglishColor),
+            new ColoredKey(Key.E,EnglishColor),
+            new ColoredKey(Key.R,EnglishColor),
+            new ColoredKey(Key.T,EnglishColor),
+            new ColoredKey(Key.Y,EnglishColor),
+            new ColoredKey(Key.U,EnglishColor),
+            new ColoredKey(Key.I,EnglishColor),
+            new ColoredKey(Key.O,EnglishColor),
+            new ColoredKey(Key.P,EnglishColor),
+            new ColoredKey(Key.A,EnglishColor),
+            new ColoredKey(Key.S,EnglishColor),
+            new ColoredKey(Key.D,EnglishColor),
+            new ColoredKey(Key.F,EnglishColor),
+            new ColoredKey(Key.G,EnglishColor),
+            new ColoredKey(Key.H,EnglishColor),
+            new ColoredKey(Key.J,EnglishColor),
+            new ColoredKey(Key.K,EnglishColor),
+            new ColoredKey(Key.L,EnglishColor),
+            new ColoredKey(Key.Z,EnglishColor),
+            new ColoredKey(Key.X,EnglishColor),
+            new ColoredKey(Key.C,EnglishColor),
+            new ColoredKey(Key.V,EnglishColor),
+            new ColoredKey(Key.B,EnglishColor),
+            new ColoredKey(Key.N,EnglishColor),
+            new ColoredKey(Key.M,EnglishColor),
+            new ColoredKey(Key.Space,EnglishColor)
         };
 
         public List<ColoredKey> EngKeysOther = new List<ColoredKey>
         {
-            new ColoredKey(Key.OemLeftBracket),
-            new ColoredKey(Key.OemRightBracket),
-            new ColoredKey(Key.OemSemicolon),
-            new ColoredKey(Key.OemApostrophe),
-            new ColoredKey(Key.OemComma),
-            new ColoredKey(Key.OemPeriod),
-            new ColoredKey(Key.OemSlash),
-            new ColoredKey(Key.OemBackslash)
+            new ColoredKey(Key.OemLeftBracket,EnglishAltColor),
+            new ColoredKey(Key.OemRightBracket,EnglishAltColor),
+            new ColoredKey(Key.OemSemicolon,EnglishAltColor),
+            new ColoredKey(Key.OemApostrophe,EnglishAltColor),
+            new ColoredKey(Key.OemComma,EnglishAltColor),
+            new ColoredKey(Key.OemPeriod,EnglishAltColor),
+            new ColoredKey(Key.OemSlash,EnglishAltColor),
+            new ColoredKey(Key.OemBackslash,EnglishAltColor)
         };
 
         public List<ColoredKey> HebKeys = new List<ColoredKey>
         {
-            new ColoredKey(Key.E),
-            new ColoredKey(Key.R),
-            new ColoredKey(Key.T),
-            new ColoredKey(Key.Y),
-            new ColoredKey(Key.U),
-            new ColoredKey(Key.I),
-            new ColoredKey(Key.O),
-            new ColoredKey(Key.P),
-            new ColoredKey(Key.A),
-            new ColoredKey(Key.S),
-            new ColoredKey(Key.D),
-            new ColoredKey(Key.F),
-            new ColoredKey(Key.G),
-            new ColoredKey(Key.H),
-            new ColoredKey(Key.J),
-            new ColoredKey(Key.K),
-            new ColoredKey(Key.L),
-            new ColoredKey(Key.OemSemicolon),
-            new ColoredKey(Key.Z),
-            new ColoredKey(Key.X),
-            new ColoredKey(Key.C),
-            new ColoredKey(Key.V),
-            new ColoredKey(Key.B),
-            new ColoredKey(Key.N),
-            new ColoredKey(Key.M),
-            new ColoredKey(Key.OemComma),
-            new ColoredKey(Key.OemPeriod),
-            new ColoredKey(Key.Space)
+            new ColoredKey(Key.E,HebrewColor),
+            new ColoredKey(Key.R,HebrewColor),
+            new ColoredKey(Key.T,HebrewColor),
+            new ColoredKey(Key.Y,HebrewColor),
+            new ColoredKey(Key.U,HebrewColor),
+            new ColoredKey(Key.I,HebrewColor),
+            new ColoredKey(Key.O,HebrewColor),
+            new ColoredKey(Key.P,HebrewColor),
+            new ColoredKey(Key.A,HebrewColor),
+            new ColoredKey(Key.S,HebrewColor),
+            new ColoredKey(Key.D,HebrewColor),
+            new ColoredKey(Key.F,HebrewColor),
+            new ColoredKey(Key.G,HebrewColor),
+            new ColoredKey(Key.H,HebrewColor),
+            new ColoredKey(Key.J,HebrewColor),
+            new ColoredKey(Key.K,HebrewColor),
+            new ColoredKey(Key.L,HebrewColor),
+            new ColoredKey(Key.OemSemicolon,HebrewColor),
+            new ColoredKey(Key.Z,HebrewColor),
+            new ColoredKey(Key.X,HebrewColor),
+            new ColoredKey(Key.C,HebrewColor),
+            new ColoredKey(Key.V,HebrewColor),
+            new ColoredKey(Key.B,HebrewColor),
+            new ColoredKey(Key.N,HebrewColor),
+            new ColoredKey(Key.M,HebrewColor),
+            new ColoredKey(Key.OemComma,HebrewColor),
+            new ColoredKey(Key.OemPeriod,HebrewColor),
+            new ColoredKey(Key.Space,HebrewColor)
         };
 
         public List<ColoredKey> HebKeysOther = new List<ColoredKey>
         {
-            new ColoredKey(Key.Q),
-            new ColoredKey(Key.W),
-            new ColoredKey(Key.OemApostrophe),
-            new ColoredKey(Key.OemSlash),
+            new ColoredKey(Key.Q,HebrewAltColor),
+            new ColoredKey(Key.W,HebrewAltColor),
+            new ColoredKey(Key.OemApostrophe,HebrewAltColor),
+            new ColoredKey(Key.OemSlash,HebrewAltColor),
         };
 
         public List<ColoredKey> CapsLk = new List<ColoredKey>
@@ -186,27 +201,29 @@ namespace ChromaExpVanilla.config
 
         public List<ColoredKey> UselessKeys = new List<ColoredKey>
         {
-            new ColoredKey(Key.F4),
-            new ColoredKey(Key.F6),
-            new ColoredKey(Key.F8),
-            new ColoredKey(Key.F10),
-            new ColoredKey(Key.RightMenu)
+            new ColoredKey(Key.F4, UselessKeysColor),
+            new ColoredKey(Key.F6,UselessKeysColor),
+            new ColoredKey(Key.F8,UselessKeysColor),
+            new ColoredKey(Key.F10,UselessKeysColor),
+            new ColoredKey(Key.RightMenu,UselessKeysColor),
+            new ColoredKey(Key.Macro4, UselessKeysColor),
+
         };
 
         public List<ColoredKey> Numpad = new List<ColoredKey>
         {
-            new ColoredKey(Key.Num0),
-            new ColoredKey(Key.Num1),
-            new ColoredKey(Key.Num2),
-            new ColoredKey(Key.Num3),
-            new ColoredKey(Key.Num4),
-            new ColoredKey(Key.Num5),
-            new ColoredKey(Key.Num6),
-            new ColoredKey(Key.Num7),
-            new ColoredKey(Key.Num8),
-            new ColoredKey(Key.Num9),
-            new ColoredKey(Key.NumDecimal),
-            new ColoredKey(Key.NumLock)
+            new ColoredKey(Key.Num0,NumpadNormalColor),
+            new ColoredKey(Key.Num1,NumpadNormalColor),
+            new ColoredKey(Key.Num2,NumpadNormalColor),
+            new ColoredKey(Key.Num3,NumpadNormalColor),
+            new ColoredKey(Key.Num4,NumpadNormalColor),
+            new ColoredKey(Key.Num5,NumpadNormalColor),
+            new ColoredKey(Key.Num6,NumpadNormalColor),
+            new ColoredKey(Key.Num7,NumpadNormalColor),
+            new ColoredKey(Key.Num8,NumpadNormalColor),
+            new ColoredKey(Key.Num9,NumpadNormalColor),
+            new ColoredKey(Key.NumDecimal,NumpadNormalColor),
+            new ColoredKey(Key.NumLock,NumpadNormalColor)
         };
 
         public List<ColoredKey> AltNumPad = new List<ColoredKey>
@@ -1280,69 +1297,77 @@ namespace ChromaExpVanilla.config
         {
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.OemApostrophe, Color.Orange),
-                new ColoredKey(Key.OemSlash, Color.Orange)
+                new ColoredKey(Key.OemRightBracket, HebrewAltColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.P, Color.Red),
-                new ColoredKey(Key.OemSemicolon, Color.Red),
-                new ColoredKey(Key.OemPeriod, Color.Red)
+                new ColoredKey(Key.OemLeftBracket, HebrewAltColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.O, Color.Red),
-                new ColoredKey(Key.L, Color.Red),
-                new ColoredKey(Key.OemComma, Color.Red),
+                new ColoredKey(Key.OemApostrophe, HebrewAltColor),
+                new ColoredKey(Key.OemSlash, HebrewAltColor)
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.I, Color.Red),
-                new ColoredKey(Key.K, Color.Red),
-                new ColoredKey(Key.M, Color.Red),
+                new ColoredKey(Key.P, HebrewColor),
+                new ColoredKey(Key.OemSemicolon, HebrewColor),
+                new ColoredKey(Key.OemPeriod, HebrewColor)
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.U, Color.Red),
-                new ColoredKey(Key.J, Color.Red),
-                new ColoredKey(Key.N, Color.Red),
-                new ColoredKey(Key.Space, Color.Red),
+                new ColoredKey(Key.O, HebrewColor),
+                new ColoredKey(Key.L, HebrewColor),
+                new ColoredKey(Key.OemComma, HebrewColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.Y, Color.Red),
-                new ColoredKey(Key.H, Color.Red),
-                new ColoredKey(Key.B, Color.Red),
+                new ColoredKey(Key.I, HebrewColor),
+                new ColoredKey(Key.K, HebrewColor),
+                new ColoredKey(Key.M, HebrewColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.T, Color.Red),
-                new ColoredKey(Key.G, Color.Red),
-                new ColoredKey(Key.V, Color.Red),
+                new ColoredKey(Key.U, HebrewColor),
+                new ColoredKey(Key.J, HebrewColor),
+                new ColoredKey(Key.N, HebrewColor),
+                new ColoredKey(Key.Space, HebrewColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.R, Color.Red),
-                new ColoredKey(Key.F, Color.Red),
-                new ColoredKey(Key.C, Color.Red),
+                new ColoredKey(Key.Y, HebrewColor),
+                new ColoredKey(Key.H, HebrewColor),
+                new ColoredKey(Key.B, HebrewColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.E, Color.Red),
-                new ColoredKey(Key.D, Color.Red),
-                new ColoredKey(Key.X, Color.Red),
+                new ColoredKey(Key.T, HebrewColor),
+                new ColoredKey(Key.G, HebrewColor),
+                new ColoredKey(Key.V, HebrewColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.W, Color.Orange),
-                new ColoredKey(Key.S, Color.Red),
-                new ColoredKey(Key.Z, Color.Red),
+                new ColoredKey(Key.R, HebrewColor),
+                new ColoredKey(Key.F, HebrewColor),
+                new ColoredKey(Key.C, HebrewColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.A, Color.Red),
-                new ColoredKey(Key.Q, Color.Orange),
-                new ColoredKey(Key.Logo, Color.Red),
+                new ColoredKey(Key.E, HebrewColor),
+                new ColoredKey(Key.D, HebrewColor),
+                new ColoredKey(Key.X, HebrewColor),
+            },
+            new List<ColoredKey>()
+            {
+                new ColoredKey(Key.W, HebrewAltColor),
+                new ColoredKey(Key.S, HebrewColor),
+                new ColoredKey(Key.Z, HebrewColor),
+            },
+            new List<ColoredKey>()
+            {
+                new ColoredKey(Key.A, HebrewColor),
+                new ColoredKey(Key.Q, HebrewAltColor),
+                new ColoredKey(Key.Logo, HebrewColor),
             },
         };
 
@@ -1350,78 +1375,78 @@ namespace ChromaExpVanilla.config
         {
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.A, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.Q, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.Z, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.A, EnglishColor),
+                new ColoredKey(Key.Q, EnglishColor),
+                new ColoredKey(Key.Z, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.W, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.S, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.X, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.W, EnglishColor),
+                new ColoredKey(Key.S, EnglishColor),
+                new ColoredKey(Key.X, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.E, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.D, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.C, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.E, EnglishColor),
+                new ColoredKey(Key.D, EnglishColor),
+                new ColoredKey(Key.C, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.R, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.F, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.V, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.R, EnglishColor),
+                new ColoredKey(Key.F, EnglishColor),
+                new ColoredKey(Key.V, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.T, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.G, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.B, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.Space, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.T, EnglishColor),
+                new ColoredKey(Key.G, EnglishColor),
+                new ColoredKey(Key.B, EnglishColor),
+                new ColoredKey(Key.Space, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.Y, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.H, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.N, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.Y, EnglishColor),
+                new ColoredKey(Key.H, EnglishColor),
+                new ColoredKey(Key.N, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.U, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.J, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.M, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.U, EnglishColor),
+                new ColoredKey(Key.J, EnglishColor),
+                new ColoredKey(Key.M, EnglishColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.I, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.K, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.OemComma, Color.Orange),
+                new ColoredKey(Key.I, EnglishColor),
+                new ColoredKey(Key.K, EnglishColor),
+                new ColoredKey(Key.OemComma, EnglishAltColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.O, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.L, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.OemPeriod, Color.Orange)
+                new ColoredKey(Key.O, EnglishColor),
+                new ColoredKey(Key.L, EnglishColor),
+                new ColoredKey(Key.OemPeriod, EnglishAltColor)
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.P, Color.FromRgb(0x47E10C)),
-                new ColoredKey(Key.OemSemicolon, Color.Orange),
-                new ColoredKey(Key.OemSlash, Color.Orange)
+                new ColoredKey(Key.P, EnglishColor),
+                new ColoredKey(Key.OemSemicolon, EnglishAltColor),
+                new ColoredKey(Key.OemSlash, EnglishAltColor)
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.OemLeftBracket, Color.Orange),
-                new ColoredKey(Key.OemApostrophe, Color.Orange),
+                new ColoredKey(Key.OemLeftBracket, EnglishAltColor),
+                new ColoredKey(Key.OemApostrophe, EnglishAltColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.OemRightBracket, Color.Orange),
+                new ColoredKey(Key.OemRightBracket, EnglishAltColor),
             },
             new List<ColoredKey>()
             {
-                new ColoredKey(Key.OemBackslash, Color.Orange),
-                new ColoredKey(Key.Logo, Color.FromRgb(0x47E10C)),
+                new ColoredKey(Key.OemBackslash, EnglishAltColor),
+                new ColoredKey(Key.Logo, EnglishColor),
             },
         };
     }

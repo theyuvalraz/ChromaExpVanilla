@@ -12,9 +12,10 @@ namespace ChromaExpVanilla
 {
     public class KeyControl
     {
+        
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
-        private const uint BaseColor = 0x404040;
+        private const uint BaseColor = 0x202020;
         public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
 
         public void InitiateCustom()
@@ -37,10 +38,10 @@ namespace ChromaExpVanilla
             _inst.SetAll(BaseColor);
             SetCustom(_blocks.UsefulKeys);
             SetCustom(_blocks.MiscColoredKeys);
-            SetCustom(_blocks.NumberKeys, Color.FromRgb(0x00008B));
+            SetCustom(_blocks.NumberKeys);
 
-            SetCustom(_blocks.UsefulKeys, Color.Pink);
-            SetCustom(_blocks.UselessKeys, Color.Black);
+            SetCustom(_blocks.UsefulKeys);
+            SetCustom(_blocks.UselessKeys);
         }
 
         public void SetCustom(List<ColoredKey> coloredKeyList)
