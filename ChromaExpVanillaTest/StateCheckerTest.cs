@@ -33,7 +33,7 @@ namespace ChromaExpVanillaTest
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where( x => x.Method.Name == "SetEng" ))
             {
-                Console.WriteLine( delegateItem );
+                Console.WriteLine( delegateItem.GetMethodInfo() );
                 Assert.True( delegateItem.GetMethodInfo().Name == "SetEng" );
             }
         }
