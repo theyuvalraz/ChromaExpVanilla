@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using ChromaExpVanilla;
 using ChromaExpVanilla.config;
 using CheckState = ChromaExpVanilla.CheckState;
+using Interfacer.Interfaces;
 
 namespace TrayApp
 {
@@ -18,7 +19,7 @@ namespace TrayApp
 
         private NotifyIcon _sysTrayIcon;
 
-        private readonly KeyControl _control = new KeyControl();
+        private readonly IKeyboardController _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
 
         private string _tooltip = string.Empty;
@@ -64,12 +65,11 @@ namespace TrayApp
             _sysTrayIcon.Visible = true;
 
 
-
             _control.Animation(_blocks.AnimationConcept);
             _control.FrameAnimation(_blocks.AnimationConceptStage2);
 
-            var task = Task.Run( () => _control.CustomLayer.Clear() );
-            await task.ContinueWith( ( t ) => _control.SetColorBase() );
+            var task = Task.Run(() => _control.CustomLayer.Clear());
+            await task.ContinueWith((t) => _control.SetColorBase());
 
             _control.InitiateCustom();
 
@@ -97,7 +97,7 @@ namespace TrayApp
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker) sender;
-            var checkState = new CheckState();
+            IStateChecker checkState = new CheckState();
 
             while (!worker.CancellationPending)
             {

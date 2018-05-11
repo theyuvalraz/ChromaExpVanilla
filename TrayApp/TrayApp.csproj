@@ -107,6 +107,10 @@
       <Project>{4661412f-f9e1-431a-bfa1-6e9f782ce02c}</Project>
       <Name>ChromaExpVanilla</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Interfacer\Interfacer.csproj">
+      <Project>{075228f5-2b3b-42a9-91bd-e88fb048a660}</Project>
+      <Name>Interfacer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

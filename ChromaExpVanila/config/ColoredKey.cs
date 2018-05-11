@@ -1,9 +1,10 @@
 ﻿using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
+using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla.config
 {
-    public class ColoredKey
+    public class ColoredKey : IColoredKey
     {
         public Key Key { get; set; }
         public Color Color { get; set; }

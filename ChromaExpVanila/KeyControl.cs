@@ -7,16 +7,16 @@ using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
+using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla
 {
-    public class KeyControl
+    public class KeyControl : IKeyboardController
     {
-        
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
         private const uint BaseColor = 0x202020;
-        public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
+        public Custom CustomLayer { get; set; } = new Custom(Color.FromRgb(BaseColor));
 
         public void InitiateCustom()
         {
@@ -44,7 +44,7 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.UselessKeys);
         }
 
-        public void SetCustom(List<ColoredKey> coloredKeyList)
+        public void SetCustom(List<IColoredKey> coloredKeyList)
         {
             foreach (var colorKey in coloredKeyList)
             {
@@ -52,7 +52,7 @@ namespace ChromaExpVanilla
             }
         }
 
-        public void SetCustom(List<ColoredKey> keyList, Color color)
+        public void SetCustom(List<IColoredKey> keyList, Color color)
         {
             foreach (var keySetting in keyList)
             {
@@ -63,7 +63,8 @@ namespace ChromaExpVanilla
 
         public void SetCustomKey(Key key, Color color)
         {
-            CustomLayer[key] = color;
+            var customLayer = CustomLayer;
+            customLayer[key] = color;
         }
 
         public void CurrentStateNeeded()
@@ -80,6 +81,7 @@ namespace ChromaExpVanilla
         {
             LangFrameAnimation(_blocks.HebAnimation);
         }
+
 
         public void TopNumChange(Color color)
         {
@@ -116,7 +118,7 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
-        public void Animation(List<List<ColoredKey>> keyBlocks)
+        public void Animation(List<List<IColoredKey>> keyBlocks)
         {
             _inst.Clear();
             if (keyBlocks != null)
@@ -140,7 +142,7 @@ namespace ChromaExpVanilla
                 }
         }
 
-        public void FrameAnimation(List<List<ColoredKey>> keyBlocks)
+        public void FrameAnimation(List<List<IColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
@@ -151,23 +153,22 @@ namespace ChromaExpVanilla
                     InitiateCustom();
                     Thread.Sleep(10);
                 }
-
         }
-        public void LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
+
+        public void LangFrameAnimation(List<List<IColoredKey>> keyBlocks)
         {
-
-                    if (keyBlocks == null) return;
-                    for (var i = 0; i < keyBlocks.Count; i++)
-                    {
-                        Thread.Sleep(20);
-                        if (keyBlocks.Count > i)
-                            SetCustom(keyBlocks[i]);
-                        InitiateCustom();
-                        Thread.Sleep(10);
-                    }
+            if (keyBlocks == null) return;
+            for (var i = 0; i < keyBlocks.Count; i++)
+            {
+                Thread.Sleep(20);
+                if (keyBlocks.Count > i)
+                    SetCustom(keyBlocks[i]);
+                InitiateCustom();
+                Thread.Sleep(10);
+            }
         }
-        
-            public void TimeAnimation()
+
+        public void TimeAnimation()
         {
             for (var i = 0; i < 3; i++)
             {
