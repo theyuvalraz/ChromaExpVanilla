@@ -11,8 +11,8 @@ namespace ChromaExpVanilla
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
-
         public bool CurrentStateNeeded = true;
+        public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
 
         public Action States(IKeyboardController control)
         {
@@ -56,7 +56,7 @@ namespace ChromaExpVanilla
             NumStatus == Control.IsKeyLocked(Keys.NumLock) ? null : CheckNumLock(control);
 
         private Action IsLangChange(IKeyboardController control) =>
-            LangStatus == GetLayout.GetCurrentKeyboardLayout().ToString()
+            LangStatus == KeyboardLayout.GetCurrentKeyboardLayout().ToString()
                 ? null
                 : CheckLang(control);
 
@@ -87,7 +87,7 @@ namespace ChromaExpVanilla
         private Action CheckLang(IKeyboardController control)
         {
             Thread.Sleep(250);
-            var currentLayout = GetLayout.GetCurrentKeyboardLayout().ToString();
+            var currentLayout = KeyboardLayout.GetCurrentKeyboardLayout().ToString();
             LangStatus = currentLayout;
             switch (LangStatus)
             {

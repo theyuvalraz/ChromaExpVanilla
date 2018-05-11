@@ -6,5 +6,7 @@ namespace Interfacer.Interfaces
     public interface IStateChecker
     {
         Action States(IKeyboardController control);
+        IGetKeyboardLayout KeyboardLayout { get; set; }
+
     }
 }

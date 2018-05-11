@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FakeClassesForTests\FakeGetKeyboardLayout.cs" />
     <Compile Include="FakeClassesForTests\FakeKeboardController.cs" />
     <Compile Include="StateCheckerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
