@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla;
 using ChromaExpVanilla.config;
@@ -62,12 +63,16 @@ namespace TrayApp
             _sysTrayIcon.ContextMenu = sysTrayMenu;
             _sysTrayIcon.Visible = true;
 
-            await _control.Animation(_blocks.AnimationConcept);
-            await _control.FrameAnimation(_blocks.AnimationConceptStage2);
-            _control.CustomLayer.Clear();
-            await _control.SetColorBase();
+
+
+            _control.Animation(_blocks.AnimationConcept);
+            _control.FrameAnimation(_blocks.AnimationConceptStage2);
+
+            var task = Task.Run( () => _control.CustomLayer.Clear() );
+            await task.ContinueWith( ( t ) => _control.SetColorBase() );
 
             _control.InitiateCustom();
+
             AddbackgroundWorker();
             _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
             _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
@@ -96,7 +101,7 @@ namespace TrayApp
 
             while (!worker.CancellationPending)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(100);
                 worker.ReportProgress(checkState.States(_control));
             }
         }
@@ -117,7 +122,7 @@ namespace TrayApp
             }
 
             RemovebackgroundWorkers();
-            await _control.Animation(_blocks.AnimationConcept);
+            _control.Animation(_blocks.AnimationConcept);
 
             _control.CustomLayer.Clear();
             await _control.SetColorBase();

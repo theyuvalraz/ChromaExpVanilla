@@ -90,7 +90,6 @@ namespace ChromaExpVanilla
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
-            //TopNumChange(Color.FromRgb(0x00008B));
         }
 
         public void NumLockOff()
@@ -103,7 +102,6 @@ namespace ChromaExpVanilla
 
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
-            //TopNumChange(Color.Green);
         }
 
         public void CapsLockOn()
@@ -118,7 +116,7 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
-        public Task Animation(List<List<ColoredKey>> keyBlocks)
+        public void Animation(List<List<ColoredKey>> keyBlocks)
         {
             _inst.Clear();
             if (keyBlocks != null)
@@ -140,11 +138,9 @@ namespace ChromaExpVanilla
                     if (keyBlocks.Count > i - 4 && i - 4 >= 0)
                         _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
                 }
-
-            return Task.CompletedTask;
         }
 
-        public Task FrameAnimation(List<List<ColoredKey>> keyBlocks)
+        public void FrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
@@ -156,25 +152,22 @@ namespace ChromaExpVanilla
                     Thread.Sleep(10);
                 }
 
-            return Task.CompletedTask;
         }
-
-        public Task LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
+        public void LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
         {
-            if (keyBlocks == null) return Task.CompletedTask;
-            for (var i = 0; i < keyBlocks.Count; i++)
-            {
-                Thread.Sleep(20);
-                if (keyBlocks.Count > i)
-                    SetCustom(keyBlocks[i]);
-                InitiateCustom();
-                Thread.Sleep(10);
-            }
 
-            return Task.CompletedTask;
+                    if (keyBlocks == null) return;
+                    for (var i = 0; i < keyBlocks.Count; i++)
+                    {
+                        Thread.Sleep(20);
+                        if (keyBlocks.Count > i)
+                            SetCustom(keyBlocks[i]);
+                        InitiateCustom();
+                        Thread.Sleep(10);
+                    }
         }
-
-        public void TimeAnimation()
+        
+            public void TimeAnimation()
         {
             for (var i = 0; i < 3; i++)
             {
@@ -182,10 +175,10 @@ namespace ChromaExpVanilla
             }
         }
 
-        public void UserChangeAnimation()
-        {
-            NotificationAnimation(Color.Pink);
-        }
+        //public void UserChangeAnimation()
+        //{
+        //    NotificationAnimation(Color.Pink);
+        //}
 
         public void NotificationAnimation(Color color)
         {
