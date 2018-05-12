@@ -25,7 +25,7 @@ namespace ChromaExpVanilla
             }
             else
             {
-                thingsToDo = GetIsChangeStates(control);
+                thingsToDo = await GetIsChangeStates(control);
             }
 
             return thingsToDo;
@@ -40,27 +40,30 @@ namespace ChromaExpVanilla
             return thingsToDo;
         }
 
-        private Action GetIsChangeStates(IKeyboardController control)
+        private async Task<Action> GetIsChangeStates(IKeyboardController control)
         {
             Action thingsToDo = null;
 
-            thingsToDo += IsCapsChange(control);
-            thingsToDo += IsNumChange(control);
-            thingsToDo += IsLangChange(control).Result;
+            thingsToDo += await IsCapsChange( control);
+            thingsToDo += await IsNumChange( control);
+            thingsToDo += await IsLangChange( control);
             return thingsToDo;
         }
 
-        private Action IsCapsChange(IKeyboardController control) =>
-            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? null : CheckCaps(control);
+        private async Task<Action> IsCapsChange(IKeyboardController control) =>
+            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) 
+            ? null 
+            : await Task.Run( () => CheckCaps( control));
 
-        private Action IsNumChange(IKeyboardController control) =>
-            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? null : CheckNumLock(control);
+        private async Task<Action> IsNumChange(IKeyboardController control) =>
+            NumStatus == Control.IsKeyLocked(Keys.NumLock) 
+            ? null 
+            : await Task.Run( () => CheckNumLock(control));
 
         private async Task<Action> IsLangChange(IKeyboardController control) =>
             LangStatus == KeyboardLayout.GetCurrentKeyboardLayout().ToString()
                 ? null
                 : await Task.Run( ()=> CheckLang(control));
-        //CheckLang(control);
 
         private Action CheckCaps(IKeyboardController control)
         {
@@ -86,7 +89,7 @@ namespace ChromaExpVanilla
 
         private Action CheckLang(IKeyboardController control)
         {
-            Thread.Sleep(250);
+            //Thread.Sleep(250);
             var currentLayout = KeyboardLayout.GetCurrentKeyboardLayout().ToString();
             LangStatus = currentLayout;
             switch (LangStatus)
@@ -99,12 +102,5 @@ namespace ChromaExpVanilla
                     return null;
             }
         }
-
-        //private EventTypes StateNeeded()
-        //{
-        //    if (!CurrentStateNeeded) return EventTypes.Normal;
-        //    CurrentStateNeeded = false;
-        //    return EventTypes.CurrentStateNeeded;
-        //}
     }
 }

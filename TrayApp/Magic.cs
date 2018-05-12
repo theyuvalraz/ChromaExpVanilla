@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +28,7 @@ namespace TrayApp
 
         private readonly TimeControl _timeControl = new TimeControl();
 
-        private readonly Stack<BackgroundWorker> _backgroundWorkerStack = new Stack<BackgroundWorker>();
+        private readonly ConcurrentStack<BackgroundWorker> _backgroundWorkerStack = new ConcurrentStack<BackgroundWorker>();
 
 
         private void AddbackgroundWorker()
@@ -74,9 +76,10 @@ namespace TrayApp
             _control.InitiateCustom();
 
             AddbackgroundWorker();
-            _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
-            _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
-            _backgroundWorkerStack.Peek().RunWorkerAsync();
+            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
+            worker.DoWork += BackgroundWorkerOnDoWork;
+            worker.ProgressChanged += BackgroundWorkerOnProgressChanged;
+            worker.RunWorkerAsync();
 
             _t = new System.Windows.Forms.Timer
             {
@@ -90,8 +93,19 @@ namespace TrayApp
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var eventsType = (Task<Action>) e.UserState;
-            eventsType?.Result?.Invoke();
+            var eventsType = (Action)e.UserState;
+
+            eventsType?.Invoke();
+
+
+            //var eventsType = (Task<Action>) e.UserState;
+            //Action actionsNeeded = () => { };
+            //if (eventsType == null) return;
+            //foreach (var distinctEvent in eventsType?.Result?.GetInvocationList()?.Distinct())
+            //{
+            //    actionsNeeded += (Action) distinctEvent;
+            //}
+            //actionsNeeded?.Invoke();
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -102,7 +116,8 @@ namespace TrayApp
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
-                worker.ReportProgress(checkState.States(_control));
+                var state = checkState?.States( _control );
+                worker.ReportProgress( state );
             }
         }
 
@@ -128,16 +143,18 @@ namespace TrayApp
             await _control.SetColorBase();
 
             AddbackgroundWorker();
-            _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
-            _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
-            _backgroundWorkerStack.Peek().RunWorkerAsync();
+            _backgroundWorkerStack.TryPeek( out BackgroundWorker worker );
+            worker.DoWork += BackgroundWorkerOnDoWork;
+            worker.ProgressChanged += BackgroundWorkerOnProgressChanged;
+            worker.RunWorkerAsync();
             _t.Start();
         }
 
 
         private bool OnDisabled()
         {
-            _backgroundWorkerStack.Peek().CancelAsync();
+            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
+                {worker.CancelAsync();};
             return true;
         }
 
@@ -154,7 +171,7 @@ namespace TrayApp
         public static void ReportProgress(this BackgroundWorker self, Task<Action> state)
         {
             const int dummyProgress = 0;
-            self.ReportProgress(dummyProgress, state);
+            self?.ReportProgress(dummyProgress, state?.Result);
         }
     }
 }
