@@ -97,18 +97,7 @@ namespace TrayApp
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var eventsType = (Action) e.UserState;
-
             eventsType?.Invoke();
-
-
-            //var eventsType = (Task<Action>) e.UserState;
-            //Action actionsNeeded = () => { };
-            //if (eventsType == null) return;
-            //foreach (var distinctEvent in eventsType?.Result?.GetInvocationList()?.Distinct())
-            //{
-            //    actionsNeeded += (Action) distinctEvent;
-            //}
-            //actionsNeeded?.Invoke();
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -122,8 +111,8 @@ namespace TrayApp
                 var state = checkState?.States(_control);
                 worker.ReportProgress(state);
             }
+            worker.CancelAsync();
         }
-
 
         private void OnExit(object sender, EventArgs e)
         {

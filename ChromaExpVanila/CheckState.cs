@@ -89,7 +89,7 @@ namespace ChromaExpVanilla
 
         private Action CheckLang(IKeyboardController control)
         {
-            //Thread.Sleep(250);
+            Thread.Sleep(250);
             var currentLayout = KeyboardLayout.GetCurrentKeyboardLayout().ToString();
             LangStatus = currentLayout;
             switch (LangStatus)

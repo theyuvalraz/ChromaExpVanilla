@@ -20,7 +20,7 @@ namespace ChromaExpVanillaTest
             IStateChecker checker = new CheckState();
             var returnedStateActions = await checker.States(keyboardController);
             returnedStateActions.Invoke();
-            Assert.True(returnedStateActions.GetType() == typeof(Task<Action>));
+            Assert.True(returnedStateActions.GetType() == typeof(Action));
         }
 
         [Test]
