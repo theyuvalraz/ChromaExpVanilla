@@ -28,12 +28,13 @@ namespace TrayApp
 
         private readonly TimeControl _timeControl = new TimeControl();
 
-        private readonly ConcurrentStack<BackgroundWorker> _backgroundWorkerStack = new ConcurrentStack<BackgroundWorker>();
+        private readonly ConcurrentQueue<BackgroundWorker> _backgroundWorkerStack =
+            new ConcurrentQueue<BackgroundWorker>();
 
 
         private void AddbackgroundWorker()
         {
-            _backgroundWorkerStack.Push(new BackgroundWorker
+            _backgroundWorkerStack.Enqueue(new BackgroundWorker
                 {
                     WorkerReportsProgress = true,
                     WorkerSupportsCancellation = true
@@ -43,7 +44,9 @@ namespace TrayApp
 
         private void RemovebackgroundWorkers()
         {
-            _backgroundWorkerStack.Clear();
+            _backgroundWorkerStack.TryDequeue(out BackgroundWorker result);
+            result.CancelAsync();
+            result.Dispose();
         }
 
         public Magic()
@@ -93,7 +96,7 @@ namespace TrayApp
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var eventsType = (Action)e.UserState;
+            var eventsType = (Action) e.UserState;
 
             eventsType?.Invoke();
 
@@ -116,8 +119,8 @@ namespace TrayApp
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
-                var state = checkState?.States( _control );
-                worker.ReportProgress( state );
+                var state = checkState?.States(_control);
+                worker.ReportProgress(state);
             }
         }
 
@@ -130,12 +133,6 @@ namespace TrayApp
 
         private async void OnRestart(object sender, EventArgs e)
         {
-            foreach (var backgroundWorker in _backgroundWorkerStack)
-            {
-                backgroundWorker.CancelAsync();
-                backgroundWorker.Dispose();
-            }
-
             RemovebackgroundWorkers();
             _control.Animation(_blocks.AnimationConcept);
 
@@ -143,7 +140,7 @@ namespace TrayApp
             await _control.SetColorBase();
 
             AddbackgroundWorker();
-            _backgroundWorkerStack.TryPeek( out BackgroundWorker worker );
+            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
             worker.DoWork += BackgroundWorkerOnDoWork;
             worker.ProgressChanged += BackgroundWorkerOnProgressChanged;
             worker.RunWorkerAsync();
@@ -154,7 +151,10 @@ namespace TrayApp
         private bool OnDisabled()
         {
             _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
-                {worker.CancelAsync();};
+            {
+                worker.CancelAsync();
+            }
+            ;
             return true;
         }
 
@@ -162,7 +162,7 @@ namespace TrayApp
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
             _control.TimeAnimation();
-            _t.Interval = _timeControl.CalculateTimerInterval( CheckInterval);
+            _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
     }
 
