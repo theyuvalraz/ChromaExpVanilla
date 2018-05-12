@@ -7,6 +7,5 @@ namespace Interfacer.Interfaces
     {
         Action States(IKeyboardController control);
         IGetKeyboardLayout KeyboardLayout { get; set; }
-
     }
 }
