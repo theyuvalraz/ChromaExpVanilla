@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla.config;
 using Interfacer.Interfaces;
@@ -45,7 +46,7 @@ namespace ChromaExpVanilla
 
             thingsToDo += IsCapsChange(control);
             thingsToDo += IsNumChange(control);
-            thingsToDo += IsLangChange(control);
+            thingsToDo += IsLangChange(control).Result;
             return thingsToDo;
         }
 
@@ -55,20 +56,20 @@ namespace ChromaExpVanilla
         private Action IsNumChange(IKeyboardController control) =>
             NumStatus == Control.IsKeyLocked(Keys.NumLock) ? null : CheckNumLock(control);
 
-        private Action IsLangChange(IKeyboardController control) =>
+        private async Task<Action> IsLangChange(IKeyboardController control) =>
             LangStatus == KeyboardLayout.GetCurrentKeyboardLayout().ToString()
                 ? null
-                : CheckLang(control);
+                : await Task.Run( ()=> CheckLang(control));
+        //CheckLang(control);
 
         private Action CheckCaps(IKeyboardController control)
         {
             if (Control.IsKeyLocked(Keys.CapsLock))
             {
-                CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
+                CapsStatus = true;
                 return control.CapsLockOn;
             }
-
-            CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
+            CapsStatus = false;
             return control.CapsLockOff;
         }
 
@@ -76,11 +77,10 @@ namespace ChromaExpVanilla
         {
             if (Control.IsKeyLocked(Keys.NumLock))
             {
-                NumStatus = Control.IsKeyLocked(Keys.NumLock);
+                NumStatus = true;
                 return control.NumLockOn;
             }
-
-            NumStatus = Control.IsKeyLocked(Keys.NumLock);
+            NumStatus = false;
             return control.NumLockOff;
         }
 
