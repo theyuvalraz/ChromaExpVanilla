@@ -90,8 +90,8 @@ namespace TrayApp
 
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var eventsType = (Action) e.UserState;
-            eventsType?.Invoke();
+            var eventsType = (Task<Action>) e.UserState;
+            eventsType?.Result?.Invoke();
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
@@ -145,13 +145,13 @@ namespace TrayApp
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
             _control.TimeAnimation();
-            _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
+            _t.Interval = _timeControl.CalculateTimerInterval( CheckInterval);
         }
     }
 
     public static class BackgroundWorkerExt
     {
-        public static void ReportProgress(this BackgroundWorker self, Action state)
+        public static void ReportProgress(this BackgroundWorker self, Task<Action> state)
         {
             const int dummyProgress = 0;
             self.ReportProgress(dummyProgress, state);

@@ -15,12 +15,12 @@ namespace ChromaExpVanilla
         public bool CurrentStateNeeded = true;
         public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
 
-        public Action States(IKeyboardController control)
+        public async Task<Action> States(IKeyboardController control)
         {
             Action thingsToDo;
             if (CurrentStateNeeded)
             {
-                thingsToDo = GetStates(control);
+                thingsToDo = await GetStates(control);
                 CurrentStateNeeded = false;
             }
             else
@@ -31,12 +31,12 @@ namespace ChromaExpVanilla
             return thingsToDo;
         }
 
-        private Action GetStates(IKeyboardController control)
+        private async Task<Action> GetStates(IKeyboardController control)
         {
             Action thingsToDo = null;
-            thingsToDo += CheckCaps(control);
-            thingsToDo += CheckNumLock(control);
-            thingsToDo += CheckLang(control);
+            thingsToDo += await Task.Run( () => CheckCaps( control));
+            thingsToDo += await Task.Run( () => CheckNumLock( control));
+            thingsToDo += await Task.Run( () => CheckLang( control ));
             return thingsToDo;
         }
 
