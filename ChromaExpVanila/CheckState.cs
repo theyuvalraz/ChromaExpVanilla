@@ -19,7 +19,7 @@ namespace ChromaExpVanilla
         {
             if (!CurrentStateNeeded) return await GetIsChangeStates(control);
             CurrentStateNeeded = false;
-            return await GetStates( control );
+            return await GetStates(control);
         }
 
         private async Task<Action> GetStates(IKeyboardController control)
@@ -27,7 +27,7 @@ namespace ChromaExpVanilla
             Action thingsToDo = null;
             thingsToDo += await CheckCaps(control);
             thingsToDo += await CheckNumLock(control);
-            thingsToDo += await CheckLang( control);
+            thingsToDo += await CheckLang(control);
             return thingsToDo;
         }
 
@@ -57,7 +57,7 @@ namespace ChromaExpVanilla
 
         private async Task<Action> CheckCaps(IKeyboardController control)
         {
-            if (await Task.Run( () => Control.IsKeyLocked( Keys.CapsLock)))
+            if (await Task.Run(() => Control.IsKeyLocked(Keys.CapsLock)))
             {
                 CapsStatus = true;
                 return control.CapsLockOn;

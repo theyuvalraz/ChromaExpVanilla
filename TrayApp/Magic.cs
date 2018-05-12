@@ -97,7 +97,21 @@ namespace TrayApp
         private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var eventsType = (Action) e.UserState;
-            eventsType?.Invoke();
+            if (eventsType == null) return;
+            //var beginToActAponEvents = eventsType.BeginInvoke(null,null);
+            //eventsType.EndInvoke(beginToActAponEvents);
+            //eventsType?.Invoke();
+
+            foreach (var actionDelegate in eventsType.GetInvocationList())
+            {
+                var lTask = Task.Factory.StartNew(() => actionDelegate.DynamicInvoke());
+                lTask.ContinueWith((i) => { Console.WriteLine(@"Task canceled"); },
+                    TaskContinuationOptions.OnlyOnCanceled);
+                lTask.ContinueWith((i) => { Console.WriteLine(@"Task faulted"); },
+                    TaskContinuationOptions.OnlyOnFaulted);
+                lTask.ContinueWith((i) => { Console.WriteLine(@"Task completion"); },
+                    TaskContinuationOptions.OnlyOnRanToCompletion);
+            }
         }
 
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
