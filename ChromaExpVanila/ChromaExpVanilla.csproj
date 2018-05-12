@@ -62,6 +62,7 @@
     <Compile Include="config\ColoredKey.cs" />
     <Compile Include="config\GetLayout.cs" />
     <Compile Include="config\KeyBlocks.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="KeyControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

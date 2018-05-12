@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChromaExpVanilla;
 using ChromaExpVanilla.config;
-using CheckState = ChromaExpVanilla.CheckState;
 using Interfacer.Interfaces;
+using TrayApp.Properties;
+using static ChromaExpVanilla.KeyControl;
+using CheckState = ChromaExpVanilla.CheckState;
+using Timer = System.Windows.Forms.Timer;
 
 namespace TrayApp
 {
     public partial class Magic
     {
         private const int CheckInterval = 30;
-        static System.Windows.Forms.Timer _t;
+        private static Timer _t;
 
         private NotifyIcon _sysTrayIcon;
 
-        private readonly IKeyboardController _control = new KeyControl();
+        private readonly IKeyboardController _control = Instance;
         private readonly KeyBlocks _blocks = new KeyBlocks();
 
         private string _tooltip = string.Empty;
@@ -30,24 +30,6 @@ namespace TrayApp
 
         private readonly ConcurrentQueue<BackgroundWorker> _backgroundWorkerStack =
             new ConcurrentQueue<BackgroundWorker>();
-
-
-        private void AddbackgroundWorker()
-        {
-            _backgroundWorkerStack.Enqueue(new BackgroundWorker
-                {
-                    WorkerReportsProgress = true,
-                    WorkerSupportsCancellation = true
-                }
-            );
-        }
-
-        private void RemovebackgroundWorkers()
-        {
-            _backgroundWorkerStack.TryDequeue(out BackgroundWorker result);
-            result.CancelAsync();
-            result.Dispose();
-        }
 
         public Magic()
         {
@@ -65,7 +47,7 @@ namespace TrayApp
             _sysTrayIcon = new NotifyIcon();
             _tooltip = "Chroma Indicator";
             _sysTrayIcon.Text = _tooltip;
-            _sysTrayIcon.Icon = new Icon(Properties.Resources.Y, 40, 40);
+            _sysTrayIcon.Icon = new Icon(Resources.Y, 40, 40);
             _sysTrayIcon.ContextMenu = sysTrayMenu;
             _sysTrayIcon.Visible = true;
 
@@ -74,17 +56,17 @@ namespace TrayApp
             _control.FrameAnimation(_blocks.AnimationConceptStage2);
 
             var task = Task.Run(() => _control.CustomLayer.Clear());
-            await task.ContinueWith((t) => _control.SetColorBase());
+            await task.ContinueWith(t => _control.SetColorBase());
 
             _control.InitiateCustom();
 
             AddbackgroundWorker();
-            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
+            _backgroundWorkerStack.TryPeek(out var worker);
             worker.DoWork += BackgroundWorkerOnDoWork;
             worker.ProgressChanged += BackgroundWorkerOnProgressChanged;
             worker.RunWorkerAsync();
 
-            _t = new System.Windows.Forms.Timer
+            _t = new Timer
             {
                 Interval = _timeControl.CalculateTimerInterval(CheckInterval)
             };
@@ -94,44 +76,57 @@ namespace TrayApp
             base.OnLoad(e);
         }
 
-        private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ActivateTimed_Tick(object sender, EventArgs e)
         {
-            var eventsType = (Action) e.UserState;
-            if (eventsType == null) return;
-            //var beginToActAponEvents = eventsType.BeginInvoke(null,null);
-            //eventsType.EndInvoke(beginToActAponEvents);
-            //eventsType?.Invoke();
-
-            foreach (var actionDelegate in eventsType.GetInvocationList())
-            {
-                var lTask = Task.Factory.StartNew(() => actionDelegate.DynamicInvoke());
-                lTask.ContinueWith((i) => { Console.WriteLine(@"Task canceled"); },
-                    TaskContinuationOptions.OnlyOnCanceled);
-                lTask.ContinueWith((i) => { Console.WriteLine(@"Task faulted"); },
-                    TaskContinuationOptions.OnlyOnFaulted);
-                lTask.ContinueWith((i) => { Console.WriteLine(@"Task completion"); },
-                    TaskContinuationOptions.OnlyOnRanToCompletion);
-            }
+            _control.TimeAnimation();
+            _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
 
-        private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
+        private static void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker) sender;
-            IStateChecker checkState = new CheckState();
+            var checkState = new CheckState();
 
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
-                var state = checkState?.States(_control);
+                var state = checkState.States();
                 worker.ReportProgress(state);
             }
             worker.CancelAsync();
         }
 
-        private void OnExit(object sender, EventArgs e)
+        private static void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            _sysTrayIcon.Visible = false;
-            Application.Exit();
+            var eventsType = (Action) e.UserState;
+            if (eventsType == null) return;
+            foreach (var actionDelegate in eventsType.GetInvocationList())
+            {
+                var lTask = Task.Factory.StartNew(() => actionDelegate.DynamicInvoke());
+                lTask.ContinueWith(i => { Console.WriteLine($@"canceled"); },
+                    TaskContinuationOptions.OnlyOnCanceled);
+                lTask.ContinueWith(i => { Console.WriteLine($@"faulted"); },
+                    TaskContinuationOptions.OnlyOnFaulted);
+                lTask.ContinueWith(i => { Console.WriteLine($@"completion"); },
+                    TaskContinuationOptions.OnlyOnRanToCompletion);
+            }
+        }
+
+        private void AddbackgroundWorker()
+        {
+            _backgroundWorkerStack.Enqueue(new BackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                }
+            );
+        }
+
+        private void RemovebackgroundWorkers()
+        {
+            _backgroundWorkerStack.TryDequeue(out var result);
+            result.CancelAsync();
+            result.Dispose();
         }
 
         private async void OnRestart(object sender, EventArgs e)
@@ -150,22 +145,10 @@ namespace TrayApp
             _t.Start();
         }
 
-
-        private bool OnDisabled()
+        private void OnExit(object sender, EventArgs e)
         {
-            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
-            {
-                worker.CancelAsync();
-            }
-            ;
-            return true;
-        }
-
-
-        private void ActivateTimed_Tick(object sender, EventArgs e)
-        {
-            _control.TimeAnimation();
-            _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
+            _sysTrayIcon.Visible = false;
+            Application.Exit();
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard.Effects;
 
 namespace Interfacer.Interfaces

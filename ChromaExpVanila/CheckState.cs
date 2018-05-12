@@ -13,71 +13,79 @@ namespace ChromaExpVanilla
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
         public bool CurrentStateNeeded = true;
-        public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
 
         public async Task<Action> States(IKeyboardController control)
         {
-            if (!CurrentStateNeeded) return await GetIsChangeStates(control);
+            if (!CurrentStateNeeded) return await GetIsChangeStates();
             CurrentStateNeeded = false;
-            return await GetStates(control);
+            return await GetStates();
         }
 
-        private async Task<Action> GetStates(IKeyboardController control)
+        public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
+
+        public async Task<Action> States()
+        {
+            if (!CurrentStateNeeded) return await GetIsChangeStates();
+            CurrentStateNeeded = false;
+            return await GetStates();
+        }
+
+        private async Task<Action> GetStates()
         {
             Action thingsToDo = null;
-            thingsToDo += await CheckCaps(control);
-            thingsToDo += await CheckNumLock(control);
-            thingsToDo += await CheckLang(control);
+            thingsToDo += await CheckCaps();
+            thingsToDo += await CheckNumLock();
+            thingsToDo += await CheckLang();
             return thingsToDo;
         }
 
-        private async Task<Action> GetIsChangeStates(IKeyboardController control)
+        private async Task<Action> GetIsChangeStates()
         {
             Action thingsToDo = null;
-            thingsToDo += await IsCapsChange(control);
-            thingsToDo += await IsNumChange(control);
-            thingsToDo += await IsLangChange(control);
+            thingsToDo += await IsCapsChange();
+            thingsToDo += await IsNumChange();
+            thingsToDo += await IsLangChange();
             return thingsToDo;
         }
 
-        private async Task<Action> IsCapsChange(IKeyboardController control) =>
+        private async Task<Action> IsCapsChange() =>
             CapsStatus == Control.IsKeyLocked(Keys.CapsLock)
                 ? null
-                : await CheckCaps(control);
+                : await CheckCaps();
 
-        private async Task<Action> IsNumChange(IKeyboardController control) =>
+        private async Task<Action> IsNumChange() =>
             NumStatus == Control.IsKeyLocked(Keys.NumLock)
                 ? null
-                : await CheckNumLock(control);
+                : await CheckNumLock();
 
-        private async Task<Action> IsLangChange(IKeyboardController control) =>
+        private async Task<Action> IsLangChange() =>
             LangStatus == KeyboardLayout.GetCurrentKeyboardLayout().ToString()
                 ? null
-                : await CheckLang(control);
+                : await CheckLang();
 
-        private async Task<Action> CheckCaps(IKeyboardController control)
+        private async Task<Action> CheckCaps()
         {
             if (await Task.Run(() => Control.IsKeyLocked(Keys.CapsLock)))
             {
                 CapsStatus = true;
-                return control.CapsLockOn;
+                return KeyControl.Instance.CapsLockOn;
             }
             CapsStatus = false;
-            return control.CapsLockOff;
+            return KeyControl.Instance.CapsLockOff;
         }
 
-        private async Task<Action> CheckNumLock(IKeyboardController control)
+        private async Task<Action> CheckNumLock()
         {
             if (await Task.Run(() => Control.IsKeyLocked(Keys.NumLock)))
             {
                 NumStatus = true;
-                return control.NumLockOn;
+                return KeyControl.Instance.NumLockOn;
             }
             NumStatus = false;
-            return control.NumLockOff;
+            return KeyControl.Instance.NumLockOff;
         }
 
-        private async Task<Action> CheckLang(IKeyboardController control)
+        private async Task<Action> CheckLang()
         {
             Thread.Sleep(250);
             var currentLayout = await Task.Run(() => KeyboardLayout.GetCurrentKeyboardLayout().ToString());
@@ -85,9 +93,9 @@ namespace ChromaExpVanilla
             switch (LangStatus)
             {
                 case "en-US":
-                    return control.SetEng;
+                    return KeyControl.Instance.SetEng;
                 case "he-IL":
-                    return control.SetHeb;
+                    return KeyControl.Instance.SetHeb;
                 default:
                     return null;
             }
