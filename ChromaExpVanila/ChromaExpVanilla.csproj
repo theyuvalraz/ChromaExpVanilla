@@ -86,5 +86,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfacer\Interfacer.csproj">
+      <Project>{075228f5-2b3b-42a9-91bd-e88fb048a660}</Project>
+      <Name>Interfacer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
