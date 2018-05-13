@@ -3,12 +3,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
+//using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChromaExpVanilla;
-using ChromaExpVanilla.config;
+//using ChromaExpVanilla;
+//using ChromaExpVanilla.config;
 using CheckState = ChromaExpVanilla.CheckState;
 using Interfacer.Interfaces;
 
@@ -21,8 +21,7 @@ namespace TrayApp
 
         private NotifyIcon _sysTrayIcon;
 
-        private readonly IKeyboardController _control = new KeyControl();
-        private readonly KeyBlocks _blocks = new KeyBlocks();
+        //private readonly KeyBlocks _blocks = new KeyBlocks();
 
         private string _tooltip = string.Empty;
 
@@ -53,7 +52,7 @@ namespace TrayApp
             InitializeComponent();
         }
 
-        protected override async void OnLoad(EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             Visible = false;
             ShowInTaskbar = false;
@@ -69,13 +68,13 @@ namespace TrayApp
             _sysTrayIcon.Visible = true;
 
 
-            _control.Animation(_blocks.AnimationConcept);
-            _control.FrameAnimation(_blocks.AnimationConceptStage2);
+            //_control.Animation(_blocks.AnimationConcept);
+            //_control.FrameAnimation(_blocks.AnimationConceptStage2);
 
-            var task = Task.Run(() => _control.CustomLayer.Clear());
-            await task.ContinueWith((t) => _control.SetColorBase());
+            //var task = Task.Run(() => _control.CustomLayer.Clear());
+            //await task.ContinueWith((t) => _control.SetColorBase());
 
-            _control.InitiateCustom();
+            //_control.InitiateCustom();
 
             AddbackgroundWorker();
             _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
@@ -103,11 +102,15 @@ namespace TrayApp
         {
             var worker = (BackgroundWorker) sender;
             IStateChecker checkState = new CheckState();
+            checkState.FirstAnimationNeeded = true;
+            checkState.SecondAnimationNeeded = true;
+            checkState.ClearNeeded = true;
+            checkState.BaseNeeded = true;
 
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
-                var state = checkState?.States(_control);
+                var state = checkState.States();
                 worker.ReportProgress(state);
             }
             worker.CancelAsync();
@@ -119,13 +122,13 @@ namespace TrayApp
             Application.Exit();
         }
 
-        private async void OnRestart(object sender, EventArgs e)
+        private void OnRestart(object sender, EventArgs e)
         {
             RemovebackgroundWorkers();
-            _control.Animation(_blocks.AnimationConcept);
+            //_control.Animation(_blocks.AnimationConcept);
 
-            _control.CustomLayer.Clear();
-            await _control.SetColorBase();
+            //var task = Task.Run( () => _control.CustomLayer.Clear() );
+            //await task.ContinueWith( ( t ) => _control.SetColorBase() );
 
             AddbackgroundWorker();
             _backgroundWorkerStack.TryPeek(out var worker);
@@ -137,7 +140,7 @@ namespace TrayApp
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
-            _control.TimeAnimation();
+            //_control.TimeAnimation();
             _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
     }

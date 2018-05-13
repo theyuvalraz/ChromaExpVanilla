@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Interfacer.Interfaces;
 using Custom = Corale.Colore.Razer.Keyboard.Effects.Custom;
@@ -11,13 +10,11 @@ namespace ChromaExpVanillaTest.FakeClassesForTests
     {
         public void CapsLockOn()
         {
-            Debugger.Log(1, "action", "CapsLockOn");
             Console.WriteLine("CapsLockOn");
         }
 
         public void CapsLockOff()
         {
-            Debugger.Log(1, "action", "CapsLockOff");
             Console.WriteLine("CapsLockOff");
         }
 
@@ -67,6 +64,26 @@ namespace ChromaExpVanillaTest.FakeClassesForTests
         public void TimeAnimation()
         {
             Console.WriteLine("TimeAnimation");
+        }
+
+        public void FirstAnimation()
+        {
+            Console.WriteLine( "FirstAnimation" );
+        }
+
+        public void SecondAnimation()
+        {
+            Console.WriteLine( "SecondAnimation" );
+        }
+
+        public void SetBase()
+        {
+            Console.WriteLine( "SetBase" );
+        }
+
+        public void ClearCustom()
+        {
+            Console.WriteLine( "ClearCustom" );
         }
     }
 }

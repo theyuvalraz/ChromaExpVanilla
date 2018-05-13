@@ -15,9 +15,8 @@ namespace ChromaExpVanillaTest
         [Test]
         public async Task Test_StateCheckerReturnsAction()
         {
-            IKeyboardController keyboardController = new FakeKeboardController();
-            CheckState checker = new CheckState();
-            var returnedStateActions = await checker.States( keyboardController );
+            CheckState checker = new CheckState(){Control = new FakeKeboardController()};
+            var returnedStateActions = await checker.States();
             returnedStateActions.Invoke();
             Assert.True(returnedStateActions.GetType() == typeof(Action));
         }
@@ -25,9 +24,8 @@ namespace ChromaExpVanillaTest
         [Test]
         public async Task Test_StateCheckerReturnsEnglish()
         {
-            IKeyboardController keyboardController = new FakeKeboardController();
-            var checker = new CheckState {KeyboardLayout = new FakeGetKeyboardLayout("en-US")};
-            var returnedStateActions = await checker.States( keyboardController );
+            var checker = new CheckState {KeyboardLayout = new FakeGetKeyboardLayout("en-US"),Control = new FakeKeboardController()};
+            var returnedStateActions = await checker.States();
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where(x => x.Method.Name == "SetEng"))
             {
@@ -40,8 +38,8 @@ namespace ChromaExpVanillaTest
         public async Task Test_StateCheckerReturnsHebrew()
         {
             IKeyboardController keyboardController = new FakeKeboardController();
-            var checker = new CheckState {KeyboardLayout = new FakeGetKeyboardLayout("he-IL")};
-            var returnedStateActions = await checker.States( keyboardController );
+            var checker = new CheckState {KeyboardLayout = new FakeGetKeyboardLayout("he-IL"), Control = new FakeKeboardController()};
+            var returnedStateActions = await checker.States(  );
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where(x => x.Method.Name == "SetHeb"))
             {
