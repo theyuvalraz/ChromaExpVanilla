@@ -31,7 +31,6 @@ namespace TrayApp
         private readonly ConcurrentQueue<BackgroundWorker> _backgroundWorkerStack =
             new ConcurrentQueue<BackgroundWorker>();
 
-
         private void AddbackgroundWorker()
         {
             _backgroundWorkerStack.Enqueue(new BackgroundWorker
@@ -94,7 +93,7 @@ namespace TrayApp
             base.OnLoad(e);
         }
 
-        private void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
+        private static void BackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var eventsType = (Action) e.UserState;
             eventsType?.Invoke();
@@ -129,24 +128,12 @@ namespace TrayApp
             await _control.SetColorBase();
 
             AddbackgroundWorker();
-            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
+            _backgroundWorkerStack.TryPeek(out var worker);
             worker.DoWork += BackgroundWorkerOnDoWork;
             worker.ProgressChanged += BackgroundWorkerOnProgressChanged;
             worker.RunWorkerAsync();
             _t.Start();
         }
-
-
-        private bool OnDisabled()
-        {
-            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
-            {
-                worker.CancelAsync();
-            }
-            ;
-            return true;
-        }
-
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {

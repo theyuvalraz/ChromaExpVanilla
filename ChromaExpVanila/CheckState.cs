@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,11 +13,17 @@ namespace ChromaExpVanilla
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
-        public bool CurrentStateNeeded = true;
+        public bool CurrentStateNeeded { get; set; } = true;
+        public bool FirstAnimationNeeded { get; set; }
+        public bool SecondAnimationNeeded { get; set; }
+        public bool BaseNeeded { get; set; }
+        private Action _thingsToDo;
+
         public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
 
         public async Task<Action> States(IKeyboardController control)
         {
+            _thingsToDo = null;
             if (!CurrentStateNeeded) return await GetIsChangeStates(control);
             CurrentStateNeeded = false;
             return await GetStates( control );
@@ -24,20 +31,32 @@ namespace ChromaExpVanilla
 
         private async Task<Action> GetStates(IKeyboardController control)
         {
-            Action thingsToDo = null;
-            thingsToDo += await CheckCaps(control);
-            thingsToDo += await CheckNumLock(control);
-            thingsToDo += await CheckLang( control);
-            return thingsToDo;
+            _thingsToDo += await CheckCaps(control);
+            _thingsToDo += await CheckNumLock(control);
+            _thingsToDo += await CheckLang( control);
+            return _thingsToDo;
         }
 
         private async Task<Action> GetIsChangeStates(IKeyboardController control)
         {
-            Action thingsToDo = null;
-            thingsToDo += await IsCapsChange(control);
-            thingsToDo += await IsNumChange(control);
-            thingsToDo += await IsLangChange(control);
-            return thingsToDo;
+            _thingsToDo += await IsCapsChange(control);
+            _thingsToDo += await IsNumChange(control);
+            _thingsToDo += await IsLangChange(control);
+            return _thingsToDo;
+        }
+        private Action StartFirstAnimation( IKeyboardController control )
+        {
+            return control.FirstAnimation;
+        }
+
+        private Action StartSecondAnimation( IKeyboardController control )
+        {
+            return control.SecondAnimation;
+        }
+
+        private Action StartBaseSet( IKeyboardController control )
+        {
+            return control.SetBase;
         }
 
         private async Task<Action> IsCapsChange(IKeyboardController control) =>
@@ -91,6 +110,8 @@ namespace ChromaExpVanilla
                 default:
                     return null;
             }
+
         }
+
     }
 }

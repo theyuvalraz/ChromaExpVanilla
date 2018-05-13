@@ -17,7 +17,7 @@ namespace ChromaExpVanillaTest
         {
             IKeyboardController keyboardController = new FakeKeboardController();
             CheckState checker = new CheckState();
-            var returnedStateActions = await checker.States();
+            var returnedStateActions = await checker.States( keyboardController );
             returnedStateActions.Invoke();
             Assert.True(returnedStateActions.GetType() == typeof(Action));
         }
@@ -27,7 +27,7 @@ namespace ChromaExpVanillaTest
         {
             IKeyboardController keyboardController = new FakeKeboardController();
             var checker = new CheckState {KeyboardLayout = new FakeGetKeyboardLayout("en-US")};
-            var returnedStateActions = await checker.States();
+            var returnedStateActions = await checker.States( keyboardController );
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where(x => x.Method.Name == "SetEng"))
             {
@@ -41,7 +41,7 @@ namespace ChromaExpVanillaTest
         {
             IKeyboardController keyboardController = new FakeKeboardController();
             var checker = new CheckState {KeyboardLayout = new FakeGetKeyboardLayout("he-IL")};
-            var returnedStateActions = await checker.States();
+            var returnedStateActions = await checker.States( keyboardController );
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where(x => x.Method.Name == "SetHeb"))
             {

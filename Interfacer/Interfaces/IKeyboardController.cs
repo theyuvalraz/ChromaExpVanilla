@@ -18,5 +18,8 @@ namespace Interfacer.Interfaces
         Task SetColorBase();
         void InitiateCustom();
         void TimeAnimation();
+        void FirstAnimation();
+        void SetBase();
+        void SecondAnimation();
     }
 }
