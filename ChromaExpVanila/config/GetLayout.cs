@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla.config
 {
-    public static class GetLayout
+    public class GetLayout : IGetKeyboardLayout
     {
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
@@ -15,7 +16,7 @@ namespace ChromaExpVanilla.config
         [DllImport("user32.dll")]
         private static extern IntPtr GetKeyboardLayout(uint thread);
 
-        public static CultureInfo GetCurrentKeyboardLayout()
+        public CultureInfo GetCurrentKeyboardLayout()
         {
             try
             {

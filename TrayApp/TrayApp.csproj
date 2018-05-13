@@ -53,7 +53,9 @@
     <ApplicationIcon>Resources\Y.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Corale.Colore, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Corale.Colore, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Colore.5.2.0\lib\net35\Corale.Colore.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -83,6 +85,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,6 +106,10 @@
     <ProjectReference Include="..\ChromaExpVanila\ChromaExpVanilla.csproj">
       <Project>{4661412f-f9e1-431a-bfa1-6e9f782ce02c}</Project>
       <Name>ChromaExpVanilla</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfacer\Interfacer.csproj">
+      <Project>{075228f5-2b3b-42a9-91bd-e88fb048a660}</Project>
+      <Name>Interfacer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

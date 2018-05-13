@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla;
 using ChromaExpVanilla.config;
 using CheckState = ChromaExpVanilla.CheckState;
+using Interfacer.Interfaces;
 
 namespace TrayApp
 {
@@ -17,7 +19,7 @@ namespace TrayApp
 
         private NotifyIcon _sysTrayIcon;
 
-        private readonly KeyControl _control = new KeyControl();
+        private readonly IKeyboardController _control = new KeyControl();
         private readonly KeyBlocks _blocks = new KeyBlocks();
 
         private string _tooltip = string.Empty;
@@ -62,12 +64,15 @@ namespace TrayApp
             _sysTrayIcon.ContextMenu = sysTrayMenu;
             _sysTrayIcon.Visible = true;
 
-            await _control.Animation(_blocks.AnimationConcept);
-            await _control.FrameAnimation(_blocks.AnimationConceptStage2);
-            _control.CustomLayer.Clear();
-            await _control.SetColorBase();
+
+            _control.Animation(_blocks.AnimationConcept);
+            _control.FrameAnimation(_blocks.AnimationConceptStage2);
+
+            var task = Task.Run(() => _control.CustomLayer.Clear());
+            await task.ContinueWith((t) => _control.SetColorBase());
 
             _control.InitiateCustom();
+
             AddbackgroundWorker();
             _backgroundWorkerStack.Peek().DoWork += BackgroundWorkerOnDoWork;
             _backgroundWorkerStack.Peek().ProgressChanged += BackgroundWorkerOnProgressChanged;
@@ -92,11 +97,11 @@ namespace TrayApp
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker) sender;
-            var checkState = new CheckState();
+            IStateChecker checkState = new CheckState();
 
             while (!worker.CancellationPending)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(100);
                 worker.ReportProgress(checkState.States(_control));
             }
         }
@@ -117,7 +122,7 @@ namespace TrayApp
             }
 
             RemovebackgroundWorkers();
-            await _control.Animation(_blocks.AnimationConcept);
+            _control.Animation(_blocks.AnimationConcept);
 
             _control.CustomLayer.Clear();
             await _control.SetColorBase();

@@ -7,16 +7,16 @@ using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
 using Corale.Colore.Razer.Keyboard.Effects;
+using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla
 {
-    public class KeyControl
+    public class KeyControl : IKeyboardController
     {
-        
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
         private const uint BaseColor = 0x202020;
-        public Custom CustomLayer = new Custom(Color.FromRgb(BaseColor));
+        public Custom CustomLayer { get; set; } = new Custom(Color.FromRgb(BaseColor));
 
         public void InitiateCustom()
         {
@@ -44,7 +44,7 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.UselessKeys);
         }
 
-        public void SetCustom(List<ColoredKey> coloredKeyList)
+        public void SetCustom(List<IColoredKey> coloredKeyList)
         {
             foreach (var colorKey in coloredKeyList)
             {
@@ -52,7 +52,7 @@ namespace ChromaExpVanilla
             }
         }
 
-        public void SetCustom(List<ColoredKey> keyList, Color color)
+        public void SetCustom(List<IColoredKey> keyList, Color color)
         {
             foreach (var keySetting in keyList)
             {
@@ -63,7 +63,8 @@ namespace ChromaExpVanilla
 
         public void SetCustomKey(Key key, Color color)
         {
-            CustomLayer[key] = color;
+            var customLayer = CustomLayer;
+            customLayer[key] = color;
         }
 
         public void CurrentStateNeeded()
@@ -81,6 +82,7 @@ namespace ChromaExpVanilla
             LangFrameAnimation(_blocks.HebAnimation);
         }
 
+
         public void TopNumChange(Color color)
         {
             _inst.SetKeys(new List<Key>(_blocks.NumberKeys.Select(x => x.Key).ToList()), color);
@@ -90,7 +92,6 @@ namespace ChromaExpVanilla
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
-            //TopNumChange(Color.FromRgb(0x00008B));
         }
 
         public void NumLockOff()
@@ -103,7 +104,6 @@ namespace ChromaExpVanilla
 
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
-            //TopNumChange(Color.Green);
         }
 
         public void CapsLockOn()
@@ -118,7 +118,7 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
-        public Task Animation(List<List<ColoredKey>> keyBlocks)
+        public void Animation(List<List<IColoredKey>> keyBlocks)
         {
             _inst.Clear();
             if (keyBlocks != null)
@@ -140,11 +140,9 @@ namespace ChromaExpVanilla
                     if (keyBlocks.Count > i - 4 && i - 4 >= 0)
                         _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
                 }
-
-            return Task.CompletedTask;
         }
 
-        public Task FrameAnimation(List<List<ColoredKey>> keyBlocks)
+        public void FrameAnimation(List<List<IColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
@@ -155,13 +153,11 @@ namespace ChromaExpVanilla
                     InitiateCustom();
                     Thread.Sleep(10);
                 }
-
-            return Task.CompletedTask;
         }
 
-        public Task LangFrameAnimation(List<List<ColoredKey>> keyBlocks)
+        public void LangFrameAnimation(List<List<IColoredKey>> keyBlocks)
         {
-            if (keyBlocks == null) return Task.CompletedTask;
+            if (keyBlocks == null) return;
             for (var i = 0; i < keyBlocks.Count; i++)
             {
                 Thread.Sleep(20);
@@ -170,8 +166,6 @@ namespace ChromaExpVanilla
                 InitiateCustom();
                 Thread.Sleep(10);
             }
-
-            return Task.CompletedTask;
         }
 
         public void TimeAnimation()
@@ -182,10 +176,10 @@ namespace ChromaExpVanilla
             }
         }
 
-        public void UserChangeAnimation()
-        {
-            NotificationAnimation(Color.Pink);
-        }
+        //public void UserChangeAnimation()
+        //{
+        //    NotificationAnimation(Color.Pink);
+        //}
 
         public void NotificationAnimation(Color color)
         {
