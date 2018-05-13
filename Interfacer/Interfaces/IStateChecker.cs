@@ -1,11 +1,17 @@
 ﻿using System;
-using Corale.Colore.Core;
+using System.Threading.Tasks;
 
 namespace Interfacer.Interfaces
 {
     public interface IStateChecker
     {
-        Action States(IKeyboardController control);
+        Task<Action> States();
         IGetKeyboardLayout KeyboardLayout { get; set; }
+        bool CurrentStateNeeded { get; set; } 
+        bool FirstAnimationNeeded { get; set; }
+        bool SecondAnimationNeeded { get; set; }
+        bool BaseNeeded { get; set; }
+        bool ClearNeeded { get; set; }
+        IKeyboardController Control { get; set; }
     }
 }

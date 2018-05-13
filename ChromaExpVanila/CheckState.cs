@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla.config;
 using Interfacer.Interfaces;
@@ -11,83 +11,120 @@ namespace ChromaExpVanilla
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
-        public bool CurrentStateNeeded = true;
+        public bool CurrentStateNeeded { get; set; } = true;
+        public bool ClearNeeded { get; set; }
+        public bool FirstAnimationNeeded { get; set; }
+        public bool SecondAnimationNeeded { get; set; }
+        public bool BaseNeeded { get; set; }
+        private Action _thingsToDo;
+        public IKeyboardController Control { get; set; } = new KeyControl();
+
         public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
 
-        public Action States(IKeyboardController control)
+        public async Task<Action> States()
         {
-            Action thingsToDo;
-            if (CurrentStateNeeded)
+            _thingsToDo = null;
+            if (FirstAnimationNeeded)
             {
-                thingsToDo = GetStates(control);
-                CurrentStateNeeded = false;
+                FirstAnimationNeeded = false;
+                _thingsToDo += await Task.Run(()=> StartFirstAnimation( Control ) ) ;
             }
-            else
+            if (SecondAnimationNeeded)
             {
-                thingsToDo = GetIsChangeStates(control);
+                SecondAnimationNeeded = false;
+                _thingsToDo += await Task.Run( () => StartSecondAnimation( Control ));
             }
-
-            return thingsToDo;
+            if (ClearNeeded)
+            {
+                ClearNeeded = false;
+                _thingsToDo += await Task.Run( () => StartClearCustom( Control ));
+            }
+            if (BaseNeeded)
+            {
+                BaseNeeded = false;
+                _thingsToDo += await Task.Run( () => StartBaseSet( Control ));
+            }
+            if (!CurrentStateNeeded) return await GetIsChangeStates( Control );
+            CurrentStateNeeded = false;
+            return await GetStates( Control );
         }
 
-        private Action GetStates(IKeyboardController control)
+        private async Task<Action> GetStates(IKeyboardController control)
         {
-            Action thingsToDo = null;
-            thingsToDo += CheckCaps(control);
-            thingsToDo += CheckNumLock(control);
-            thingsToDo += CheckLang(control);
-            return thingsToDo;
+            _thingsToDo += await CheckCaps( control );
+            _thingsToDo += await CheckNumLock( control );
+            _thingsToDo += await CheckLang( control );
+            return _thingsToDo;
         }
 
-        private Action GetIsChangeStates(IKeyboardController control)
+        private async Task<Action> GetIsChangeStates(IKeyboardController control)
         {
-            Action thingsToDo = null;
-
-            thingsToDo += IsCapsChange(control);
-            thingsToDo += IsNumChange(control);
-            thingsToDo += IsLangChange(control);
-            return thingsToDo;
+            _thingsToDo += await IsCapsChange(control);
+            _thingsToDo += await IsNumChange(control);
+            _thingsToDo += await IsLangChange(control);
+            return _thingsToDo;
+        }
+        private static Action StartFirstAnimation( IKeyboardController control )
+        {
+            return control.FirstAnimation;
         }
 
-        private Action IsCapsChange(IKeyboardController control) =>
-            CapsStatus == Control.IsKeyLocked(Keys.CapsLock) ? null : CheckCaps(control);
+        private static Action StartSecondAnimation( IKeyboardController control )
+        {
+            return control.SecondAnimation;
+        }
 
-        private Action IsNumChange(IKeyboardController control) =>
-            NumStatus == Control.IsKeyLocked(Keys.NumLock) ? null : CheckNumLock(control);
+        private static Action StartBaseSet( IKeyboardController control )
+        {
+            return control.SetBase;
+        }
 
-        private Action IsLangChange(IKeyboardController control) =>
+        private static Action StartClearCustom( IKeyboardController control )
+        {
+            return control.ClearCustom;
+        }
+
+        private async Task<Action> IsCapsChange(IKeyboardController control) =>
+            CapsStatus == System.Windows.Forms.Control.IsKeyLocked(Keys.CapsLock)
+                ? null
+                : await CheckCaps(control);
+
+        private async Task<Action> IsNumChange(IKeyboardController control) =>
+            NumStatus == System.Windows.Forms.Control.IsKeyLocked(Keys.NumLock)
+                ? null
+                : await CheckNumLock(control);
+
+        private async Task<Action> IsLangChange(IKeyboardController control) =>
             LangStatus == KeyboardLayout.GetCurrentKeyboardLayout().ToString()
                 ? null
-                : CheckLang(control);
+                : await CheckLang(control);
 
-        private Action CheckCaps(IKeyboardController control)
+        private async Task<Action> CheckCaps(IKeyboardController control)
         {
-            if (Control.IsKeyLocked(Keys.CapsLock))
+            if (await Task.Run( () => System.Windows.Forms.Control.IsKeyLocked( Keys.CapsLock)))
             {
-                CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
+                CapsStatus = true;
                 return control.CapsLockOn;
             }
-
-            CapsStatus = Control.IsKeyLocked(Keys.CapsLock);
+            CapsStatus = false;
             return control.CapsLockOff;
         }
 
-        private Action CheckNumLock(IKeyboardController control)
+        private async Task<Action> CheckNumLock(IKeyboardController control)
         {
-            if (Control.IsKeyLocked(Keys.NumLock))
+            if (await Task.Run(() => System.Windows.Forms.Control.IsKeyLocked(Keys.NumLock)))
             {
-                NumStatus = Control.IsKeyLocked(Keys.NumLock);
+                NumStatus = true;
                 return control.NumLockOn;
             }
-
-            NumStatus = Control.IsKeyLocked(Keys.NumLock);
+            NumStatus = false;
             return control.NumLockOff;
         }
 
-        private Action CheckLang(IKeyboardController control)
+        private async Task<Action> CheckLang(IKeyboardController control)
         {
-            Thread.Sleep(250);
-            var currentLayout = KeyboardLayout.GetCurrentKeyboardLayout().ToString();
+            await Task.Delay(250);
+            var currentLayout = await Task.Run(() => KeyboardLayout.GetCurrentKeyboardLayout().ToString());
             LangStatus = currentLayout;
             switch (LangStatus)
             {
@@ -98,13 +135,8 @@ namespace ChromaExpVanilla
                 default:
                     return null;
             }
+
         }
 
-        //private EventTypes StateNeeded()
-        //{
-        //    if (!CurrentStateNeeded) return EventTypes.Normal;
-        //    CurrentStateNeeded = false;
-        //    return EventTypes.CurrentStateNeeded;
-        //}
     }
 }
