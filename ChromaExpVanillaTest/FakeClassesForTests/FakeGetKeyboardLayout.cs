@@ -3,14 +3,14 @@ using Interfacer.Interfaces;
 
 namespace ChromaExpVanillaTest.FakeClassesForTests
 {
-    class FakeGetKeyboardLayout : IGetKeyboardLayout
+    internal class FakeGetKeyboardLayout : IGetKeyboardLayout
     {
-        public string FakeLayout { get; set; }
-
         public FakeGetKeyboardLayout(string fakeLayout)
         {
             FakeLayout = fakeLayout;
         }
+
+        public string FakeLayout { get; set; }
 
         public CultureInfo GetCurrentKeyboardLayout()
         {

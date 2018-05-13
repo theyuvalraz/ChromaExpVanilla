@@ -10,7 +10,7 @@ namespace TrayApp
                 minute = 60;
             var now = DateTime.Now;
 
-            var future = now.AddMinutes((minute - (now.Minute % minute))).AddSeconds(now.Second * -1)
+            var future = now.AddMinutes(minute - now.Minute % minute).AddSeconds(now.Second * -1)
                 .AddMilliseconds(now.Millisecond * -1);
 
             var interval = future - now;

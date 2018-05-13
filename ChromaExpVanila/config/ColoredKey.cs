@@ -6,10 +6,6 @@ namespace ChromaExpVanilla.config
 {
     public class ColoredKey : IColoredKey
     {
-        public Key Key { get; set; }
-        public Color Color { get; set; }
-        public int Group { get; set; }
-
         public ColoredKey()
         {
         }
@@ -20,5 +16,9 @@ namespace ChromaExpVanilla.config
             Color = color;
             Group = group;
         }
+
+        public Key Key { get; set; }
+        public Color Color { get; set; }
+        public int Group { get; set; }
     }
 }

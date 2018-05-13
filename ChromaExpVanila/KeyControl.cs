@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Threading;
-using System.Threading.Tasks;
 using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
@@ -15,29 +14,20 @@ namespace ChromaExpVanilla
     [Synchronization]
     public sealed class KeyControl : IKeyboardController
     {
+        private const uint BaseColor = 0x202020;
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
-        private const uint BaseColor = 0x202020;
         private Custom CustomLayer { get; set; } = new Custom(Color.FromRgb(BaseColor));
 
         public void InitiateCustom()
         {
             _inst.SetCustom(CustomLayer);
         }
+
         public void ClearCustom()
         {
             _inst.Clear();
         }
-
-        //private void InitiateCustom(Custom customLayer)
-        //{
-        //    _inst.SetCustom(customLayer);
-        //}
-
-        //public async Task SetColorBase()
-        //{
-        //    await Task.Run(action: SetBase);
-        //}
 
         public void SetBase()
         {
@@ -50,34 +40,6 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.UselessKeys);
         }
 
-        private void SetCustom(List<IColoredKey> coloredKeyList)
-        {
-            foreach (var colorKey in coloredKeyList)
-            {
-                SetCustomKey(colorKey.Key, colorKey.Color);
-            }
-        }
-
-        private void SetCustom(List<IColoredKey> keyList, Color color)
-        {
-            foreach (var keySetting in keyList)
-            {
-                SetCustomKey(keySetting.Key, color);
-                keySetting.Color = color;
-            }
-        }
-
-        private void SetCustomKey(Key key, Color color)
-        {
-            var customLayer = CustomLayer;
-            customLayer[key] = color;
-        }
-
-        //public void CurrentStateNeeded()
-        //{
-        //    SetColorBase().RunSynchronously();
-        //}
-
         public void SetEng()
         {
             LangFrameAnimation(_blocks.EngAnimation);
@@ -88,12 +50,6 @@ namespace ChromaExpVanilla
             LangFrameAnimation(_blocks.HebAnimation);
         }
 
-        //public void TopNumChange(Color color)
-        //{
-        //    _inst.SetKeys(new List<Key>(_blocks.NumberKeys.Select(x => x.Key).ToList()), color);
-        //    SetCustom(_blocks.NumberKeys, color);
-        //}
-
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
@@ -103,9 +59,7 @@ namespace ChromaExpVanilla
         {
             Thread.Sleep(10);
             foreach (var coloredKey in _blocks.AltNumPad)
-            {
                 _inst.SetKey(coloredKey.Key, coloredKey.Color);
-            }
 
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
@@ -127,9 +81,37 @@ namespace ChromaExpVanilla
         {
             Animation(_blocks.AnimationConcept);
         }
+
         public void SecondAnimation()
         {
-            FrameAnimation( _blocks.AnimationConceptStage2 );
+            FrameAnimation(_blocks.AnimationConceptStage2);
+        }
+
+        public void TimeAnimation()
+        {
+            for (var i = 0; i < 3; i++)
+                NotificationAnimation(Color.Pink);
+        }
+
+        private void SetCustom(List<IColoredKey> coloredKeyList)
+        {
+            foreach (var colorKey in coloredKeyList)
+                SetCustomKey(colorKey.Key, colorKey.Color);
+        }
+
+        private void SetCustom(List<IColoredKey> keyList, Color color)
+        {
+            foreach (var keySetting in keyList)
+            {
+                SetCustomKey(keySetting.Key, color);
+                keySetting.Color = color;
+            }
+        }
+
+        private void SetCustomKey(Key key, Color color)
+        {
+            var customLayer = CustomLayer;
+            customLayer[key] = color;
         }
 
 
@@ -184,20 +166,11 @@ namespace ChromaExpVanilla
             }
         }
 
-        public void TimeAnimation()
-        {
-            for (var i = 0; i < 3; i++)
-            {
-                NotificationAnimation(Color.Pink);
-            }
-        }
-
         private void NotificationAnimation(Color color)
         {
             var tempCustom = CustomLayer.Clone();
             var flow = _blocks.AllLetterKeys;
             for (var i = 0; i < flow.Count; i++)
-            {
                 try
                 {
                     Thread.Sleep(50);
@@ -216,7 +189,6 @@ namespace ChromaExpVanilla
                 {
                     // ignored
                 }
-            }
 
             InitiateCustom();
         }

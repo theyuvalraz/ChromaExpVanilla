@@ -37,7 +37,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IColoredKey.cs" />
     <Compile Include="Interfaces\IGetKeyboardLayout.cs" />
     <Compile Include="Interfaces\IKeyboardController.cs" />

@@ -1,35 +1,39 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-//using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Interfacer.Interfaces;
+using TrayApp.Properties;
+using CheckState = ChromaExpVanilla.CheckState;
+using Timer = System.Windows.Forms.Timer;
+//using System.Linq;
 //using ChromaExpVanilla;
 //using ChromaExpVanilla.config;
-using CheckState = ChromaExpVanilla.CheckState;
-using Interfacer.Interfaces;
 
 namespace TrayApp
 {
     public partial class Magic
     {
         private const int CheckInterval = 30;
-        static System.Windows.Forms.Timer _t;
-
-        private NotifyIcon _sysTrayIcon;
-
-        //private readonly KeyBlocks _blocks = new KeyBlocks();
-
-        private string _tooltip = string.Empty;
-
-        private readonly TimeControl _timeControl = new TimeControl();
+        private static Timer _t;
 
         private readonly ConcurrentQueue<BackgroundWorker> _backgroundWorkerStack =
             new ConcurrentQueue<BackgroundWorker>();
-        IStateChecker checkState = new CheckState();
+
+        private readonly TimeControl _timeControl = new TimeControl();
+
+        private NotifyIcon _sysTrayIcon;
+
+        private string _tooltip = string.Empty;
+        private readonly IStateChecker _checkState = new CheckState();
+
+        public Magic()
+        {
+            InitializeComponent();
+        }
 
         private void AddbackgroundWorker()
         {
@@ -43,14 +47,9 @@ namespace TrayApp
 
         private void RemovebackgroundWorkers()
         {
-            _backgroundWorkerStack.TryDequeue(out BackgroundWorker result);
+            _backgroundWorkerStack.TryDequeue(out var result);
             result.CancelAsync();
             result.Dispose();
-        }
-
-        public Magic()
-        {
-            InitializeComponent();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -64,17 +63,17 @@ namespace TrayApp
             _sysTrayIcon = new NotifyIcon();
             _tooltip = "Chroma Indicator";
             _sysTrayIcon.Text = _tooltip;
-            _sysTrayIcon.Icon = new Icon(Properties.Resources.Y, 40, 40);
+            _sysTrayIcon.Icon = new Icon(Resources.Y, 40, 40);
             _sysTrayIcon.ContextMenu = sysTrayMenu;
             _sysTrayIcon.Visible = true;
 
             AddbackgroundWorker();
-            _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
+            _backgroundWorkerStack.TryPeek(out var worker);
             worker.DoWork += BackgroundWorkerOnDoWork;
             worker.ProgressChanged += BackgroundWorkerOnProgressChanged;
             worker.RunWorkerAsync();
 
-            _t = new System.Windows.Forms.Timer
+            _t = new Timer
             {
                 Interval = _timeControl.CalculateTimerInterval(CheckInterval)
             };
@@ -93,15 +92,15 @@ namespace TrayApp
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker) sender;
-            checkState.FirstAnimationNeeded = true;
-            checkState.SecondAnimationNeeded = true;
-            checkState.ClearNeeded = true;
-            checkState.BaseNeeded = true;
-            checkState.CurrentStateNeeded = true;
+            _checkState.FirstAnimationNeeded = true;
+            _checkState.SecondAnimationNeeded = true;
+            _checkState.ClearNeeded = true;
+            _checkState.BaseNeeded = true;
+            _checkState.CurrentStateNeeded = true;
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
-                var state = checkState.States();
+                var state = _checkState.States();
                 worker.ReportProgress(state);
             }
             worker.CancelAsync();
@@ -115,7 +114,7 @@ namespace TrayApp
 
         private void OnRestart(object sender, EventArgs e)
         {
-            _backgroundWorkerStack.TryPeek( out var workersToRemove );
+            _backgroundWorkerStack.TryPeek(out var workersToRemove);
             workersToRemove.CancelAsync();
             workersToRemove.Dispose();
             RemovebackgroundWorkers();
@@ -130,7 +129,7 @@ namespace TrayApp
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
-            checkState.TimeAnimationNeeded = true;
+            _checkState.TimeAnimationNeeded = true;
             _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
     }

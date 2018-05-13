@@ -2,7 +2,7 @@
 
 namespace TrayApp
 {
-    class UserSettings : ApplicationSettingsBase
+    internal class UserSettings : ApplicationSettingsBase
     {
         //public Key TKey = Settings.Default.F10;
 
