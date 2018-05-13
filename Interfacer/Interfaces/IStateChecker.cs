@@ -12,6 +12,7 @@ namespace Interfacer.Interfaces
         bool SecondAnimationNeeded { get; set; }
         bool BaseNeeded { get; set; }
         bool ClearNeeded { get; set; }
+        bool TimeAnimationNeeded { get; set; }
         IKeyboardController Control { get; set; }
     }
 }

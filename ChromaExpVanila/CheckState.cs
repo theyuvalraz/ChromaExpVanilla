@@ -16,6 +16,8 @@ namespace ChromaExpVanilla
         public bool FirstAnimationNeeded { get; set; }
         public bool SecondAnimationNeeded { get; set; }
         public bool BaseNeeded { get; set; }
+        public bool TimeAnimationNeeded { get; set; }
+
         private Action _thingsToDo;
         public IKeyboardController Control { get; set; } = new KeyControl();
 
@@ -43,6 +45,11 @@ namespace ChromaExpVanilla
             {
                 BaseNeeded = false;
                 _thingsToDo += await Task.Run( () => StartBaseSet( Control ));
+            }
+            if (TimeAnimationNeeded)
+            {
+                TimeAnimationNeeded = false;
+                _thingsToDo += await Task.Run( () => StartTimeAnimation( Control ) );
             }
             if (!CurrentStateNeeded) return await GetIsChangeStates( Control );
             CurrentStateNeeded = false;
@@ -83,7 +90,10 @@ namespace ChromaExpVanilla
         {
             return control.ClearCustom;
         }
-
+        private static Action StartTimeAnimation( IKeyboardController control )
+        {
+            return control.TimeAnimation;
+        }
         private async Task<Action> IsCapsChange(IKeyboardController control) =>
             CapsStatus == System.Windows.Forms.Control.IsKeyLocked(Keys.CapsLock)
                 ? null

@@ -29,6 +29,7 @@ namespace TrayApp
 
         private readonly ConcurrentQueue<BackgroundWorker> _backgroundWorkerStack =
             new ConcurrentQueue<BackgroundWorker>();
+        IStateChecker checkState = new CheckState();
 
         private void AddbackgroundWorker()
         {
@@ -67,15 +68,6 @@ namespace TrayApp
             _sysTrayIcon.ContextMenu = sysTrayMenu;
             _sysTrayIcon.Visible = true;
 
-
-            //_control.Animation(_blocks.AnimationConcept);
-            //_control.FrameAnimation(_blocks.AnimationConceptStage2);
-
-            //var task = Task.Run(() => _control.CustomLayer.Clear());
-            //await task.ContinueWith((t) => _control.SetColorBase());
-
-            //_control.InitiateCustom();
-
             AddbackgroundWorker();
             _backgroundWorkerStack.TryPeek(out BackgroundWorker worker);
             worker.DoWork += BackgroundWorkerOnDoWork;
@@ -101,12 +93,11 @@ namespace TrayApp
         private void BackgroundWorkerOnDoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker) sender;
-            IStateChecker checkState = new CheckState();
             checkState.FirstAnimationNeeded = true;
             checkState.SecondAnimationNeeded = true;
             checkState.ClearNeeded = true;
             checkState.BaseNeeded = true;
-
+            checkState.CurrentStateNeeded = true;
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
@@ -124,11 +115,10 @@ namespace TrayApp
 
         private void OnRestart(object sender, EventArgs e)
         {
+            _backgroundWorkerStack.TryPeek( out var workersToRemove );
+            workersToRemove.CancelAsync();
+            workersToRemove.Dispose();
             RemovebackgroundWorkers();
-            //_control.Animation(_blocks.AnimationConcept);
-
-            //var task = Task.Run( () => _control.CustomLayer.Clear() );
-            //await task.ContinueWith( ( t ) => _control.SetColorBase() );
 
             AddbackgroundWorker();
             _backgroundWorkerStack.TryPeek(out var worker);
@@ -140,7 +130,7 @@ namespace TrayApp
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
-            //_control.TimeAnimation();
+            checkState.TimeAnimationNeeded = true;
             _t.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
     }
