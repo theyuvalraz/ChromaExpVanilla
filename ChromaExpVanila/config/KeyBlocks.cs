@@ -22,6 +22,10 @@ namespace ChromaExpVanilla.config
         private static readonly Color MiscSet4 = Color.Red;
         private static readonly Color MiscSet5 = Color.Yellow;
 
+        private static readonly Color AltNumPadColor1 = Color.Orange;
+        private static readonly Color AltNumPadColor2 = Color.Purple;
+        private static readonly Color AltNumPadColor3 = Color.Black;
+
         public List<ColoredKey> MiscColoredKeys = new List<ColoredKey>()
         {
             new ColoredKey(Key.Macro1, MiscSet1),
@@ -34,9 +38,8 @@ namespace ChromaExpVanilla.config
             new ColoredKey(Key.NumEnter, MiscSet1),
             new ColoredKey(Key.Backspace, MiscSet1),
             new ColoredKey(Key.OemTilde, MiscSet1),
-            new ColoredKey(Key.Delete, MiscSet1),
             new ColoredKey(Key.Pause, MiscSet5),
-            new ColoredKey(Key.Insert, MiscSet4),
+            new ColoredKey(Key.Insert, MiscSet4)
         };
 
         public List<ColoredKey> UsefulKeys = new List<ColoredKey>
@@ -49,7 +52,9 @@ namespace ChromaExpVanilla.config
             new ColoredKey(Key.F2, UsefulKeysColor),
             new ColoredKey(Key.F5, UsefulKeysColor),
             new ColoredKey(Key.PageUp, UsefulKeysColor),
-            new ColoredKey(Key.PageDown, UsefulKeysColor)
+            new ColoredKey(Key.PageDown, UsefulKeysColor),
+            new ColoredKey(Key.Delete, UsefulKeysColor),
+
         };
 
         public List<ColoredKey> NumberKeys = new List<ColoredKey>
@@ -228,19 +233,19 @@ namespace ChromaExpVanilla.config
 
         public List<ColoredKey> AltNumPad = new List<ColoredKey>
         {
-            new ColoredKey(Key.Num1, Color.Orange),
-            new ColoredKey(Key.Num3, Color.Orange),
-            new ColoredKey(Key.Num7, Color.Orange),
-            new ColoredKey(Key.Num9, Color.Orange),
-            new ColoredKey(Key.NumDecimal, Color.Orange),
-            new ColoredKey(Key.NumLock, Color.Orange),
-            new ColoredKey(Key.NumEnter, Color.Orange),
-            new ColoredKey(Key.Num2, Color.Purple),
-            new ColoredKey(Key.Num4, Color.Purple),
-            new ColoredKey(Key.Num6, Color.Purple),
-            new ColoredKey(Key.Num8, Color.Purple),
-            new ColoredKey(Key.Num0, Color.Black),
-            new ColoredKey(Key.Num5, Color.Black)
+            new ColoredKey(Key.Num1, AltNumPadColor1),
+            new ColoredKey(Key.Num3, AltNumPadColor1),
+            new ColoredKey(Key.Num7, AltNumPadColor1),
+            new ColoredKey(Key.Num9, AltNumPadColor1),
+            new ColoredKey(Key.NumDecimal, AltNumPadColor1),
+            new ColoredKey(Key.NumLock, AltNumPadColor1),
+            new ColoredKey(Key.NumEnter, AltNumPadColor1),
+            new ColoredKey(Key.Num2, AltNumPadColor2),
+            new ColoredKey(Key.Num4, AltNumPadColor2),
+            new ColoredKey(Key.Num6, AltNumPadColor2),
+            new ColoredKey(Key.Num8, AltNumPadColor2),
+            new ColoredKey(Key.Num0, AltNumPadColor3),
+            new ColoredKey(Key.Num5, AltNumPadColor3)
         };
 
         public List<ColoredKey> Logo = new List<ColoredKey>
