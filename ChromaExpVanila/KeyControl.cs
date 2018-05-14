@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading;
-using System.Threading.Tasks;
 using ChromaExpVanilla.config;
 using Corale.Colore.Core;
 using Corale.Colore.Razer.Keyboard;
@@ -11,29 +11,25 @@ using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla
 {
-    public class KeyControl : IKeyboardController
+    [Synchronization]
+    public sealed class KeyControl : IKeyboardController
     {
+        private const uint BaseColor = 0x202020;
         private readonly KeyBlocks _blocks = new KeyBlocks();
         private readonly IKeyboard _inst = Keyboard.Instance;
-        private const uint BaseColor = 0x202020;
-        public Custom CustomLayer { get; set; } = new Custom(Color.FromRgb(BaseColor));
+        private Custom CustomLayer { get; set; } = new Custom(Color.FromRgb(BaseColor));
 
         public void InitiateCustom()
         {
             _inst.SetCustom(CustomLayer);
         }
 
-        public void InitiateCustom(Custom customLayer)
+        public void ClearCustom()
         {
-            _inst.SetCustom(customLayer);
+            _inst.Clear();
         }
 
-        public async Task SetColorBase()
-        {
-            await Task.Run(action: SetBase);
-        }
-
-        private void SetBase()
+        public void SetBase()
         {
             _inst.SetAll(BaseColor);
             SetCustom(_blocks.UsefulKeys);
@@ -42,34 +38,6 @@ namespace ChromaExpVanilla
 
             SetCustom(_blocks.UsefulKeys);
             SetCustom(_blocks.UselessKeys);
-        }
-
-        public void SetCustom(List<IColoredKey> coloredKeyList)
-        {
-            foreach (var colorKey in coloredKeyList)
-            {
-                SetCustomKey(colorKey.Key, colorKey.Color);
-            }
-        }
-
-        public void SetCustom(List<IColoredKey> keyList, Color color)
-        {
-            foreach (var keySetting in keyList)
-            {
-                SetCustomKey(keySetting.Key, color);
-                keySetting.Color = color;
-            }
-        }
-
-        public void SetCustomKey(Key key, Color color)
-        {
-            var customLayer = CustomLayer;
-            customLayer[key] = color;
-        }
-
-        public void CurrentStateNeeded()
-        {
-            SetColorBase().RunSynchronously();
         }
 
         public void SetEng()
@@ -82,13 +50,6 @@ namespace ChromaExpVanilla
             LangFrameAnimation(_blocks.HebAnimation);
         }
 
-
-        public void TopNumChange(Color color)
-        {
-            _inst.SetKeys(new List<Key>(_blocks.NumberKeys.Select(x => x.Key).ToList()), color);
-            SetCustom(_blocks.NumberKeys, color);
-        }
-
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
@@ -98,9 +59,7 @@ namespace ChromaExpVanilla
         {
             Thread.Sleep(10);
             foreach (var coloredKey in _blocks.AltNumPad)
-            {
                 _inst.SetKey(coloredKey.Key, coloredKey.Color);
-            }
 
             SetCustom(_blocks.AltNumPad);
             Thread.Sleep(10);
@@ -118,7 +77,45 @@ namespace ChromaExpVanilla
             SetCustom(_blocks.CapsLk, Color.FromRgb(BaseColor));
         }
 
-        public void Animation(List<List<IColoredKey>> keyBlocks)
+        public void FirstAnimation()
+        {
+            Animation(_blocks.AnimationConcept);
+        }
+
+        public void SecondAnimation()
+        {
+            FrameAnimation(_blocks.AnimationConceptStage2);
+        }
+
+        public void TimeAnimation()
+        {
+            for (var i = 0; i < 3; i++)
+                NotificationAnimation(Color.Pink);
+        }
+
+        private void SetCustom(List<IColoredKey> coloredKeyList)
+        {
+            foreach (var colorKey in coloredKeyList)
+                SetCustomKey(colorKey.Key, colorKey.Color);
+        }
+
+        private void SetCustom(List<IColoredKey> keyList, Color color)
+        {
+            foreach (var keySetting in keyList)
+            {
+                SetCustomKey(keySetting.Key, color);
+                keySetting.Color = color;
+            }
+        }
+
+        private void SetCustomKey(Key key, Color color)
+        {
+            var customLayer = CustomLayer;
+            customLayer[key] = color;
+        }
+
+
+        private void Animation(List<List<IColoredKey>> keyBlocks)
         {
             _inst.Clear();
             if (keyBlocks != null)
@@ -142,7 +139,8 @@ namespace ChromaExpVanilla
                 }
         }
 
-        public void FrameAnimation(List<List<IColoredKey>> keyBlocks)
+
+        private void FrameAnimation(List<List<IColoredKey>> keyBlocks)
         {
             if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
@@ -155,7 +153,7 @@ namespace ChromaExpVanilla
                 }
         }
 
-        public void LangFrameAnimation(List<List<IColoredKey>> keyBlocks)
+        private void LangFrameAnimation(List<List<IColoredKey>> keyBlocks)
         {
             if (keyBlocks == null) return;
             for (var i = 0; i < keyBlocks.Count; i++)
@@ -168,25 +166,11 @@ namespace ChromaExpVanilla
             }
         }
 
-        public void TimeAnimation()
-        {
-            for (var i = 0; i < 3; i++)
-            {
-                NotificationAnimation(Color.Pink);
-            }
-        }
-
-        //public void UserChangeAnimation()
-        //{
-        //    NotificationAnimation(Color.Pink);
-        //}
-
-        public void NotificationAnimation(Color color)
+        private void NotificationAnimation(Color color)
         {
             var tempCustom = CustomLayer.Clone();
             var flow = _blocks.AllLetterKeys;
             for (var i = 0; i < flow.Count; i++)
-            {
                 try
                 {
                     Thread.Sleep(50);
@@ -205,47 +189,46 @@ namespace ChromaExpVanilla
                 {
                     // ignored
                 }
-            }
 
             InitiateCustom();
         }
 
-        public void ConstantAnimation()
-        {
-            var tempCustom = CustomLayer.Clone();
-            for (var j = 0; j < Constants.MaxColumns; j++)
-            {
-                for (var i = 0; i < Constants.MaxRows; i++)
-                {
-                    try
-                    {
-                        Thread.Sleep(10);
-                        _inst[i, j] = Color.Green;
-                        InitiateCustom();
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
-                }
+        //public void ConstantAnimation()
+        //{
+        //    var tempCustom = CustomLayer.Clone();
+        //    for (var j = 0; j < Constants.MaxColumns; j++)
+        //    {
+        //        for (var i = 0; i < Constants.MaxRows; i++)
+        //        {
+        //            try
+        //            {
+        //                Thread.Sleep(10);
+        //                _inst[i, j] = Color.Green;
+        //                InitiateCustom();
+        //            }
+        //            catch (Exception)
+        //            {
+        //                // ignored
+        //            }
+        //        }
 
-                for (var i = 0; i < Constants.MaxRows; i++)
-                {
-                    try
-                    {
-                        Thread.Sleep(50);
-                        _inst[i, j] = Color.Black;
-                        InitiateCustom();
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
-                }
-            }
+        //        for (var i = 0; i < Constants.MaxRows; i++)
+        //        {
+        //            try
+        //            {
+        //                Thread.Sleep(50);
+        //                _inst[i, j] = Color.Black;
+        //                InitiateCustom();
+        //            }
+        //            catch (Exception)
+        //            {
+        //                // ignored
+        //            }
+        //        }
+        //    }
 
-            SetBase();
-            InitiateCustom(tempCustom);
-        }
+        //    SetBase();
+        //    InitiateCustom(tempCustom);
+        //}
     }
 }

@@ -7,15 +7,6 @@ namespace ChromaExpVanilla.config
 {
     public class GetLayout : IGetKeyboardLayout
     {
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hwnd, IntPtr proccess);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetKeyboardLayout(uint thread);
-
         public CultureInfo GetCurrentKeyboardLayout()
         {
             try
@@ -31,5 +22,14 @@ namespace ChromaExpVanilla.config
                 return new CultureInfo(1033);
             }
         }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hwnd, IntPtr proccess);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetKeyboardLayout(uint thread);
     }
 }

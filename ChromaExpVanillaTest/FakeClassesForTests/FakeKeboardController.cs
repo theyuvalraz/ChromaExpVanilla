@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Corale.Colore.Razer.ChromaLink.Effects;
+using Corale.Colore.Razer.Keyboard.Effects;
 using Interfacer.Interfaces;
-using Custom = Corale.Colore.Razer.Keyboard.Effects.Custom;
 
 namespace ChromaExpVanillaTest.FakeClassesForTests
 {
-    class FakeKeboardController : IKeyboardController
+    internal class FakeKeboardController : IKeyboardController
     {
+        public Custom CustomLayer { get; set; }
+
         public void CapsLockOn()
         {
-            Debugger.Log(1, "action", "CapsLockOn");
             Console.WriteLine("CapsLockOn");
         }
 
         public void CapsLockOff()
         {
-            Debugger.Log(1, "action", "CapsLockOff");
             Console.WriteLine("CapsLockOff");
         }
 
@@ -44,6 +40,36 @@ namespace ChromaExpVanillaTest.FakeClassesForTests
             Console.WriteLine("SetHeb");
         }
 
+        public void InitiateCustom()
+        {
+            Console.WriteLine("InitiateCustom");
+        }
+
+        public void TimeAnimation()
+        {
+            Console.WriteLine("TimeAnimation");
+        }
+
+        public void FirstAnimation()
+        {
+            Console.WriteLine("FirstAnimation");
+        }
+
+        public void SecondAnimation()
+        {
+            Console.WriteLine("SecondAnimation");
+        }
+
+        public void SetBase()
+        {
+            Console.WriteLine("SetBase");
+        }
+
+        public void ClearCustom()
+        {
+            Console.WriteLine("ClearCustom");
+        }
+
         public void Animation(List<List<IColoredKey>> keyBlocks)
         {
             Console.WriteLine("Animation");
@@ -54,22 +80,10 @@ namespace ChromaExpVanillaTest.FakeClassesForTests
             Console.WriteLine("FrameAnimation");
         }
 
-        public Custom CustomLayer { get; set; }
-
         public Task SetColorBase()
         {
             Console.WriteLine("SetColorBase");
             return Task.CompletedTask;
-        }
-
-        public void InitiateCustom()
-        {
-            Console.WriteLine("InitiateCustom");
-        }
-
-        public void TimeAnimation()
-        {
-            Console.WriteLine("TimeAnimation");
         }
     }
 }

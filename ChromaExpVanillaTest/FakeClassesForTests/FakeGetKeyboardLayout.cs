@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using Interfacer.Interfaces;
 
 namespace ChromaExpVanillaTest.FakeClassesForTests
 {
-    class FakeGetKeyboardLayout : IGetKeyboardLayout
+    internal class FakeGetKeyboardLayout : IGetKeyboardLayout
     {
-        public string FakeLayout { get; set; }
-
         public FakeGetKeyboardLayout(string fakeLayout)
         {
             FakeLayout = fakeLayout;
         }
+
+        public string FakeLayout { get; set; }
 
         public CultureInfo GetCurrentKeyboardLayout()
         {

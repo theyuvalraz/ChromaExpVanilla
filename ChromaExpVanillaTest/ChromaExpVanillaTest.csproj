@@ -65,10 +65,6 @@
       <Project>{075228f5-2b3b-42a9-91bd-e88fb048a660}</Project>
       <Name>Interfacer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TrayApp\TrayApp.csproj">
-      <Project>{820cc77e-02bd-4ebb-ae5e-adbfffb73a11}</Project>
-      <Name>TrayApp</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

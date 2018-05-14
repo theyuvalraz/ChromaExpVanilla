@@ -1,11 +1,14 @@
-﻿namespace TrayApp
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace TrayApp
 {
-    partial class Magic : System.Windows.Forms.Form
+    partial class Magic : Form
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -49,7 +52,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer ActivateTimed;
+        private Timer ActivateTimed;
     }
 }
 
