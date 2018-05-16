@@ -141,7 +141,7 @@ namespace ChromaExpVanilla
 
         private async Task<Action> CheckLang(IKeyboardController control)
         {
-            await Task.Delay(250);
+
             var currentLayout = await Task.Run(() => KeyboardLayout.GetCurrentKeyboardLayout().ToString());
             LangStatus = currentLayout;
             switch (LangStatus)

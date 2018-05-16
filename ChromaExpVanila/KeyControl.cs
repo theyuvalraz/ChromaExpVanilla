@@ -11,7 +11,6 @@ using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla
 {
-    [Synchronization]
     public sealed class KeyControl : IKeyboardController
     {
         private const uint BaseColor = 0x202020;
@@ -53,6 +52,8 @@ namespace ChromaExpVanilla
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
+            SetCustom(_blocks.Numpad, Color.FromRgb(0x47E10C));
+
         }
 
         public void NumLockOff()
@@ -112,6 +113,7 @@ namespace ChromaExpVanilla
         {
             var customLayer = CustomLayer;
             customLayer[key] = color;
+            CustomLayer = customLayer;
         }
 
 

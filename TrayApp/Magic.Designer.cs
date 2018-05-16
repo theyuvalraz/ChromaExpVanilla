@@ -33,11 +33,17 @@ namespace TrayApp
         {
             this.components = new System.ComponentModel.Container();
             this.ActivateTimed = new System.Windows.Forms.Timer(this.components);
+            this.CheckChanges = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // ActivateTimed
             // 
             this.ActivateTimed.Tick += new System.EventHandler(this.ActivateTimed_Tick);
+            // 
+            // CheckChanges
+            // 
+            this.CheckChanges.Interval = 250;
+            this.CheckChanges.Tick += new System.EventHandler(this.CheckChanges_Tick);
             // 
             // Magic
             // 
@@ -53,6 +59,7 @@ namespace TrayApp
         #endregion
 
         private Timer ActivateTimed;
+        private Timer CheckChanges;
     }
 }
 
