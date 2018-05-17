@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla.config

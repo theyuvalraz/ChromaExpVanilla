@@ -1,37 +1,30 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.ComponentModel;
 using System.Drawing;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfacer.Interfaces;
 using TrayApp.Properties;
 using CheckState = ChromaExpVanilla.CheckState;
-using Timer = System.Windows.Forms.Timer;
-//using System.Linq;
-//using ChromaExpVanilla;
-//using ChromaExpVanilla.config;
 
 namespace TrayApp
 {
     public partial class Magic
     {
-
-        int CheckInterval = 30;
         private readonly TimeControl _timeControl = new TimeControl();
-        
-        private NotifyIcon _sysTrayIcon;
 
-        private string _tooltip = string.Empty;
-        private IStateChecker _checkState = new CheckState()
+        private IStateChecker _checkState = new CheckState
         {
-           FirstAnimationNeeded = true,
+            FirstAnimationNeeded = true,
             SecondAnimationNeeded = true,
             ClearNeeded = true,
             BaseNeeded = true,
             CurrentStateNeeded = true
         };
+
+        private NotifyIcon _sysTrayIcon;
+
+        private string _tooltip = string.Empty;
+
+        private readonly int CheckInterval = 30;
 
         public Magic()
         {
@@ -85,11 +78,10 @@ namespace TrayApp
             ActivateTimed.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
         }
 
-        private async void CheckChanges_Tick(object sender, EventArgs e)
+        private void CheckChanges_Tick(object sender, EventArgs e)
         {
-            var state = await _checkState.States();
+            var state = _checkState.States();
             state?.Invoke();
-
         }
     }
 }
