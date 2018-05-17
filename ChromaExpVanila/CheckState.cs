@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Contexts;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChromaExpVanilla.config;
@@ -6,6 +7,7 @@ using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla
 {
+    [Synchronization]
     public class CheckState : IStateChecker
     {
         private Action _thingsToDo;
@@ -60,7 +62,7 @@ namespace ChromaExpVanilla
             _thingsToDo += await CheckCaps(control);
             _thingsToDo += await CheckNumLock(control);
             _thingsToDo += await CheckLang(control);
-            return _thingsToDo;
+             return _thingsToDo;
         }
 
         private async Task<Action> GetIsChangeStates(IKeyboardController control)

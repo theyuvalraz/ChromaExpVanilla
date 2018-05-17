@@ -77,8 +77,6 @@ namespace TrayApp
                 CurrentStateNeeded = true
             };
             ActivateTimed.Start();
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
         }
 
         private void ActivateTimed_Tick(object sender, EventArgs e)
