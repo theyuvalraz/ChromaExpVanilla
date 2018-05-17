@@ -53,6 +53,7 @@ namespace ChromaExpVanilla
         public void NumLockOn()
         {
             _inst.SetKeys(new List<Key>(_blocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
+            SetCustom(_blocks.Numpad, Color.FromRgb(0x47E10C));
         }
 
         public void NumLockOff()
@@ -93,13 +94,13 @@ namespace ChromaExpVanilla
                 NotificationAnimation(Color.Pink);
         }
 
-        private void SetCustom(List<IColoredKey> coloredKeyList)
+        private void SetCustom(IEnumerable<IColoredKey> coloredKeyList)
         {
             foreach (var colorKey in coloredKeyList)
                 SetCustomKey(colorKey.Key, colorKey.Color);
         }
 
-        private void SetCustom(List<IColoredKey> keyList, Color color)
+        private void SetCustom(IEnumerable<IColoredKey> keyList, Color color)
         {
             foreach (var keySetting in keyList)
             {
@@ -112,50 +113,48 @@ namespace ChromaExpVanilla
         {
             var customLayer = CustomLayer;
             customLayer[key] = color;
+            CustomLayer = customLayer;
         }
 
 
-        private void Animation(List<List<IColoredKey>> keyBlocks)
+        private void Animation(IReadOnlyList<List<IColoredKey>> keyBlocks)
         {
             _inst.Clear();
-            if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count; i++)
-                {
-                    Thread.Sleep(40 - i);
-                    if (keyBlocks.Count > i)
-                        _inst.SetKeys(new List<Key>(keyBlocks[i].Select(x => x.Key).ToList()), Color.Red);
-                    Thread.Sleep(8);
-                    if (keyBlocks.Count > i - 1 && i - 1 >= 0)
-                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 1].Select(x => x.Key).ToList()), Color.Orange);
-                    Thread.Sleep(8);
-                    if (keyBlocks.Count > i - 2 && i - 2 >= 0)
-                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 2].Select(x => x.Key).ToList()), Color.Green);
-                    Thread.Sleep(8);
-                    if (keyBlocks.Count > i - 3 && i - 3 >= 0)
-                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 3].Select(x => x.Key).ToList()), Color.Yellow);
-                    Thread.Sleep(8);
-                    if (keyBlocks.Count > i - 4 && i - 4 >= 0)
-                        _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
-                }
+            for (var i = 0; i < keyBlocks.Count; i++)
+            {
+                Thread.Sleep(40 - i);
+                if (keyBlocks.Count > i)
+                    _inst.SetKeys(new List<Key>(keyBlocks[i].Select(x => x.Key).ToList()), Color.Red);
+                Thread.Sleep(8);
+                if (keyBlocks.Count > i - 1 && i - 1 >= 0)
+                    _inst?.SetKeys(new List<Key>(keyBlocks[i - 1].Select(x => x.Key).ToList()), Color.Orange);
+                Thread.Sleep(8);
+                if (keyBlocks.Count > i - 2 && i - 2 >= 0)
+                    _inst?.SetKeys(new List<Key>(keyBlocks[i - 2].Select(x => x.Key).ToList()), Color.Green);
+                Thread.Sleep(8);
+                if (keyBlocks.Count > i - 3 && i - 3 >= 0)
+                    _inst?.SetKeys(new List<Key>(keyBlocks[i - 3].Select(x => x.Key).ToList()), Color.Yellow);
+                Thread.Sleep(8);
+                if (keyBlocks.Count > i - 4 && i - 4 >= 0)
+                    _inst?.SetKeys(new List<Key>(keyBlocks[i - 4].Select(x => x.Key).ToList()), Color.White);
+            }
         }
 
 
-        private void FrameAnimation(List<List<IColoredKey>> keyBlocks)
+        private void FrameAnimation(IReadOnlyList<List<IColoredKey>> keyBlocks)
         {
-            if (keyBlocks != null)
-                for (var i = 0; i < keyBlocks.Count; i++)
-                {
-                    Thread.Sleep(100);
-                    if (keyBlocks.Count > i)
-                        SetCustom(keyBlocks[i]);
-                    InitiateCustom();
-                    Thread.Sleep(10);
-                }
+            for (var i = 0; i < keyBlocks.Count; i++)
+            {
+                Thread.Sleep(100);
+                if (keyBlocks.Count > i)
+                    SetCustom(keyBlocks[i]);
+                InitiateCustom();
+                Thread.Sleep(10);
+            }
         }
 
-        private void LangFrameAnimation(List<List<IColoredKey>> keyBlocks)
+        private void LangFrameAnimation(IReadOnlyList<List<IColoredKey>> keyBlocks)
         {
-            if (keyBlocks == null) return;
             for (var i = 0; i < keyBlocks.Count; i++)
             {
                 Thread.Sleep(20);

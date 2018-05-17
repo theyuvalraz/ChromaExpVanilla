@@ -7,19 +7,24 @@ namespace ChromaExpVanilla.config
 {
     public class GetLayout : IGetKeyboardLayout
     {
+        private readonly object _thisLock = new object();
+
         public CultureInfo GetCurrentKeyboardLayout()
         {
-            try
+            lock (_thisLock)
             {
-                var foregroundWindow = GetForegroundWindow();
-                var foregroundProcess = GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
+                try
+                {
+                    var foregroundWindow = GetForegroundWindow();
+                    var foregroundProcess = GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
 
-                var keyboardLayout = GetKeyboardLayout(foregroundProcess).ToInt32() & 0xFFFF;
-                return new CultureInfo(keyboardLayout);
-            }
-            catch (Exception)
-            {
-                return new CultureInfo(1033);
+                    var keyboardLayout = GetKeyboardLayout(foregroundProcess).ToInt32() & 0xFFFF;
+                    return new CultureInfo(keyboardLayout);
+                }
+                catch (Exception)
+                {
+                    return new CultureInfo(1033);
+                }
             }
         }
 

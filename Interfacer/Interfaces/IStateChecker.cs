@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Interfacer.Interfaces
 {
@@ -13,6 +12,6 @@ namespace Interfacer.Interfaces
         bool ClearNeeded { set; }
         bool TimeAnimationNeeded { set; }
         IKeyboardController Control { get; set; }
-        Task<Action> States();
+        Action States();
     }
 }
