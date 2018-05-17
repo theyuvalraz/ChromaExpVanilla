@@ -94,13 +94,13 @@ namespace ChromaExpVanilla
                 NotificationAnimation(Color.Pink);
         }
 
-        private void SetCustom(List<IColoredKey> coloredKeyList)
+        private void SetCustom(IEnumerable<IColoredKey> coloredKeyList)
         {
             foreach (var colorKey in coloredKeyList)
                 SetCustomKey(colorKey.Key, colorKey.Color);
         }
 
-        private void SetCustom(List<IColoredKey> keyList, Color color)
+        private void SetCustom(IEnumerable<IColoredKey> keyList, Color color)
         {
             foreach (var keySetting in keyList)
             {
@@ -117,10 +117,9 @@ namespace ChromaExpVanilla
         }
 
 
-        private void Animation(List<List<IColoredKey>> keyBlocks)
+        private void Animation(IReadOnlyList<List<IColoredKey>> keyBlocks)
         {
             _inst.Clear();
-            if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
                 {
                     Thread.Sleep(40 - i);
@@ -142,9 +141,8 @@ namespace ChromaExpVanilla
         }
 
 
-        private void FrameAnimation(List<List<IColoredKey>> keyBlocks)
+        private void FrameAnimation(IReadOnlyList<List<IColoredKey>> keyBlocks)
         {
-            if (keyBlocks != null)
                 for (var i = 0; i < keyBlocks.Count; i++)
                 {
                     Thread.Sleep(100);
@@ -155,9 +153,8 @@ namespace ChromaExpVanilla
                 }
         }
 
-        private void LangFrameAnimation(List<List<IColoredKey>> keyBlocks)
+        private void LangFrameAnimation(IReadOnlyList<List<IColoredKey>> keyBlocks)
         {
-            if (keyBlocks == null) return;
             for (var i = 0; i < keyBlocks.Count; i++)
             {
                 Thread.Sleep(20);
