@@ -11,6 +11,7 @@ using Interfacer.Interfaces;
 
 namespace ChromaExpVanilla
 {
+    [Synchronization]
     public sealed class KeyControl : IKeyboardController
     {
         private const uint BaseColor = 0x202020;
