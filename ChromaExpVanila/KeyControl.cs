@@ -46,7 +46,7 @@ namespace ChromaExpVanilla
         }
 
 
-        internal void Animation(IReadOnlyList<List<IColoredKey>> keyBlocks)
+        internal void Animation(IReadOnlyList<IColoredKey[]> keyBlocks)
         {
             Inst.Clear();
             for (var i = 0; i < keyBlocks.Count; i++)
@@ -70,7 +70,7 @@ namespace ChromaExpVanilla
         }
 
 
-        internal void FrameAnimation(IReadOnlyList<List<IColoredKey>> keyBlocks)
+        internal void FrameAnimation(IReadOnlyList<IColoredKey[]> keyBlocks)
         {
             for (var i = 0; i < keyBlocks.Count; i++)
             {
@@ -82,7 +82,7 @@ namespace ChromaExpVanilla
             }
         }
 
-        internal void LangFrameAnimation(IReadOnlyList<List<IColoredKey>> keyBlocks)
+        internal void LangFrameAnimation(IReadOnlyList<IColoredKey[]> keyBlocks)
         {
             for (var i = 0; i < keyBlocks.Count; i++)
             {

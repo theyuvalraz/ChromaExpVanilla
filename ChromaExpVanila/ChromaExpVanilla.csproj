@@ -62,6 +62,7 @@
     <Compile Include="config\GetIsLocked.cs" />
     <Compile Include="config\GetLayout.cs" />
     <Compile Include="config\KeyBlocks.cs" />
+    <Compile Include="config\StartAnimations.cs" />
     <Compile Include="KeyboardActions.cs" />
     <Compile Include="KeyControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
