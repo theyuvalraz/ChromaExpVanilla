@@ -1,9 +1,7 @@
-﻿using System.Globalization;
-
-namespace Interfacer.Interfaces
+﻿namespace Interfacer.Interfaces
 {
     public interface IGetKeyboardLayout
     {
-        CultureInfo GetCurrentKeyboardLayout();
+        string GetCurrentKeyboardLayout();
     }
 }

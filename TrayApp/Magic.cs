@@ -9,22 +9,14 @@ namespace TrayApp
 {
     public partial class Magic
     {
+        private readonly int _checkInterval = 30;
         private readonly TimeControl _timeControl = new TimeControl();
 
-        private IStateChecker _checkState = new CheckState
-        {
-            FirstAnimationNeeded = true,
-            SecondAnimationNeeded = true,
-            ClearNeeded = true,
-            BaseNeeded = true,
-            CurrentStateNeeded = true
-        };
+        private IStateChecker _checkState;
 
         private NotifyIcon _sysTrayIcon;
 
         private string _tooltip = string.Empty;
-
-        private readonly int CheckInterval = 30;
 
         public Magic()
         {
@@ -46,7 +38,16 @@ namespace TrayApp
             _sysTrayIcon.ContextMenu = sysTrayMenu;
             _sysTrayIcon.Visible = true;
 
-            ActivateTimed.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
+            _checkState = new CheckState
+            {
+                FirstAnimationNeeded = true,
+                SecondAnimationNeeded = true,
+                ClearNeeded = true,
+                BaseNeeded = true,
+                CurrentStateNeeded = true
+            };
+
+            ActivateTimed.Interval = _timeControl.CalculateTimerInterval(_checkInterval);
             ActivateTimed.Start();
             CheckChanges.Start();
 
@@ -75,7 +76,7 @@ namespace TrayApp
         private void ActivateTimed_Tick(object sender, EventArgs e)
         {
             _checkState.TimeAnimationNeeded = true;
-            ActivateTimed.Interval = _timeControl.CalculateTimerInterval(CheckInterval);
+            ActivateTimed.Interval = _timeControl.CalculateTimerInterval(_checkInterval);
         }
 
         private void CheckChanges_Tick(object sender, EventArgs e)

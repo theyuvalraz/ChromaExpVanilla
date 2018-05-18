@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using ChromaExpVanilla;
 using ChromaExpVanillaTest.FakeClassesForTests;
-using Interfacer.Interfaces;
 using NUnit.Framework;
 
 namespace ChromaExpVanillaTest
@@ -13,10 +11,94 @@ namespace ChromaExpVanillaTest
     public class StateCheckerTest
     {
         [Test]
+        public void Test_CapsLockIsOff()
+        {
+            var checker = new CheckState
+            {
+                IsLocked = new FakeGetIsLocked {IsCapsLocked = false},
+                Control = new FakeKeboardController()
+            };
+            var returnedStateActions = checker.States();
+            returnedStateActions.Invoke();
+            foreach (var delegateItem in returnedStateActions.GetInvocationList()
+                .Where(x => x.Method.Name == "CapsLockOff"))
+            {
+                Console.WriteLine(delegateItem.GetMethodInfo());
+                Assert.True(delegateItem.GetMethodInfo().Name == "CapsLockOff");
+            }
+        }
+
+        [Test]
+        public void Test_CapsLockIsOn()
+        {
+            var checker = new CheckState
+            {
+                IsLocked = new FakeGetIsLocked {IsCapsLocked = true},
+                Control = new FakeKeboardController()
+            };
+            var returnedStateActions = checker.States();
+            returnedStateActions.Invoke();
+            foreach (var delegateItem in returnedStateActions.GetInvocationList()
+                .Where(x => x.Method.Name == "CapsLockOn"))
+            {
+                Console.WriteLine(delegateItem.GetMethodInfo());
+                Assert.True(delegateItem.GetMethodInfo().Name == "CapsLockOn");
+            }
+        }
+
+        [Test]
+        public void Test_NumLockIsOff()
+        {
+            var checker = new CheckState
+            {
+                IsLocked = new FakeGetIsLocked {IsCapsLocked = false},
+                Control = new FakeKeboardController()
+            };
+            var returnedStateActions = checker.States();
+            returnedStateActions.Invoke();
+            foreach (var delegateItem in returnedStateActions.GetInvocationList()
+                .Where(x => x.Method.Name == "NumLockOff"))
+            {
+                Console.WriteLine(delegateItem.GetMethodInfo());
+                Assert.True(delegateItem.GetMethodInfo().Name == "NumLockOff");
+            }
+        }
+
+        [Test]
+        public void Test_NumLockIsOn()
+        {
+            var checker = new CheckState
+            {
+                IsLocked = new FakeGetIsLocked {IsCapsLocked = true},
+                Control = new FakeKeboardController()
+            };
+            var returnedStateActions = checker.States();
+            returnedStateActions.Invoke();
+            foreach (var delegateItem in returnedStateActions.GetInvocationList()
+                .Where(x => x.Method.Name == "NumLockOn"))
+            {
+                Console.WriteLine(delegateItem.GetMethodInfo());
+                Assert.True(delegateItem.GetMethodInfo().Name == "NumLockOn");
+            }
+        }
+
+        [Test]
+        public void Test_NumLockNotSet()
+        {
+            var checker = new CheckState
+            {
+                IsLocked = new FakeGetIsLocked(),
+                Control = new FakeKeboardController()
+            };
+            var returnedStateActions = checker.States();
+            returnedStateActions.Invoke();
+        }
+
+        [Test]
         public void Test_StateCheckerReturnsAction()
         {
             var checker = new CheckState {Control = new FakeKeboardController()};
-            var returnedStateActions =  checker.States();
+            var returnedStateActions = checker.States();
             returnedStateActions.Invoke();
             Assert.True(returnedStateActions.GetType() == typeof(Action));
         }
@@ -29,7 +111,7 @@ namespace ChromaExpVanillaTest
                 KeyboardLayout = new FakeGetKeyboardLayout("en-US"),
                 Control = new FakeKeboardController()
             };
-            var returnedStateActions =  checker.States();
+            var returnedStateActions = checker.States();
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where(x => x.Method.Name == "SetEng"))
             {
@@ -41,13 +123,12 @@ namespace ChromaExpVanillaTest
         [Test]
         public void Test_StateCheckerReturnsHebrew()
         {
-            IKeyboardController keyboardController = new FakeKeboardController();
             var checker = new CheckState
             {
                 KeyboardLayout = new FakeGetKeyboardLayout("he-IL"),
                 Control = new FakeKeboardController()
             };
-            var returnedStateActions =  checker.States();
+            var returnedStateActions = checker.States();
             returnedStateActions.Invoke();
             foreach (var delegateItem in returnedStateActions.GetInvocationList().Where(x => x.Method.Name == "SetHeb"))
             {

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="FakeClassesForTests\FakeGetKeyboardLayout.cs" />
     <Compile Include="FakeClassesForTests\FakeKeboardController.cs" />
+    <Compile Include="FakeClassesForTests\FakeGetIsLocked.cs" />
     <Compile Include="StateCheckerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

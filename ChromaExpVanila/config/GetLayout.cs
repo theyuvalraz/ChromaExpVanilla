@@ -9,7 +9,7 @@ namespace ChromaExpVanilla.config
     {
         private readonly object _thisLock = new object();
 
-        public CultureInfo GetCurrentKeyboardLayout()
+        public string GetCurrentKeyboardLayout()
         {
             lock (_thisLock)
             {
@@ -19,11 +19,11 @@ namespace ChromaExpVanilla.config
                     var foregroundProcess = GetWindowThreadProcessId(foregroundWindow, IntPtr.Zero);
 
                     var keyboardLayout = GetKeyboardLayout(foregroundProcess).ToInt32() & 0xFFFF;
-                    return new CultureInfo(keyboardLayout);
+                    return new CultureInfo(keyboardLayout).ToString();
                 }
                 catch (Exception)
                 {
-                    return new CultureInfo(1033);
+                    return new CultureInfo(1033).ToString();
                 }
             }
         }

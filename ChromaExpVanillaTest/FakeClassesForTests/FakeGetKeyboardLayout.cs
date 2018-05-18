@@ -12,9 +12,9 @@ namespace ChromaExpVanillaTest.FakeClassesForTests
 
         public string FakeLayout { get; set; }
 
-        public CultureInfo GetCurrentKeyboardLayout()
+        public string GetCurrentKeyboardLayout()
         {
-            return new CultureInfo(FakeLayout);
+            return new CultureInfo(FakeLayout).ToString();
         }
     }
 }

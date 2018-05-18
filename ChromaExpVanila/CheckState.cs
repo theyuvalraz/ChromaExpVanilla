@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Remoting.Contexts;
-using System.Windows.Forms;
 using ChromaExpVanilla.config;
 using Interfacer.Interfaces;
 
@@ -13,13 +12,14 @@ namespace ChromaExpVanilla
         private bool NumStatus { get; set; }
         private bool CapsStatus { get; set; }
         private string LangStatus { get; set; }
+        public IGetIsLocked IsLocked { get; set; } = new GetIsLocked();
         public bool CurrentStateNeeded { private get; set; } = true;
         public bool ClearNeeded { private get; set; }
         public bool FirstAnimationNeeded { private get; set; }
         public bool SecondAnimationNeeded { private get; set; }
         public bool BaseNeeded { private get; set; }
         public bool TimeAnimationNeeded { private get; set; }
-        public IKeyboardController Control { get; set; } = new KeyControl();
+        public IKeyboardController Control { get; set; } = new KeyboardActions();
 
         public IGetKeyboardLayout KeyboardLayout { get; set; } = new GetLayout();
 
@@ -104,28 +104,28 @@ namespace ChromaExpVanilla
 
         private Action IsCapsChange(IKeyboardController control)
         {
-            return CapsStatus == System.Windows.Forms.Control.IsKeyLocked(Keys.CapsLock)
+            return CapsStatus == IsLocked.IsCapsLocked
                 ? null
                 : CheckCaps(control);
         }
 
         private Action IsNumChange(IKeyboardController control)
         {
-            return NumStatus == System.Windows.Forms.Control.IsKeyLocked(Keys.NumLock)
+            return NumStatus == IsLocked.IsNumLocked
                 ? null
                 : CheckNumLock(control);
         }
 
         private Action IsLangChange(IKeyboardController control)
         {
-            return LangStatus == KeyboardLayout.GetCurrentKeyboardLayout().ToString()
+            return LangStatus == KeyboardLayout.GetCurrentKeyboardLayout()
                 ? null
                 : CheckLang(control);
         }
 
         private Action CheckCaps(IKeyboardController control)
         {
-            if (System.Windows.Forms.Control.IsKeyLocked(Keys.CapsLock))
+            if (IsLocked.IsCapsLocked)
             {
                 CapsStatus = true;
                 return control.CapsLockOn;
@@ -137,7 +137,7 @@ namespace ChromaExpVanilla
 
         private Action CheckNumLock(IKeyboardController control)
         {
-            if (System.Windows.Forms.Control.IsKeyLocked(Keys.NumLock))
+            if (IsLocked.IsNumLocked)
             {
                 NumStatus = true;
                 return control.NumLockOn;
@@ -149,7 +149,7 @@ namespace ChromaExpVanilla
 
         private Action CheckLang(IKeyboardController control)
         {
-            var currentLayout = KeyboardLayout.GetCurrentKeyboardLayout().ToString();
+            var currentLayout = KeyboardLayout.GetCurrentKeyboardLayout();
             LangStatus = currentLayout;
             switch (LangStatus)
             {

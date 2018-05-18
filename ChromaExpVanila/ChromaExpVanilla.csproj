@@ -59,9 +59,10 @@
   <ItemGroup>
     <Compile Include="CheckState.cs" />
     <Compile Include="config\ColoredKey.cs" />
+    <Compile Include="config\GetIsLocked.cs" />
     <Compile Include="config\GetLayout.cs" />
     <Compile Include="config\KeyBlocks.cs" />
-    <Compile Include="KeyBoardActions.cs" />
+    <Compile Include="KeyboardActions.cs" />
     <Compile Include="KeyControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
