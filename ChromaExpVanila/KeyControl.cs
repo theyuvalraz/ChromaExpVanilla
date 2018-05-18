@@ -98,16 +98,16 @@ namespace ChromaExpVanilla
         {
             var tempCustom = CustomLayer.Clone();
             var flow = KeyBlocks.AllLetterKeys;
-            for (var i = 0; i < flow.Count; i++)
+            for (var i = 0; i < flow.Length; i++)
                 try
                 {
                     Thread.Sleep(50);
 
                     Inst.SetKey(flow[i].Key, color);
                     Thread.Sleep(20);
-                    if (flow.Count > i + 1) Inst.SetKey(flow[i + 1].Key, color);
-                    if (flow.Count > i + 2) Inst.SetKey(flow[i + 2].Key, color);
-                    if (flow.Count > i + 3) Inst.SetKey(flow[i + 3].Key, color);
+                    if (flow.Length > i + 1) Inst.SetKey(flow[i + 1].Key, color);
+                    if (flow.Length > i + 2) Inst.SetKey(flow[i + 2].Key, color);
+                    if (flow.Length > i + 3) Inst.SetKey(flow[i + 3].Key, color);
 
 
                     CustomLayer = tempCustom;

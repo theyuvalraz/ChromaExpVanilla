@@ -1131,7 +1131,7 @@ namespace ChromaExpVanilla.config
             new ColoredKey(Key.CapsLock)
         };
 
-        public static readonly List<IColoredKey[]> EngAnimation = new List<IColoredKey[]>
+        public static readonly IColoredKey[][] EngAnimation =
         {
             new IColoredKey[]
             {
@@ -1253,7 +1253,7 @@ namespace ChromaExpVanilla.config
         //    new ColoredKey(Key.OemBackslash, EnglishAltColor)
         //};
 
-        public static readonly List<IColoredKey[]> HebAnimation = new List<IColoredKey[]>
+        public static readonly IColoredKey[][] HebAnimation =
         {
             new IColoredKey[]
             {

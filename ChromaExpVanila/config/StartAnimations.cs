@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChromaExpVanilla.config
 {
-    class StartAnimations : IDisposable
+    class StartAnimations 
     {
     }
 }
