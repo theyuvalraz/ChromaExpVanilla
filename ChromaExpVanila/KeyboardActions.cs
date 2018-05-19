@@ -18,12 +18,12 @@ namespace ChromaExpVanilla
         public void SetBase()
         {
             Inst.SetAll(BaseColor);
-            SetCustom(KeyBlocks.UsefulKeys);
+            SetCustom(Anim.UsefulKeys());
             SetCustom(KeyBlocks.MiscColoredKeys);
             SetCustom(KeyBlocks.NumberKeys);
 
-            SetCustom(KeyBlocks.UsefulKeys);
-            SetCustom(KeyBlocks.UselessKeys);
+            SetCustom(Anim.UsefulKeys());
+            SetCustom(Anim.UselessKeys());
         }
 
         public void SetEng()
@@ -66,12 +66,12 @@ namespace ChromaExpVanilla
 
         public void FirstAnimation()
         {
-            Animation(KeyBlocks.AnimationConcept);
+            Animation(Anim.AnimationConcept());
         }
 
         public void SecondAnimation()
         {
-            FrameAnimation(KeyBlocks.AnimationConceptStage2);
+            FrameAnimation(Anim.AnimationConceptStage2());
         }
 
         public void TimeAnimation()

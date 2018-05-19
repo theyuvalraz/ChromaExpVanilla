@@ -29,31 +29,31 @@ namespace ChromaExpVanilla
             if (FirstAnimationNeeded)
             {
                 FirstAnimationNeeded = false;
-                _thingsToDo += StartFirstAnimation(Control);
+                Control.FirstAnimation();
             }
 
             if (SecondAnimationNeeded)
             {
                 SecondAnimationNeeded = false;
-                _thingsToDo += StartSecondAnimation(Control);
+                Control.SecondAnimation();
             }
 
             if (ClearNeeded)
             {
                 ClearNeeded = false;
-                _thingsToDo += () => StartClearCustom(Control);
+                Control.ClearCustom();
             }
 
             if (BaseNeeded)
             {
                 BaseNeeded = false;
-                _thingsToDo += StartBaseSet(Control);
+                Control.SetBase();
             }
 
             if (TimeAnimationNeeded)
             {
                 TimeAnimationNeeded = false;
-                _thingsToDo += StartTimeAnimation(Control);
+                return StartTimeAnimation(Control);
             }
 
             if (!CurrentStateNeeded) return GetIsChangeStates(Control);
