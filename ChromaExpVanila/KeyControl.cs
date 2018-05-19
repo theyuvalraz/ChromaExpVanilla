@@ -15,8 +15,10 @@ namespace ChromaExpVanilla
     public class KeyControl
     {
         internal static Color BaseColor = Color.FromRgb(0x00008B);
+        internal readonly StartAnimations Anim = new StartAnimations();
         internal readonly IKeyboard Inst = Keyboard.Instance;
         internal Custom CustomLayer { get; set; } = new Custom(BaseColor);
+
 
         public void InitiateCustom()
         {
@@ -97,7 +99,7 @@ namespace ChromaExpVanilla
         internal void NotificationAnimation(Color color)
         {
             var tempCustom = CustomLayer.Clone();
-            var flow = KeyBlocks.AllLetterKeys;
+            var flow = Anim.AllLetterKeys();
             for (var i = 0; i < flow.Length; i++)
                 try
                 {

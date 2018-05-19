@@ -14,10 +14,10 @@ namespace ChromaExpVanilla
         private string LangStatus { get; set; }
         public IGetIsLocked IsLocked { get; set; } = new GetIsLocked();
         public bool CurrentStateNeeded { private get; set; } = true;
-        public bool ClearNeeded { private get; set; }
-        public bool FirstAnimationNeeded { private get; set; }
-        public bool SecondAnimationNeeded { private get; set; }
-        public bool BaseNeeded { private get; set; }
+        public bool ClearNeeded { private get; set; } = true;
+        public bool FirstAnimationNeeded { private get; set; } = true;
+        public bool SecondAnimationNeeded { private get; set; } = true;
+        public bool BaseNeeded { private get; set; } = true;
         public bool TimeAnimationNeeded { private get; set; }
         public IKeyboardController Control { get; set; } = new KeyboardActions();
 
@@ -29,31 +29,31 @@ namespace ChromaExpVanilla
             if (FirstAnimationNeeded)
             {
                 FirstAnimationNeeded = false;
-                _thingsToDo += StartFirstAnimation(Control);
+                Control.FirstAnimation();
             }
 
             if (SecondAnimationNeeded)
             {
                 SecondAnimationNeeded = false;
-                _thingsToDo += StartSecondAnimation(Control);
+                Control.SecondAnimation();
             }
 
             if (ClearNeeded)
             {
                 ClearNeeded = false;
-                _thingsToDo += () => StartClearCustom(Control);
+                Control.ClearCustom();
             }
 
             if (BaseNeeded)
             {
                 BaseNeeded = false;
-                _thingsToDo += StartBaseSet(Control);
+                Control.SetBase();
             }
 
             if (TimeAnimationNeeded)
             {
                 TimeAnimationNeeded = false;
-                _thingsToDo += StartTimeAnimation(Control);
+                return StartTimeAnimation(Control);
             }
 
             if (!CurrentStateNeeded) return GetIsChangeStates(Control);
