@@ -12,7 +12,7 @@ namespace ChromaExpVanilla.config
         public IColoredKey[][] AnimationConcept()
         {
             return new[]
-            { 
+            {
                 new IColoredKey[] {new ColoredKey(Key.Backspace), new ColoredKey(Key.LeftControl)},
                 new IColoredKey[] {new ColoredKey(Key.OemEquals), new ColoredKey(Key.LeftWindows)},
                 new IColoredKey[] {new ColoredKey(Key.OemMinus), new ColoredKey(Key.LeftAlt)},

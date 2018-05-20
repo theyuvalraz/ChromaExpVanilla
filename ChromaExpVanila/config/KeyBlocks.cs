@@ -38,39 +38,6 @@ namespace ChromaExpVanilla.config
             new ColoredKey(Key.Num5, Color.Black)
         };
 
-        //public static readonly IColoredKey[] AnimationKeys = new IColoredKey[]
-        //{
-        //    new ColoredKey(Key.F7),
-        //    new ColoredKey(Key.D9),
-        //    new ColoredKey(Key.O),
-        //    new ColoredKey(Key.L),
-        //    new ColoredKey(Key.OemComma),
-        //    new ColoredKey(Key.M),
-        //    new ColoredKey(Key.J),
-        //    new ColoredKey(Key.U),
-        //    new ColoredKey(Key.D7),
-        //    new ColoredKey(Key.D6),
-        //    new ColoredKey(Key.T),
-        //    new ColoredKey(Key.F),
-        //    new ColoredKey(Key.V),
-        //    new ColoredKey(Key.B),
-        //    new ColoredKey(Key.H),
-        //    new ColoredKey(Key.Y),
-        //    new ColoredKey(Key.T),
-        //    new ColoredKey(Key.F),
-        //    new ColoredKey(Key.C),
-        //    new ColoredKey(Key.D),
-        //    new ColoredKey(Key.E),
-        //    new ColoredKey(Key.D3),
-        //    new ColoredKey(Key.F2),
-        //    new ColoredKey(Key.D2),
-        //    new ColoredKey(Key.Q),
-        //    new ColoredKey(Key.CapsLock),
-        //    new ColoredKey(Key.Macro4),
-        //    new ColoredKey(Key.LeftControl),
-        //    new ColoredKey(Key.R)
-        //};
-
         public static readonly IColoredKey[] CapsLk =
         {
             new ColoredKey(Key.CapsLock)
@@ -155,49 +122,6 @@ namespace ChromaExpVanilla.config
             }
         };
 
-        //public static readonly IColoredKey[] EngKeys = new IColoredKey[]
-        //{
-        //    new ColoredKey(Key.Q, EnglishColor),
-        //    new ColoredKey(Key.W, EnglishColor),
-        //    new ColoredKey(Key.E, EnglishColor),
-        //    new ColoredKey(Key.R, EnglishColor),
-        //    new ColoredKey(Key.T, EnglishColor),
-        //    new ColoredKey(Key.Y, EnglishColor),
-        //    new ColoredKey(Key.U, EnglishColor),
-        //    new ColoredKey(Key.I, EnglishColor),
-        //    new ColoredKey(Key.O, EnglishColor),
-        //    new ColoredKey(Key.P, EnglishColor),
-        //    new ColoredKey(Key.A, EnglishColor),
-        //    new ColoredKey(Key.S, EnglishColor),
-        //    new ColoredKey(Key.D, EnglishColor),
-        //    new ColoredKey(Key.F, EnglishColor),
-        //    new ColoredKey(Key.G, EnglishColor),
-        //    new ColoredKey(Key.H, EnglishColor),
-        //    new ColoredKey(Key.J, EnglishColor),
-        //    new ColoredKey(Key.K, EnglishColor),
-        //    new ColoredKey(Key.L, EnglishColor),
-        //    new ColoredKey(Key.Z, EnglishColor),
-        //    new ColoredKey(Key.X, EnglishColor),
-        //    new ColoredKey(Key.C, EnglishColor),
-        //    new ColoredKey(Key.V, EnglishColor),
-        //    new ColoredKey(Key.B, EnglishColor),
-        //    new ColoredKey(Key.N, EnglishColor),
-        //    new ColoredKey(Key.M, EnglishColor),
-        //    new ColoredKey(Key.Space, EnglishColor)
-        //};
-
-        //public static readonly IColoredKey[] EngKeysOther = new IColoredKey[]
-        //{
-        //    new ColoredKey(Key.OemLeftBracket, EnglishAltColor),
-        //    new ColoredKey(Key.OemRightBracket, EnglishAltColor),
-        //    new ColoredKey(Key.OemSemicolon, EnglishAltColor),
-        //    new ColoredKey(Key.OemApostrophe, EnglishAltColor),
-        //    new ColoredKey(Key.OemComma, EnglishAltColor),
-        //    new ColoredKey(Key.OemPeriod, EnglishAltColor),
-        //    new ColoredKey(Key.OemSlash, EnglishAltColor),
-        //    new ColoredKey(Key.OemBackslash, EnglishAltColor)
-        //};
-
         public static readonly IColoredKey[][] HebAnimation =
         {
             new IColoredKey[]
@@ -275,51 +199,6 @@ namespace ChromaExpVanilla.config
                 new ColoredKey(Key.Logo, HebrewColor)
             }
         };
-
-        //public static readonly IColoredKey[] HebKeys = new IColoredKey[]
-        //{
-        //    new ColoredKey(Key.E, HebrewColor),
-        //    new ColoredKey(Key.R, HebrewColor),
-        //    new ColoredKey(Key.T, HebrewColor),
-        //    new ColoredKey(Key.Y, HebrewColor),
-        //    new ColoredKey(Key.U, HebrewColor),
-        //    new ColoredKey(Key.I, HebrewColor),
-        //    new ColoredKey(Key.O, HebrewColor),
-        //    new ColoredKey(Key.P, HebrewColor),
-        //    new ColoredKey(Key.A, HebrewColor),
-        //    new ColoredKey(Key.S, HebrewColor),
-        //    new ColoredKey(Key.D, HebrewColor),
-        //    new ColoredKey(Key.F, HebrewColor),
-        //    new ColoredKey(Key.G, HebrewColor),
-        //    new ColoredKey(Key.H, HebrewColor),
-        //    new ColoredKey(Key.J, HebrewColor),
-        //    new ColoredKey(Key.K, HebrewColor),
-        //    new ColoredKey(Key.L, HebrewColor),
-        //    new ColoredKey(Key.OemSemicolon, HebrewColor),
-        //    new ColoredKey(Key.Z, HebrewColor),
-        //    new ColoredKey(Key.X, HebrewColor),
-        //    new ColoredKey(Key.C, HebrewColor),
-        //    new ColoredKey(Key.V, HebrewColor),
-        //    new ColoredKey(Key.B, HebrewColor),
-        //    new ColoredKey(Key.N, HebrewColor),
-        //    new ColoredKey(Key.M, HebrewColor),
-        //    new ColoredKey(Key.OemComma, HebrewColor),
-        //    new ColoredKey(Key.OemPeriod, HebrewColor),
-        //    new ColoredKey(Key.Space, HebrewColor)
-        //};
-
-        //public static readonly IColoredKey[] HebKeysOther = new IColoredKey[]
-        //{
-        //    new ColoredKey(Key.Q, HebrewAltColor),
-        //    new ColoredKey(Key.W, HebrewAltColor),
-        //    new ColoredKey(Key.OemApostrophe, HebrewAltColor),
-        //    new ColoredKey(Key.OemSlash, HebrewAltColor)
-        //};
-
-        //public static readonly IColoredKey[] Logo = new IColoredKey[]
-        //{
-        //    new ColoredKey(Key.Logo)
-        //};
 
         public static readonly IColoredKey[] MiscColoredKeys =
         {
