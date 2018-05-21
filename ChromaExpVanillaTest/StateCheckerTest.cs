@@ -62,5 +62,19 @@ namespace ChromaExpVanillaTest
             returnedStateActions.Invoke();
             Assert.IsTrue(returnedStateActions.GetInvocationList().Any(x => x.Method.Name == expectedResult));
         }
+
+        //[TestCase(false, "")]
+        //[TestCase(true, "")]
+        //public void Test_StateCheckerReturnsCorrectBaseFlagState(bool FlagState, string expectedResult)
+        //{
+        //    var checker = new CheckState
+        //    {
+        //        Control = new FakeKeboardController()
+        //        ,BaseNeeded = FlagState
+        //    };
+        //    var returnedStateActions = checker.States();
+        //    returnedStateActions.Invoke();
+        //    Assert.IsTrue(returnedStateActions.GetInvocationList().Any(x => x.Method.Name == expectedResult));
+        //}
     }
 }
