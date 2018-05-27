@@ -7,13 +7,16 @@ namespace ChromaExpVanilla.config
     public static class KeyBlocks
     {
         // i really should vectorize this
-        private static readonly Color HebrewColor = Color.FromRgb(0xff1900);
 
-        private static readonly Color HebrewAltColor = Color.FromRgb(0x00ffff);
-        private static readonly Color EnglishAltColor = Color.FromRgb(0x9000ff);
-        private static readonly Color EnglishColor = Color.FromRgb(0x24a504);
-        private static readonly Color TopNumberNormalColor = Color.FromRgb(0x00008B);
-        private static readonly Color NumpadNormalColor = Color.FromRgb(0x24a504);
+        
+        private static readonly Color HebrewColor = Color.FromRgb( GetCentralSettings.HebrewColor);
+        private static readonly Color HebrewAltColor = Color.FromRgb( GetCentralSettings.HebrewAltColor );
+
+        private static readonly Color EnglishColor = Color.FromRgb( GetCentralSettings.EnglishColor );
+        private static readonly Color EnglishAltColor = Color.FromRgb( GetCentralSettings.EnglishAltColor);
+
+        private static readonly Color TopNumberNormalColor = Color.FromRgb( GetCentralSettings.TopNumberNormalColor);
+        private static readonly Color NumpadNormalColor = Color.FromRgb( GetCentralSettings.NumpadNormalColor);
 
         private static readonly Color MiscSet1 = Color.Orange;
         private static readonly Color MiscSet2 = Color.Blue;

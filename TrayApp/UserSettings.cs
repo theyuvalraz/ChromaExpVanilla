@@ -1,15 +1,14 @@
 ﻿using System.Configuration;
+using Interfacer.Properties;
 
 namespace TrayApp
 {
     internal class UserSettings : ApplicationSettingsBase
     {
-        //public Key TKey = Settings.Default.F10;
-
-        //public void changeTo8()
-        //{
-        //    Settings.Default.F10 = Key.F8;
-        //    Settings.Default.Save();
-        //}
+        public void ChangeBaseColorToGreen()
+        {
+            Settings.Default.BaseColor = 2401540;
+            Settings.Default.Save();
+        }
     }
 }

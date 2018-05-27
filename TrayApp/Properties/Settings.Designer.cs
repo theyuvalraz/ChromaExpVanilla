@@ -8,20 +8,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.CodeDom.Compiler;
-using System.Configuration;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Corale.Colore.Razer.Keyboard;
-
 namespace TrayApp.Properties {
     
     
-    [CompilerGenerated()]
-    [GeneratedCode("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.6.0.0")]
-    internal sealed partial class Settings : ApplicationSettingsBase {
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.6.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(Synchronized(new Settings())));
+        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
         public static Settings Default {
             get {
@@ -29,12 +23,12 @@ namespace TrayApp.Properties {
             }
         }
         
-        [UserScopedSetting()]
-        [DebuggerNonUserCode()]
-        [DefaultSettingValue("F10")]
-        public Key F10 {
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("F10")]
+        public global::Corale.Colore.Razer.Keyboard.Key F10 {
             get {
-                return ((Key)(this["F10"]));
+                return ((global::Corale.Colore.Razer.Keyboard.Key)(this["F10"]));
             }
             set {
                 this["F10"] = value;

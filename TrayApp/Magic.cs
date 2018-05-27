@@ -63,6 +63,8 @@ namespace TrayApp
 
         private void OnRestart(object sender, EventArgs e)
         {
+            //UserSettings settings = new UserSettings();
+            //settings.ChangeBaseColorToGreen();
             _checkState = new CheckState
             {
                 FirstAnimationNeeded = true,

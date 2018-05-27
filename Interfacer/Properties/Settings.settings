@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Interfacer.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BaseColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">139</Value>
+    </Setting>
+    <Setting Name="HebrewColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16718080</Value>
+    </Setting>
+    <Setting Name="HebrewAltColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">9437439</Value>
+    </Setting>
+    <Setting Name="EnglishColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">2401540</Value>
+    </Setting>
+    <Setting Name="EnglishAltColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">65535</Value>
+    </Setting>
+    <Setting Name="TopNumberNormalColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">139</Value>
+    </Setting>
+    <Setting Name="NumpadNormalColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">2401540</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
