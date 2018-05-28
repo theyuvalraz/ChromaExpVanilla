@@ -8,15 +8,15 @@ namespace ChromaExpVanilla.config
     {
         // i really should vectorize this
 
-        
-        private static readonly Color HebrewColor = Color.FromRgb( GetCentralSettings.HebrewColor);
-        private static readonly Color HebrewAltColor = Color.FromRgb( GetCentralSettings.HebrewAltColor );
 
-        private static readonly Color EnglishColor = Color.FromRgb( GetCentralSettings.EnglishColor );
-        private static readonly Color EnglishAltColor = Color.FromRgb( GetCentralSettings.EnglishAltColor);
+        private static readonly Color HebrewColor = Color.FromRgb(GetCentralSettings.HebrewColor);
+        private static readonly Color HebrewAltColor = Color.FromRgb(GetCentralSettings.HebrewAltColor);
 
-        private static readonly Color TopNumberNormalColor = Color.FromRgb( GetCentralSettings.TopNumberNormalColor);
-        private static readonly Color NumpadNormalColor = Color.FromRgb( GetCentralSettings.NumpadNormalColor);
+        private static readonly Color EnglishColor = Color.FromRgb(GetCentralSettings.EnglishColor);
+        private static readonly Color EnglishAltColor = Color.FromRgb(GetCentralSettings.EnglishAltColor);
+
+        private static readonly Color TopNumberNormalColor = Color.FromRgb(GetCentralSettings.TopNumberNormalColor);
+        private static readonly Color NumpadNormalColor = Color.FromRgb(GetCentralSettings.NumpadNormalColor);
 
         private static readonly Color MiscSet1 = Color.Orange;
         private static readonly Color MiscSet2 = Color.Blue;

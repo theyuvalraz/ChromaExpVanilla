@@ -7,7 +7,7 @@ namespace ChromaExpVanilla.config
     public class StartAnimations
     {
         private static readonly Color UselessKeysColor = Color.Black;
-        private static readonly Color UsefulKeysColor = Color.FromRgb( GetCentralSettings.UsefulKeysColor);
+        private static readonly Color UsefulKeysColor = Color.FromRgb(GetCentralSettings.UsefulKeysColor);
 
         public IColoredKey[][] AnimationConcept()
         {

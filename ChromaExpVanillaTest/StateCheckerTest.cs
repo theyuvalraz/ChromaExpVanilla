@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using ChromaExpVanilla;
 using ChromaExpVanillaTest.FakeClassesForTests;
 using NUnit.Framework;
@@ -10,15 +9,6 @@ namespace ChromaExpVanillaTest
     [TestFixture]
     public class StateCheckerTest
     {
-        [Test]
-        public void Test_StateCheckerReturnsAction()
-        {
-            var checker = new CheckState { Control = new FakeKeboardController() };
-            var returnedStateActions = checker.States();
-            returnedStateActions.Invoke();
-            Assert.True(returnedStateActions.GetType() == typeof(Action));
-        }
-
         [TestCase("he-IL", "SetHeb")]
         [TestCase("en-US", "SetEng")]
         public void Test_StateCheckerReturnsCorrectLanguage(string inputLanguage, string expectedResult)
@@ -40,7 +30,7 @@ namespace ChromaExpVanillaTest
         {
             var checker = new CheckState
             {
-                IsLocked = new FakeGetIsLocked {IsCapsLocked = CapsLockState },
+                IsLocked = new FakeGetIsLocked {IsCapsLocked = CapsLockState},
                 Control = new FakeKeboardController()
             };
             var returnedStateActions = checker.States();
@@ -55,12 +45,21 @@ namespace ChromaExpVanillaTest
         {
             var checker = new CheckState
             {
-                IsLocked = new FakeGetIsLocked { IsNumLocked = NumLockState },
+                IsLocked = new FakeGetIsLocked {IsNumLocked = NumLockState},
                 Control = new FakeKeboardController()
             };
             var returnedStateActions = checker.States();
             returnedStateActions.Invoke();
             Assert.IsTrue(returnedStateActions.GetInvocationList().Any(x => x.Method.Name == expectedResult));
+        }
+
+        [Test]
+        public void Test_StateCheckerReturnsAction()
+        {
+            var checker = new CheckState {Control = new FakeKeboardController()};
+            var returnedStateActions = checker.States();
+            returnedStateActions.Invoke();
+            Assert.True(returnedStateActions.GetType() == typeof(Action));
         }
 
         //[TestCase(false, "")]

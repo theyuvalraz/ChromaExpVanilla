@@ -14,7 +14,7 @@ namespace ChromaExpVanilla
     [Synchronization]
     public class KeyControl
     {
-        internal static Color BaseColor = Color.FromRgb( GetCentralSettings.BaseColor);
+        internal static Color BaseColor = Color.FromRgb(GetCentralSettings.BaseColor);
         internal readonly StartAnimations Anim = new StartAnimations();
         internal readonly IKeyboard Inst = Keyboard.Instance;
         internal Custom CustomLayer { get; set; } = new Custom(BaseColor);
