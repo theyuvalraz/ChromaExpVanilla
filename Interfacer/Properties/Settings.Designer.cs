@@ -106,5 +106,17 @@ namespace Interfacer.Properties {
                 this["NumpadNormalColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10551551")]
+        public uint UsefulKeysColor {
+            get {
+                return ((uint)(this["UsefulKeysColor"]));
+            }
+            set {
+                this["UsefulKeysColor"] = value;
+            }
+        }
     }
 }

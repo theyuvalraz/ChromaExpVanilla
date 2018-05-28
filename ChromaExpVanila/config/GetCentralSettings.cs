@@ -12,6 +12,7 @@ namespace ChromaExpVanilla.config
         public static uint EnglishAltColor { get; set; } = Interfacer.Properties.Settings.Default.EnglishAltColor;
         public static uint TopNumberNormalColor { get; set; } = Interfacer.Properties.Settings.Default.TopNumberNormalColor;
         public static uint NumpadNormalColor { get; set; } = Interfacer.Properties.Settings.Default.NumpadNormalColor;
+        public static uint UsefulKeysColor { get; set; } = Interfacer.Properties.Settings.Default.UsefulKeysColor;
 
 
     }

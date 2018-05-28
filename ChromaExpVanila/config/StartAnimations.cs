@@ -7,7 +7,7 @@ namespace ChromaExpVanilla.config
     public class StartAnimations
     {
         private static readonly Color UselessKeysColor = Color.Black;
-        private static readonly Color UsefulKeysColor = Color.FromRgb(0xa100ff);
+        private static readonly Color UsefulKeysColor = Color.FromRgb( GetCentralSettings.UsefulKeysColor);
 
         public IColoredKey[][] AnimationConcept()
         {
@@ -1093,12 +1093,12 @@ namespace ChromaExpVanilla.config
         {
             return new IColoredKey[]
             {
-                new ColoredKey(Key.F4, UselessKeysColor),
-                new ColoredKey(Key.F6, UselessKeysColor),
-                new ColoredKey(Key.F8, UselessKeysColor),
-                new ColoredKey(Key.F10, UselessKeysColor),
-                new ColoredKey(Key.RightMenu, UselessKeysColor),
-                new ColoredKey(Key.Macro4, UselessKeysColor)
+                //new ColoredKey(Key.F4, UselessKeysColor),
+                //new ColoredKey(Key.F6, UselessKeysColor),
+                //new ColoredKey(Key.F8, UselessKeysColor),
+                //new ColoredKey(Key.F10, UselessKeysColor),
+                //new ColoredKey(Key.RightMenu, UselessKeysColor),
+                //new ColoredKey(Key.Macro4, UselessKeysColor)
             };
         }
     }

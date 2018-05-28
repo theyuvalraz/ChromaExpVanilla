@@ -23,5 +23,8 @@
     <Setting Name="NumpadNormalColor" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">2401540</Value>
     </Setting>
+    <Setting Name="UsefulKeysColor" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">10551551</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -38,8 +38,8 @@ namespace ChromaExpVanilla
 
         public void NumLockOn()
         {
-            Inst.SetKeys(new List<Key>(KeyBlocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(0x47E10C));
-            SetCustom(KeyBlocks.Numpad, Color.FromRgb(0x47E10C));
+            Inst.SetKeys(new List<Key>(KeyBlocks.Numpad.Select(x => x.Key).ToList()), Color.FromRgb(GetCentralSettings.NumpadNormalColor) );
+            SetCustom(KeyBlocks.Numpad, Color.FromRgb( GetCentralSettings.NumpadNormalColor ) );
         }
 
         public void NumLockOff()
